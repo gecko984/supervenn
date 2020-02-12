@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import setuptools
 
 
@@ -16,7 +17,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=['numpy', 'matplotlib>=3.0.3'],
     classifiers = [
-        'Development Status :: 3 — Alpha',
+        'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',

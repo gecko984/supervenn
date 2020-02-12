@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Routines for plotting multiple sets.
 """
