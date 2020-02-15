@@ -188,19 +188,22 @@ def side_plot(values, widths, orient, fontsize=DEFAULT_FONTSIZE, min_width_for_a
     plt.grid()
 
 
-def balance_widths(widths, maxmin_ratio=0.03):
+def balance_widths(widths, minmax_ratio=0.02):
     """
     Given a list of numbers, apply a linear transformation to every element of the array, such that the maximum value
-    remains the same, and the minimum value is maxmin_ratio times the maximum value
+    remains the same, and the minimum value is minmax_ratio times the maximum value
     :param widths: list of numbers
-    :param maxmin_ratio: the desired max / min ratio in the transformed list.
+    :param minmax_ratio: the desired max / min ratio in the transformed list.
     :return: transformed list of numbers
     """
-    if not 0 <= maxmin_ratio <= 1:
-        raise ValueError('maxmin_ratio must be between 0 and 1')
-    max_size = max(widths)
-    intercept = maxmin_ratio * max_size
-    slope = 1 - 1.0 * intercept / max_size
+    if not 0 <= minmax_ratio <= 1:
+        raise ValueError('minmax_ratio must be between 0 and 1')
+    max_width = max(widths)
+    min_width = min(widths)
+    if 1.0 * min_width / max_width >= minmax_ratio:
+        return widths
+    slope = max_width * (1.0 - minmax_ratio) / (max_width - min_width)
+    intercept = max_width * (max_width * minmax_ratio - min_width) / (max_width - min_width)
     return [slope * width + intercept for width in widths]
 
 
@@ -208,7 +211,7 @@ def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=Tr
               chunk_ordering='minimize gaps', sets_ordering=None,
               reverse_chunks_order=True, reverse_sets_order=True,
               max_bruteforce_size=DEFAULT_MAX_BRUTEFORCE_SIZE, seeds=DEFAULT_SEEDS, noise_prob=DEFAULT_NOISE_PROB,
-              side_plot_width=1.5, min_width_for_annotation=1, widths_maxmin_ratio=0, side_plot_color='gray', **kw):
+              side_plot_width=1.5, min_width_for_annotation=1, widths_minmax_ratio=0, side_plot_color='gray', **kw):
     """
     Plot a diagram visualizing relationship of multiple sets.
     :param sets: list of sets
@@ -238,7 +241,7 @@ def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=Tr
     :param side_plot_color: color of bars in side plots, default 'gray'
     :param min_width_for_annotation: for horizontal plot, don't annotate bars of widths less than this value (to avoid
     clutter)
-    :param widths_maxmin_ratio: desired max/min ratio of displayed chunk widths, default 0 (show actual widths)
+    :param widths_minmax_ratio: desired max/min ratio of displayed chunk widths, default None (show actual widths)
     :param row_annotations_y: a number in (0, 1), position for row annotations in the row. Default 0.5 - center of row.
     :param col_annotations_area_height: height of area for column annotations in inches, 1 by default
     :param col_annotations_ys_count: 1 (default), 2, or 3 - use to reduce clutter in column annotations area
@@ -294,7 +297,7 @@ def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=Tr
     # Main plot
     chunk_sizes = [len(chunk) for chunk in chunks]
 
-    col_widths = balance_widths(chunk_sizes, widths_maxmin_ratio) if widths_maxmin_ratio else chunk_sizes
+    col_widths = balance_widths(chunk_sizes, widths_minmax_ratio) if widths_minmax_ratio is not None else chunk_sizes
 
     plot_binary_array(
         arr=composition_array,
