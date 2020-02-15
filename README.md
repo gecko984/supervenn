@@ -22,9 +22,8 @@ Each row is a set, the order from bottom to top is the same as in the `sets` lis
 The numbers at the bottom show the sizes (cardinalities) of all intersections, aka **chunks**. The sizes of sets and
 their intersections (chunks) are up to proportion.
 
-The algorithm automatically chooses an order of the chunks (the colimns of the array plotted) to minimize the number of
-parts, in which the sets are broken. As you can see, there is only one gap inside all rows, namely in the blue set. This
-is achieved using a quasi-greedy optimization algorithm with randomization.
+A combinatorial optimization algorithms is applied that automatically chooses an order of the chunks (the columns of the array plotted) to minimize the number of
+parts, the sets are broken into. As you can see, there is only one gap in all of the rows, namely in the blue set. 
 
 By default, additional *side plots* are also displayed:
 
@@ -33,7 +32,7 @@ supervenn(sets)
 ```
 <img src="https://i.imgur.com/4kDKSGs.png" width=400>
 Here, the numbers on the right are the set sizes (cardinalities), and numbers on the top show how many sets does this
-intersection make part of. The grey bars underneath represent the same numbers visually.
+intersection make part of. The grey bars represent the same numbers visually.
 
 ### Most important arguments
 - `set_annotations`: names to be displayed in each row instead of `Set_0`, `Set_1` etc.
