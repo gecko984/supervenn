@@ -160,4 +160,4 @@ This approach, while very powerful, is less visual, as it displays, so to say on
 sets in flesh.
 
 ### Author
-This package is created and maintained by Fedor Indukaev. This is my first attempt at making a full Python package, so code and structure of the package might be not up to best practices sometimes.  Any bug reports, comments, recommendations, feature requests, pull requets, code reviews etc are most welcome. You can reach me at `my github username at mail by g0ogIe`.
+This package is created and maintained by Fedor Indukaev. This is my first attempt at making a full Python package, so code and structure of the package might be not up to best practices sometimes.  Any bug reports, comments, recommendations, feature requests, pull requests, code reviews etc are most welcome. You can reach me at `my github username at mail by g0ogIe`.
