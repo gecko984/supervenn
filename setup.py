@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import setuptools
 
+from supervenn import __version__
+
 
 with open('README.md') as f:
     README = f.read()
@@ -11,7 +13,7 @@ setuptools.setup(
     name='supervenn',
     license='MIT',
     description='supervenn is a tool for visualization of relations of many sets using matplotlib',
-    version='0.1.2',
+    version=__version__,
     long_description=README,
     url='https://github.com/gecko984/supervenn',
     packages=setuptools.find_packages(),
