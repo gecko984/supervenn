@@ -17,7 +17,7 @@ setuptools.setup(
     long_description=README,
     url='https://github.com/gecko984/supervenn',
     packages=setuptools.find_packages(),
-    install_requires=['numpy', 'matplotlib>=3.0.3'],
+    install_requires=['numpy', 'matplotlib>=2.2.5'],
     classifiers = [
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: MIT License',
