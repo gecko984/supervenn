@@ -63,9 +63,9 @@ green_things = {'python', 'grass'}
 sets = [letters, programming_languages, animals, geographic_places, names, green_things]
 labels = ['letters', 'programming languages', 'animals', 'geographic places',
           'human names', 'green things']
-supervenn(sets, set_annotations=labels)
+supervenn(sets, labels, figsize=(10, 6), sets_ordering='minimize gaps')
 ```
-<img src="https://i.imgur.com/9Or2HwK.png" width=550>
+<img src="https://i.imgur.com/dF8dGu5.png" width=550>
 
 ### Less trivial example #2: banana genome.
 [Data courtesy of Jake R Conway, Alexander Lex, Nils Gehlenborg - creators of UpSet](https://github.com/hms-dbmi/UpSetR-paper/blob/master/bananaPlot.R)
