@@ -18,7 +18,7 @@ supervenn(sets, side_plots=False)
 
 Each row is a set, the order from bottom to top is the same as in the `sets` list. 
 
-The numbers at the bottom show the sizes of all intersections, aka **chunks**. The sizes of sets and their intersections (chunks) are up to proportion.
+The numbers at the bottom show the sizes (cardinalities) of all intersections, aka **chunks**. The sizes of sets and their intersections (chunks) are up to proportion.
 
 The algorithm automatically chooses an order of the chunks (the colimns of the array plotted) to minimize the number of parts, in which the sets are broken. As you can see, there is only one gap inside all rows, namely in the blue set. This is achieved using a quasi-greedy optimization algorithm with randomization.
 
@@ -28,7 +28,7 @@ By default, additional *side plots* are also displayed:
 supervenn(sets)
 ```
 <img src="https://i.imgur.com/4kDKSGs.png" width=400>
-Here, the numbers on the right are the set sizes, and numbers on the top show how many sets does this intersection make part of. The grey bars underneath represent the same numbers visually.
+Here, the numbers on the right are the set sizes (cardinalities), and numbers on the top show how many sets does this intersection make part of. The grey bars underneath represent the same numbers visually.
 
 ### Most important arguments
 - `set_annotations`: names to be displayed in each row instead of `Set_0`, `Set_1` etc.
@@ -62,15 +62,15 @@ supervenn(sets, set_annotations=labels)
 
 Image from [D’Hont, A., Denoeud, F., Aury, J. et al. The banana (Musa acuminata) genome and the evolution of monocotyledonous plants](https://www.nature.com/articles/nature11241)
 
-Image in original article (note that it is by no means proportional!):
+Figure from original article (note that it is by no means proportional!):
 
 <img src="https://i.imgur.com/iQlcLVG.jpg" width=700>
 
-Image by [UpSetR](https://caleydo.org/tools/upset/)
+Figure made with [UpSetR](https://caleydo.org/tools/upset/)
 
 <img src="https://i.imgur.com/DH72eJJ.png" width=700>
 
-Image by supervenn (using the `widths_minmax_ratio` argument)
+Figure made with supervenn (using the `widths_minmax_ratio` argument)
 
 ```python
 supervenn(sets_list, species_names, figsize=(20, 10), widths_minmax_ratio=0.1,
