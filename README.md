@@ -1,4 +1,4 @@
-# supervenn: a tool to visualize relations of ana arbitrary number of sets in Python using matplotlib
+# supervenn: visualize relations of multiple sets in Python using matplotlib
 
 ### Installation
 `pip install supervenn`
@@ -8,7 +8,7 @@
 - `matplotlib` at least version 3.0.3
 
 ### Basic usage 
-The main entry point is the eponymous supervenn function
+The main entry point is the eponymous supervenn function, that takes a list of python `set`s as its first and only required argument:
 ```python
 from supervenn import supervenn
 sets = [{1, 2, 3, 4}, {3, 4, 5}, {1, 5, 6}]
@@ -41,7 +41,7 @@ Here, the numbers on the right are the set sizes, and numbers on the top show ho
 
 Other arguments can be found in the docstring to the function.
 
-### Less trivial example 1: words of different categories
+### Less trivial example #1: words of different categories
 
 ```python
 letters = {'a', 'r', 'c', 'i', 'z'}
@@ -53,11 +53,11 @@ green_things = {'python', 'grass'}
 sets = [letters, programming_languages, animals, geographic_places, names, green_things]
 labels = ['letters', 'programming languages', 'animals', 'geographic places',
           'human names', 'green things']
-supervenn(sets, labels)
+supervenn(sets, set_annotations=labels)
 ```
 <img src="https://i.imgur.com/9Or2HwK.png" width=550>
 
-### Less trivial example 2: banana genome.
+### Less trivial example #2: banana genome.
 [Data courtesy of Jake R Conway, Alexander Lex, Nils Gehlenborg - creators of UpSet](https://github.com/hms-dbmi/UpSetR-paper/blob/master/bananaPlot.R)
 
 Image from [D’Hont, A., Denoeud, F., Aury, J. et al. The banana (Musa acuminata) genome and the evolution of monocotyledonous plants](https://www.nature.com/articles/nature11241)
@@ -78,9 +78,48 @@ supervenn(sets_list, species_names, figsize=(20, 10), widths_minmax_ratio=0.1,
 ```
 <img src="https://i.imgur.com/1FGvOLu.png" width=850>
 
-### Less trivial example 2: order IDs in a vehicle routing problem solver tasks.
-This was actually my motivation in creating this package. The [team I'm currently working in](https://yandex.ru/routing/) provides an API that solves a variation of the Multiple Vehicles Routing Problem. The API solves tasks of the form "Given 1000 delivery orders each with lat, lon, time window and weight, and here are 50 vehicles each with capacity and work shift, distribute the orders between the vehicles and build an optimal route for each vehicle". A given client can send hundreds of such requests per day and sometimes it is usefult to look at their requests and understand how they are related to each other in terms of what orders (indetified by, say their ID numbers) are included in each of the request. Are they sending the same task over and over again (a sign that they are not satisfied with routes they get), or are they solving different tasks?
+It must be noted that `supervenn` produces best results when there is some inherent structure to the sets in question. This typically means that the number of non-empty intersections is significantly lower than the maximum possible (which is `2^n_sets - 1`). This is not the case in the present case, as 62 of the 63 intersections are non-empty, and hence the results are not that pretty.
 
-**TBD**
+### Less trivial example #3: order IDs in a vehicle routing problem solver tasks.
+This was actually my motivation in creating this package. The [team I'm currently working in](https://yandex.ru/routing/) provides an API that solves a variation of the Multiple Vehicles Routing Problem. The API solves tasks of the form "Given 1000 delivery orders each with lat, lon, time window and weight, and 50 vehicles each with capacity and work shift, distribute the orders between the vehicles and build an optimal route for each vehicle". 
+
+A given client can send tens of such requests per day and sometimes it is usefult to look at their requests and understand how they are related to each other in terms of what orders are included in each of the request. Are they sending the same task over and over again  - a sign that they are not satisfied with routes they get and they might need our help in using the API? Are they manually editing the routes (a process that results in more requests to our API, with only the orders from affected routes included)? Or are they solving for several independent order sets and are happy with each individual result?
+
+Here's an example of a client who is not that happy:
+
+<img src="https://i.imgur.com/9YfRC61.png" width=800>
+
+Rows from bottom to top are requests to our API from earlier to later, represented by their sets of order IDs. With the help of some custom annotations (`set_annotations` argument), the situation is immediately made clear. The client solved a big task at 10:54, they were not happy about the result, and tried some manual edits until 11:11. Then in the evening they re-sent the whole task twice over, probably with some change in parameters.
+
+Another unhappy customer:
+
+<img src="https://i.imgur.com/cGgCroA.png" width=800>
+
+This guy here spend almost two hours, 17:40 to 19:30 solving the same full task over and over again, with some manual edits in between. Looks like they might be doing something wrong and our help is needed.
+
+And finally, a happy one:
+
+<img src="https://i.imgur.com/E2o2ela.png" width=800>
+Solved three unrelated tasks, was happy with all the three (no repeated requests, no manual edits; each order is distributed only once).
+
+### Related work
+
+#### [matplotlib-venn package](https://github.com/konstantint/matplotlib-venn) 
+This tool plots proper area-propriotional Venn diagrams with circles for two or three sets. But the problem with circles is that they are pretty useless even in the case of three sets. For example, if one set is symmetrical difference of the other two:
+```python
+from matplotlib_venn import venn3
+set_1 = {1, 2, 3, 4}
+set_2 = {3, 4, 5}
+set_3 = set_1 ^ set_2
+venn3([set_1, set_2, set_3], set_colors=['steelblue', 'orange', 'green'], alpha=0.8)
+```
+<img src="https://i.imgur.com/Mijyzj8.png" width=260>
+
+See all that zeros? This image makes little sense. The `supervenn`'s approach to this problem is to allow the sets to be broken into separate parts, while trying to minimize the nimber of such breaks and guaranteeing exact proportionality of all parts:
+
+<img src="https://i.imgur.com/e3sMQrO.png" width=400>
 
 
+#### [UpSetR and pyUpSet](https://caleydo.org/tools/upset/)
+<img src="https://raw.githubusercontent.com/ImSoErgodic/py-upset/master/pictures/basic.png" width=800>
+This approach, while very powerful, is less visual, as it displays, so to say only *statistics about* the sets, not the sets in flesh.
