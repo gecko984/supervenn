@@ -14,7 +14,7 @@ from supervenn._algorithms import (
 
 
 DEFAULT_FONTSIZE = 12
-DEFAULT_FIGSIZE = (20, 12)
+DEFAULT_FIGSIZE = (12, 7)
 
 
 def get_alternated_ys(ys_count, low, high):
