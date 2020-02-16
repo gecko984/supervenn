@@ -23,7 +23,7 @@ The numbers at the bottom show the sizes (cardinalities) of all intersections, a
 their intersections (chunks) are up to proportion, but the order of elements is not preserved, e.g. the leftmost chunk of size 3 is `{6, 7, 8}`.
 
 A combinatorial optimization algorithms is applied that automatically chooses an order of the chunks (the columns of the array plotted) to minimize the number of
-parts, the sets are broken into. As you can see, there is only one gap in all of the rows, namely in the blue set. 
+parts, the sets are broken into. In the example above there are no gaps in the rows at all, but it is not always possible even for three sets.
 
 By default, additional *side plots* are also displayed:
 
