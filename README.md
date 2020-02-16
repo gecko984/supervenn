@@ -17,7 +17,7 @@ supervenn(sets, side_plots=False)
 ```
 <img src="https://i.imgur.com/dHr8snl.png" width=400>
 
-Each row is a set, the order from bottom to top is the same as in the `sets` list. 
+Each row is a set, the order from bottom to top is the same as in the `sets` list. Overlapping parts correspond to set intersections.
 
 The numbers at the bottom show the sizes (cardinalities) of all intersections, aka **chunks**. The sizes of sets and
 their intersections (chunks) are up to proportion.
@@ -159,4 +159,5 @@ This approach, while very powerful, is less visual, as it displays, so to say on
 sets in flesh.
 
 ### Author
-This package is created and maintained by Fedor Indukaev. This is my first attempt at making a full Python package, so code and structure of the package might be not up to best practices sometimes.  Any bug reports, comments, recommendations, feature requests, pull requests, code reviews etc are most welcome. You can reach me at `my github username at mail by g0ogIe`.
+This package is created and maintained by Fedor Indukaev. This is my first attempt at making a full Python package,
+so code and structure of the package might be not up to best practices sometimes.  Any bug reports, questions, comments, recommendations, feature requests, pull requests, code reviews etc are most welcome. You can reach me at `my github username at mail by g0ogIe`.
