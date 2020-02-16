@@ -12,15 +12,15 @@ The main entry point is the eponymous supervenn function, that takes a list of p
 required argument:
 ```python
 from supervenn import supervenn
-sets = [{1, 2, 3, 4}, {3, 4, 5}, {1, 5, 6}]
+sets = [{1, 2, 3, 4}, {3, 4, 5}, {1, 6, 7, 8}]
 supervenn(sets, side_plots=False)
 ```
-<img src="https://i.imgur.com/dHr8snl.png" width=400>
+<img src="https://i.imgur.com/BQrrcEl.png" width=400>
 
 Each row is a set, the order from bottom to top is the same as in the `sets` list. Overlapping parts correspond to set intersections.
 
 The numbers at the bottom show the sizes (cardinalities) of all intersections, aka **chunks**. The sizes of sets and
-their intersections (chunks) are up to proportion.
+their intersections (chunks) are up to proportion, but the order of elements is not preserved, e.g. the leftmost chunk of size 3 is `{6, 7, 8}`.
 
 A combinatorial optimization algorithms is applied that automatically chooses an order of the chunks (the columns of the array plotted) to minimize the number of
 parts, the sets are broken into. As you can see, there is only one gap in all of the rows, namely in the blue set. 
