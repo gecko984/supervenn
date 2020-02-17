@@ -30,7 +30,7 @@ By default, additional *side plots* are also displayed:
 ```python
 supervenn(sets)
 ```
-<img src="https://i.imgur.com/4kDKSGs.png" width=400>
+<img src="https://i.imgur.com/na3YAn0.png" width=400>
 Here, the numbers on the right are the set sizes (cardinalities), and numbers on the top show how many sets does this
 intersection make part of. The grey bars represent the same numbers visually.
 
@@ -39,6 +39,7 @@ intersection make part of. The grey bars represent the same numbers visually.
 - `figsize`: the figure size in inches; calling `plt.figure(figsize=(16, 10))` and `supervenn` afterwards
  will not work, because the function makes its own figure. **TODO**: dpi
 - `side_plots`: `True` (default) or `False`, as shown above.
+- `chunk_ordering`: `'minimize gaps'` (default, use an quasi-greedy algorithm to to find an order of columns with fewer gaps in each row), `'size'` (bigger chunks go first), `'occurence'` (chunks that are in more sets go first), `'random'` ( randomly shuffle the columns).
 - `sets_ordering`: `None` (default - keep the order of sets as passed into function), `'minimize gaps'` (use same
 quasi-greedy algorithm to group similar sets closer together), `'size'`(bigger sets go first), `'chunk count'` (sets
 that contain most chunks go first), `'random'`.
@@ -47,6 +48,7 @@ different in sizes. Will map the chunk sizes according to `w -> a * w + b` so th
 ratio is no smaller than `widths_minmax_ratio`. The exact proportionality is lost in this case. Setting
 `widths_minmax_ratio=1` will result in all chunks being displayed as same size (no proportionalty at all.)
 - `col_annotations_ys_count`: 1 (default), 2, or 3 - also helps to reduce clutter in column annotations area.
+- `min_width_for_annotation`: integer (default 1), another argument to reduce clutter, allows to hide annotations for chunks smaller than this value.
 
 Other arguments can be found in the docstring to the function.
 
@@ -65,6 +67,9 @@ labels = ['letters', 'programming languages', 'animals', 'geographic places',
 supervenn(sets, labels, figsize=(10, 6), sets_ordering='minimize gaps')
 ```
 <img src="https://i.imgur.com/dF8dGu5.png" width=550>
+
+And this is how the figure would look if without the smart column reordering algorithm:
+<img src="https://i.imgur.com/6ZUbtUH.png" width=550>
 
 ### Less trivial example #2: banana genome.
 [Data courtesy of Jake R Conway, Alexander Lex, Nils Gehlenborg - creators of UpSet](https://github.com/hms-dbmi/UpSetR-paper/blob/master/bananaPlot.R)
@@ -89,7 +94,7 @@ supervenn(sets_list, species_names, figsize=(20, 10), widths_minmax_ratio=0.1,
 
 It must be noted that `supervenn` produces best results when there is some inherent structure to the sets in question.
 This typically means that the number of non-empty intersections is significantly lower than the maximum possible
-(which is `2^n_sets - 1`). This is not the case in the present case, as 62 of the 63 intersections are non-empty, and
+(which is `2^n_sets - 1`). This is not the case in the present example, as 62 of the 63 intersections are non-empty, 
 hence the results are not that pretty.
 
 ### Less trivial example #3: order IDs in a vehicle routing problem solver tasks.
