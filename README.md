@@ -68,7 +68,7 @@ supervenn(sets, labels, figsize=(10, 6), sets_ordering='minimize gaps')
 ```
 <img src="https://i.imgur.com/dF8dGu5.png" width=550>
 
-And this is how the figure would look if without the smart column reordering algorithm:
+And this is how the figure would look without the smart column reordering algorithm:
 <img src="https://i.imgur.com/6ZUbtUH.png" width=550>
 
 ### Less trivial example #2: banana genome.
