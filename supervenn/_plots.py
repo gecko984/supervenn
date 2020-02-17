@@ -208,7 +208,7 @@ def balance_widths(widths, minmax_ratio=0.02):
 
 
 def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=True,
-              chunk_ordering='minimize gaps', sets_ordering=None,
+              chunks_ordering='minimize gaps', sets_ordering=None,
               reverse_chunks_order=True, reverse_sets_order=True,
               max_bruteforce_size=DEFAULT_MAX_BRUTEFORCE_SIZE, seeds=DEFAULT_SEEDS, noise_prob=DEFAULT_NOISE_PROB,
               side_plot_width=1.5, min_width_for_annotation=1, widths_minmax_ratio=0, side_plot_color='gray', **kw):
@@ -219,7 +219,7 @@ def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=Tr
     :param figsize: figure size
     :param side_plots: True / False: add small barplots on top and on the right. On top, for each chunk it is shown,
     how many sets does this chunk lie inslde. On the right, set sizes are shown.
-    :param chunk_ordering: method of ordering the chunks (columns of the grid)
+    :param chunks_ordering: method of ordering the chunks (columns of the grid)
         - 'minimize gaps' (default): use a smart algorithm to find an order of columns giving fewer gaps in each row,
             making the plot as readable as possible.
         - 'size': bigger chunks go first (or last if reverse_chunks_order=False)
@@ -280,7 +280,7 @@ def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=Tr
     permutations_ = get_permutations(
         chunks,
         composition_array,
-        chunks_ordering=chunk_ordering,
+        chunks_ordering=chunks_ordering,
         sets_ordering=sets_ordering,
         reverse_chunks_order=reverse_chunks_order,
         reverse_sets_order=reverse_sets_order,

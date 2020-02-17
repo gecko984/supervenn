@@ -39,7 +39,7 @@ intersection make part of. The grey bars represent the same numbers visually.
 - `figsize`: the figure size in inches; calling `plt.figure(figsize=(16, 10))` and `supervenn` afterwards
  will not work, because the function makes its own figure. **TODO**: dpi
 - `side_plots`: `True` (default) or `False`, as shown above.
-- `chunk_ordering`: `'minimize gaps'` (default, use an quasi-greedy algorithm to to find an order of columns with fewer gaps in each row), `'size'` (bigger chunks go first), `'occurence'` (chunks that are in more sets go first), `'random'` ( randomly shuffle the columns).
+- `chunks_ordering`: `'minimize gaps'` (default, use an quasi-greedy algorithm to to find an order of columns with fewer gaps in each row), `'size'` (bigger chunks go first), `'occurence'` (chunks that are in more sets go first), `'random'` ( randomly shuffle the columns).
 - `sets_ordering`: `None` (default - keep the order of sets as passed into function), `'minimize gaps'` (use same
 quasi-greedy algorithm to group similar sets closer together), `'size'`(bigger sets go first), `'chunk count'` (sets
 that contain most chunks go first), `'random'`.

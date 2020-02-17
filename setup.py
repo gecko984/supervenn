@@ -7,11 +7,11 @@ with open('README.md') as f:
 
 setuptools.setup(
     author='Fedor Indukaev',
-    author_email='indukaev@mail.ru',
+    author_email='gecko984@gmail.com',
     name='supervenn',
     license='MIT',
     description='supervenn is a tool for visualization of relations of many sets using matplotlib',
-    version='0.1.4',
+    version='0.1.5',
     long_description='See https://github.com/gecko984/supervenn',
     url='https://github.com/gecko984/supervenn',
     packages=setuptools.find_packages(),
