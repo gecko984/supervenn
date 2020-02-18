@@ -96,6 +96,18 @@ supervenn(sets_list, species_names, figsize=(20, 10), widths_minmax_ratio=0.1,
 ```
 <img src="https://i.imgur.com/1FGvOLu.png" width=850>
 
+For comparison, here's the same data visualized to scale (no `widths_minmax_ratio`, but argument
+`min_width_for_annotation` is used instead to avoid column annotations overlap):
+
+```python
+supervenn(sets_list, species_names, figsize=(20, 10), rotate_col_annotations=True,
+          col_annotations_area_height=1.2, sets_ordering='minimize gaps',
+          min_width_for_annotation=180)
+
+```
+
+<img src="https://i.imgur.com/MgUqkL6.png" width=850>
+
 It must be noted that `supervenn` produces best results when there is some inherent structure to the sets in question.
 This typically means that the number of non-empty intersections is significantly lower than the maximum possible
 (which is `2^n_sets - 1`). This is not the case in the present example, as 62 of the 63 intersections are non-empty, 
@@ -174,8 +186,10 @@ for every given sets count, your actual sets only affect the labels that are pla
 not unlike the banana diagram above. 
 
 
-### Plans for the future
-
+### Plans for future releases
+- Implement some way to inspect individual intersections (probably label them with alphabetic codes like columns in
+Excel tables, and supervenn function returns a dict with these codes as keys and intersection sets as values).
+- Tests for the `_plots` module.
 
 
 ### Author
