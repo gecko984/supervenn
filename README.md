@@ -188,7 +188,9 @@ not unlike the banana diagram above.
 
 ### Plans for future releases
 - Implement some way to inspect individual intersections (probably label them with alphabetic codes like columns in
-Excel tables, and supervenn function returns a dict with these codes as keys and intersection sets as values).
+Excel tables, and `supervenn` function returns a dict with these codes as keys and intersection sets as values).
+- Ensure reproducibility of results: for same input, the randomized column reordering algorithm should always return
+the same permutation.
 - Tests for the `_plots` module.
 
 
