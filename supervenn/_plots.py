@@ -43,7 +43,7 @@ def get_alternated_ys(ys_count, low, high):
     return ys, vas
 
 
-def plot_binary_array(arr, ax=None, col_widths=None, row_heights=None,
+def plot_binary_array(arr, ax=None, col_widths=None, row_heights=None, min_width_for_annotation=1,
                       row_annotations=None, row_annotations_y=0.5,
                       col_annotations=None, col_annotations_area_height=0.75, col_annotations_ys_count=1,
                       rotate_col_annotations=False,
@@ -119,15 +119,15 @@ def plot_binary_array(arr, ax=None, col_widths=None, row_heights=None,
     if row_annotations is not None:
         for row_index, (grid_y, row_height, annotation) in enumerate(zip(grid_ys, row_heights, row_annotations)):
             annot_y = grid_y + row_annotations_y * row_height
-            plt.annotate(xy=(0.5 * sum(col_widths), annot_y), s=str(annotation),
-                         ha='center', va='center', fontsize=fontsize)
+            if col_width >= min_width_for_annotation:
+                plt.annotate(xy=(0.5 * sum(col_widths), annot_y), s=str(annotation),
+                             ha='center', va='center', fontsize=fontsize)
 
     # COL ANNOTATIONS
     min_y = 0
     if col_annotations is not None:
 
         min_y = - 1.0 * col_annotations_area_height / plt.gcf().get_size_inches()[1] * arr.shape[0]
-
         plt.axhline(0, c='k')
 
         annot_ys, vas = get_alternated_ys(col_annotations_ys_count, min_y, 0)
@@ -306,6 +306,7 @@ def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=Tr
         ax=main_ax,
         col_widths=col_widths,
         row_heights=[1] * len(sets),
+        min_width_for_annotation=min_width_for_annotation,
         **kw)
 
     xlim = main_ax.get_xlim()
