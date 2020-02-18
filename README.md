@@ -1,11 +1,9 @@
-# supervenn: visualize relations of multiple sets in Python using matplotlib
-
+# supervenn: precise and easy-to-read visualization of relations between multiple sets in python
 ### Installation
 `pip install supervenn`
 
-### Dependencies
-- `numpy`
-- `matplotlib`
+### Requirements
+Python 2.7 or 3.6+, `numpy`,`matplotlib`
 ### Basic usage 
 The main entry point is the eponymous supervenn function, that takes a list of python `set`s as its first and only
 required argument:
@@ -165,7 +163,8 @@ sets in flesh.
 #### [pyvenn](https://raw.githubusercontent.com/wiki/tctianchi/pyvenn)
 <img src="https://raw.githubusercontent.com/wiki/tctianchi/pyvenn/venn6.png" width=800>
 This package produces diagrams for up to 6 sets, but they are not in any vay proportional. It just has pre-set images
-for every given sets count, your actual sets only affect the labels that are placed on top of the fixed image.
+for every given sets count, your actual sets only affect the labels that are placed on top of the fixed image,
+not unlike the banana diagram above. 
 
 
 ### Author
