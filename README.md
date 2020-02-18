@@ -1,4 +1,4 @@
-# supervenn: precise and easy-to-read visualization of relations between multiple sets in python
+# supervenn: precise and easy-to-read visualization of multiple intersecting sets in python
 ### Installation
 `pip install supervenn`
 
