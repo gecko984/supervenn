@@ -135,9 +135,9 @@ distributed only once).
 The description of the algorithm can be found in the docstring to `supervenn._algorithms` module.
 
 
-### Related work
+### Comparison to similar tools
 
-#### [matplotlib-venn package](https://github.com/konstantint/matplotlib-venn) 
+#### [matplotlib-venn](https://github.com/konstantint/matplotlib-venn) 
 This tool plots proper area-propriotional Venn diagrams with circles for two or three sets. But the problem with circles
 is that they are pretty useless even in the case of three sets. For example, if one set is symmetrical difference of the
 other two:
@@ -161,6 +161,12 @@ all parts:
 <img src="https://raw.githubusercontent.com/ImSoErgodic/py-upset/master/pictures/basic.png" width=800>
 This approach, while very powerful, is less visual, as it displays, so to say only *statistics about* the sets, not the
 sets in flesh.
+
+#### [pyvenn](https://raw.githubusercontent.com/wiki/tctianchi/pyvenn)
+<img src="https://raw.githubusercontent.com/wiki/tctianchi/pyvenn/venn6.png" width=800>
+This package produces diagrams for up to 6 sets, but they are not in any vay proportional. It just has pre-set images
+for every given sets count, your actual sets only affect the labels that are placed on top of the fixed image.
+
 
 ### Author
 This package is created and maintained by Fedor Indukaev. This is my first attempt at making a full Python package,
