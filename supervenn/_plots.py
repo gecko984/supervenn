@@ -119,9 +119,8 @@ def plot_binary_array(arr, ax=None, col_widths=None, row_heights=None, min_width
     if row_annotations is not None:
         for row_index, (grid_y, row_height, annotation) in enumerate(zip(grid_ys, row_heights, row_annotations)):
             annot_y = grid_y + row_annotations_y * row_height
-            if col_width >= min_width_for_annotation:
-                plt.annotate(xy=(0.5 * sum(col_widths), annot_y), s=str(annotation),
-                             ha='center', va='center', fontsize=fontsize)
+            plt.annotate(xy=(0.5 * sum(col_widths), annot_y), s=str(annotation),
+                         ha='center', va='center', fontsize=fontsize)
 
     # COL ANNOTATIONS
     min_y = 0
@@ -134,9 +133,10 @@ def plot_binary_array(arr, ax=None, col_widths=None, row_heights=None, min_width
 
         for col_index, (grid_x, col_width, annotation) in enumerate(zip(grid_xs, col_widths, col_annotations)):
             annot_y = annot_ys[col_index % len(annot_ys)]
-            plt.annotate(xy=(grid_x + col_width * 0.5, annot_y), s=str(annotation),
-                         ha='center', va=vas[col_index % len(vas)], fontsize=fontsize,
-                         rotation=90 * rotate_col_annotations)
+            if col_width >= min_width_for_annotation:
+                plt.annotate(xy=(grid_x + col_width * 0.5, annot_y), s=str(annotation),
+                             ha='center', va=vas[col_index % len(vas)], fontsize=fontsize,
+                             rotation=90 * rotate_col_annotations)
 
     plt.xlim(0, sum(col_widths))
     plt.ylim(min_y, sum(row_heights))

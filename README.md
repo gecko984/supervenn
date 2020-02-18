@@ -3,7 +3,7 @@
 `pip install supervenn`
 
 ### Requirements
-Python 2.7 or 3.6+, `numpy`,`matplotlib`
+Python 2.7 or 3.6+ with `numpy` and`matplotlib`.
 ### Basic usage 
 The main entry point is the eponymous supervenn function, that takes a list of python `set`s as its first and only
 required argument:
@@ -14,13 +14,16 @@ supervenn(sets, side_plots=False)
 ```
 <img src="https://i.imgur.com/BQrrcEl.png" width=400>
 
-Each row is a set, the order from bottom to top is the same as in the `sets` list. Overlapping parts correspond to set intersections.
+Each row is a set, the order from bottom to top is the same as in the `sets` list. Overlapping parts correspond to set
+intersections.
 
 The numbers at the bottom show the sizes (cardinalities) of all intersections, aka **chunks**. The sizes of sets and
-their intersections (chunks) are up to proportion, but the order of elements is not preserved, e.g. the leftmost chunk of size 3 is `{6, 7, 8}`.
+their intersections (chunks) are up to proportion, but the order of elements is not preserved, e.g. the leftmost chunk
+of size 3 is `{6, 7, 8}`.
 
-A combinatorial optimization algorithms is applied that automatically chooses an order of the chunks (the columns of the array plotted) to minimize the number of
-parts, the sets are broken into. In the example above there are no gaps in the rows at all, but it is not always possible even for three sets.
+A combinatorial optimization algorithms is applied that automatically chooses an order of the chunks (the columns of the
+array plotted) to minimize the number of parts, the sets are broken into. In the example above there are no gaps in the
+rows at all, but it is not always possible even for three sets.
 
 By default, additional *side plots* are also displayed:
 
@@ -36,16 +39,19 @@ intersection make part of. The grey bars represent the same numbers visually.
 - `figsize`: the figure size in inches; calling `plt.figure(figsize=(16, 10))` and `supervenn` afterwards
  will not work, because the function makes its own figure. **TODO**: dpi
 - `side_plots`: `True` (default) or `False`, as shown above.
-- `chunks_ordering`: `'minimize gaps'` (default, use an quasi-greedy algorithm to to find an order of columns with fewer gaps in each row), `'size'` (bigger chunks go first), `'occurence'` (chunks that are in more sets go first), `'random'` ( randomly shuffle the columns).
+- `chunks_ordering`: `'minimize gaps'` (default, use an quasi-greedy algorithm to to find an order of columns with fewer
+gaps in each row), `'size'` (bigger chunks go first), `'occurence'` (chunks that are in more sets go first), `'random'` 
+( randomly shuffle the columns).
 - `sets_ordering`: `None` (default - keep the order of sets as passed into function), `'minimize gaps'` (use same
 quasi-greedy algorithm to group similar sets closer together), `'size'`(bigger sets go first), `'chunk count'` (sets
 that contain most chunks go first), `'random'`.
 - `widths_minmax_ratio`: `None` (default) or a number `0 < r <= 1`. Useful in case the chunks (intersections) are very
 different in sizes. Will map the chunk sizes according to `w -> a * w + b` so that the minimal to maximal chunk width
 ratio is no smaller than `widths_minmax_ratio`. The exact proportionality is lost in this case. Setting
-`widths_minmax_ratio=1` will result in all chunks being displayed as same size (no proportionalty at all.)
+`widths_minmax_ratio=1` will result in all chunks being displayed as same size (no proportionality at all.)
 - `col_annotations_ys_count`: 1 (default), 2, or 3 - also helps to reduce clutter in column annotations area.
-- `min_width_for_annotation`: integer (default 1), another argument to reduce clutter, allows to hide annotations for chunks smaller than this value.
+- `min_width_for_annotation`: integer (default 1), another argument to reduce clutter, allows to hide annotations for
+chunks smaller than this value.
 
 Other arguments can be found in the docstring to the function.
 
@@ -71,7 +77,8 @@ And this is how the figure would look without the smart column reordering algori
 ### Less trivial example #2: banana genome compared to 5 other species
 [Data courtesy of Jake R Conway, Alexander Lex, Nils Gehlenborg - creators of UpSet](https://github.com/hms-dbmi/UpSetR-paper/blob/master/bananaPlot.R)
 
-Image from [D’Hont, A., Denoeud, F., Aury, J. et al. The banana (Musa acuminata) genome and the evolution of monocotyledonous plants](https://www.nature.com/articles/nature11241)
+Image from [D’Hont, A., Denoeud, F., Aury, J. et al. The banana (Musa acuminata) genome and the evolution of
+monocotyledonous plants](https://www.nature.com/articles/nature11241)
 
 Figure from original article (note that it is by no means proportional!):
 
@@ -100,7 +107,7 @@ provides an API that solves a variation of the Multiple Vehicles Routing Problem
 "Given 1000 delivery orders each with lat, lon, time window and weight, and 50 vehicles each with capacity and work
 shift, distribute the orders between the vehicles and build an optimal route for each vehicle". 
 
-A given client can send tens of such requests per day and sometimes it is usefult to look at their requests and
+A given client can send tens of such requests per day and sometimes it is useful to look at their requests and
 understand how they are related to each other in terms of what orders are included in each of the request. Are they
 sending the same task over and over again  - a sign that they are not satisfied with routes they get and they might need
 our help in using the API? Are they manually editing the routes (a process that results in more requests to our API, with
@@ -136,7 +143,7 @@ The description of the algorithm can be found in the docstring to `supervenn._al
 ### Comparison to similar tools
 
 #### [matplotlib-venn](https://github.com/konstantint/matplotlib-venn) 
-This tool plots proper area-propriotional Venn diagrams with circles for two or three sets. But the problem with circles
+This tool plots area-weighted Venn diagrams with circles for two or three sets. But the problem with circles
 is that they are pretty useless even in the case of three sets. For example, if one set is symmetrical difference of the
 other two:
 ```python
@@ -162,11 +169,17 @@ sets in flesh.
 
 #### [pyvenn](https://raw.githubusercontent.com/wiki/tctianchi/pyvenn)
 <img src="https://raw.githubusercontent.com/wiki/tctianchi/pyvenn/venn6.png" width=800>
-This package produces diagrams for up to 6 sets, but they are not in any vay proportional. It just has pre-set images
+This package produces diagrams for up to 6 sets, but they are not in any way proportional. It just has pre-set images
 for every given sets count, your actual sets only affect the labels that are placed on top of the fixed image,
 not unlike the banana diagram above. 
 
 
+### Plans for the future
+
+
+
 ### Author
 This package is created and maintained by Fedor Indukaev. This is my first attempt at making a full Python package,
-so code and structure of the package might be not up to best practices sometimes.  Any bug reports, questions, comments, recommendations, feature requests, pull requests, code reviews etc are most welcome. You can reach me at `my github username at mail by g0ogIe`.
+so code and structure of the package might be not up to best practices sometimes.  Any bug reports, questions, comments,
+recommendations, feature requests, pull requests, code reviews etc are most welcome. You can reach me at
+`my github username at mail by g0ogIe`.
