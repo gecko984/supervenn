@@ -5,8 +5,7 @@
 
 ### Dependencies
 - `numpy`
-- `matplotlib` at least version 3.0.3
-
+- `matplotlib`
 ### Basic usage 
 The main entry point is the eponymous supervenn function, that takes a list of python `set`s as its first and only
 required argument:
