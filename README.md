@@ -70,7 +70,7 @@ supervenn(sets, labels, figsize=(10, 6), sets_ordering='minimize gaps')
 And this is how the figure would look without the smart column reordering algorithm:
 <img src="https://i.imgur.com/6ZUbtUH.png" width=550>
 
-### Less trivial example #2: genomes of banana compared to 5 other species.
+### Less trivial example #2: banana genome compared to 5 other species
 [Data courtesy of Jake R Conway, Alexander Lex, Nils Gehlenborg - creators of UpSet](https://github.com/hms-dbmi/UpSetR-paper/blob/master/bananaPlot.R)
 
 Image from [D’Hont, A., Denoeud, F., Aury, J. et al. The banana (Musa acuminata) genome and the evolution of monocotyledonous plants](https://www.nature.com/articles/nature11241)
