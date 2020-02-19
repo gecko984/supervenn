@@ -1,4 +1,4 @@
-# supervenn: precise and easy-to-read visualization of multiple intersecting sets in Python
+# supervenn: precise and easy-to-read multiple sets visualization in Python
 ### Installation
 `pip install supervenn`
 
@@ -187,6 +187,7 @@ not unlike the banana diagram above.
 
 
 ### Plans for future releases
+- Tuning of the randomized algorithm for more optimal results (experiments are underway).
 - Implement some way to inspect individual intersections (probably label them with alphabetic codes like columns in
 Excel tables, and `supervenn` function returns a dict with these codes as keys and intersection sets as values).
 - Ensure reproducibility of results: for same input, the randomized column reordering algorithm should always return
