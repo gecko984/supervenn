@@ -193,6 +193,7 @@ Excel tables, and `supervenn` function returns a dict with these codes as keys a
 - Ensure reproducibility of results: for same input, the randomized column reordering algorithm should always return
 the same permutation.
 - Tests for the `_plots` module.
+- Web-based app for non-pythonistas.
 
 
 ### Author
