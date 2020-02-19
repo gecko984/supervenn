@@ -4,6 +4,10 @@
 
 ### Requirements
 Python 2.7 or 3.6+ with `numpy` and`matplotlib`.
+
+### Note
+Despite what the name may indicate, the diagrams produced with `supervenn` are not Venn diagrams in proper sense.
+
 ### Basic usage 
 The main entry point is the eponymous supervenn function, that takes a list of python `set`s as its first and only
 required argument:
@@ -176,7 +180,7 @@ all parts:
 
 #### [UpSetR and pyUpSet](https://caleydo.org/tools/upset/)
 <img src="https://raw.githubusercontent.com/ImSoErgodic/py-upset/master/pictures/basic.png" width=800>
-This approach, while very powerful, is less visual, as it displays, so to say only *statistics about* the sets, not the
+This approach, while very powerful, is less visual, as it displays, so to say only _statistics about_ the sets, not the
 sets in flesh.
 
 #### [pyvenn](https://raw.githubusercontent.com/wiki/tctianchi/pyvenn)
@@ -184,6 +188,21 @@ sets in flesh.
 This package produces diagrams for up to 6 sets, but they are not in any way proportional. It just has pre-set images
 for every given sets count, your actual sets only affect the labels that are placed on top of the fixed image,
 not unlike the banana diagram above. 
+
+#### [RainBio](http://www.lesfleursdunormal.fr/static/appliweb/rainbio/index.html) ([article](https://hal.archives-ouvertes.fr/hal-02264217/document))
+This approach is quite similar to supervenn. I'll let the reader decide which one does the job better:
+
+##### RainBio:
+
+<img src="https://i.imgur.com/jwQAltx.png" width=500>
+
+
+##### supervenn:
+
+<img src="https://i.imgur.com/dF8dGu5.png" width=500>
+
+
+_Thanks to Dr. Bilal Alsallakh for referring me to this work_
 
 
 ### Plans for future releases
