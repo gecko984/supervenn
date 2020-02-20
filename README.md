@@ -9,7 +9,7 @@ Python 2.7 or 3.6+ with `numpy` and`matplotlib`.
 Contrary to what the name may indicate, the diagrams produced with `supervenn` are not Venn diagrams in proper sense.
 
 ### Basic principle
-The easiest way to explain how supervenn diagrams is to compare some simple examples to their proper Venn
+The easiest way to explain how supervenn diagrams work, is to compare some simple examples to their proper Venn
 counterparts:
 
 <img src="https://i.imgur.com/LgtyVae.png" width=800>
