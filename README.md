@@ -160,6 +160,10 @@ And finally, a happy one:
 Solved three unrelated tasks, was happy with all the three (no repeated requests, no manual edits; each order is
 distributed only once).
 
+<a href="https://i.imgur.com/vKxHOF7.jpg">Click for a rather extreme example</a> of a client whose scheme of operation
+involves sending requests to our API every 15-30 minutes to account for new orders being created in their CRM and for
+fresh data about their couriers' positions.
+
 ### Algorithm used to minimize the gaps in the sets
 The description of the algorithm can be found in the docstring to `supervenn._algorithms` module.
 
