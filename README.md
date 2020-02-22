@@ -221,7 +221,7 @@ _Thanks to Dr. Bilal Alsallakh for referring me to this work_
 This tool has a similar concept, but only available as a Javascript web app with minimal functionality, and you have to
 compute all the intersection sizes yourself. Apparently there is also an columns rearrangement algorithm in place, but
 the target function (number of gaps within sets) is higher than in the diagram made with supervenn.
-<img src="https://i.imgur.com/tZN8QAb.png" width=500>
+<img src="https://i.imgur.com/tZN8QAb.png" width=600>
 
 _Thanks to [u/aboutscientific](https://www.reddit.com/user/aboutscientific/) for the link._
 
