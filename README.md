@@ -12,7 +12,7 @@ Contrary to what the name may indicate, the diagrams produced with `supervenn` a
 The easiest way to explain how supervenn diagrams work, is to compare some simple examples to their proper Venn
 counterparts:
 
-<img src="https://i.imgur.com/LgtyVae.png" width=800>
+<img src="https://i.imgur.com/dIvc6H1.png" width=800>
 
 _Venn diagrams are built using the [matplotlib-venn](https://github.com/konstantint/matplotlib-venn)  package_
 
