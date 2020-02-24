@@ -338,7 +338,6 @@ def run_randomized_greedy_algorithm(arr, row_weights=None, seeds=DEFAULT_SEEDS, 
             noise = np.zeros_like(similarities)
         else:
             noise = (np.random.uniform(0, 1, size=similarities.shape) < noise_prob).astype(int)
-            #noise = np.random.uniform(0, max_noise, size=similarities.shape)
 
         np.fill_diagonal(noise, 0)
         noisy_similarities = similarities + noise
@@ -433,11 +432,3 @@ def _get_ordered_chunks_and_composition_array(sets, **kwargs):
     ordered_composition_array = ordered_composition_array[permutations_['sets_ordering'], :]
 
     return ordered_chunks, ordered_composition_array
-
-
-if __name__ == '__main__':
-    arr = (np.random.uniform(size=(100, 100)) < 0.35).astype(int)
-    similarities = columns_similarities_matrix(arr)
-
-    for _ in range(1000):
-        find_columns_permutation_greedily(similarities)
