@@ -229,8 +229,6 @@ _Thanks to [u/aboutscientific](https://www.reddit.com/user/aboutscientific/) for
 - Tuning of the randomized algorithm for more optimal results (experiments are underway).
 - Implement some way to inspect individual intersections (probably label them with alphabetic codes like columns in
 Excel tables, and `supervenn` function returns a dict with these codes as keys and intersection sets as values).
-- Ensure reproducibility of results: for same input, the randomized column reordering algorithm should always return
-the same permutation.
 - Tests for the `_plots` module.
 - Web-based app for non-pythonistas.
 
