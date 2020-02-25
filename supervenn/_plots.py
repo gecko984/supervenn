@@ -108,6 +108,11 @@ def plot_binary_array(arr, ax=None, col_widths=None, row_heights=None, min_width
 
         bar_y = grid_y + 0.5 * row_height if bar_align == 'center' else grid_y
 
+        # alternating background
+        if row_index % 2:
+            plt.barh(y=bar_y, left=0, width=sum(col_widths), height=bar_height * row_height, align=bar_align,
+                     color='grey', alpha=0.15)
+
         for col_index, (is_filled, grid_x, col_width) in enumerate(zip(row, grid_xs, col_widths)):
             if is_filled:
                 color_index = row_index if color_by == 'row' else col_index
