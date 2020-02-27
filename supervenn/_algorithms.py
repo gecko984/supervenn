@@ -338,6 +338,7 @@ def run_randomized_greedy_algorithm(arr, row_weights=None, seeds=DEFAULT_SEEDS, 
         else:
             np.random.seed(seed)
             noise = (np.random.uniform(0, 1, size=similarities.shape) < noise_prob).astype(int)
+            np.random.seed(datetime.datetime.now().microsecond)
 
         np.fill_diagonal(noise, 0)
         noisy_similarities = similarities + noise
@@ -396,7 +397,6 @@ def get_permutations(chunks, composition_array, chunks_ordering='minimize gaps',
             permutation = np.argsort(case['array'].sum(0))
         elif case['ordering'] == 'random':
             permutation = np.array(range(len(case['sizes'])))
-            #np.random.seed(datetime.datetime.now().microsecond)
             np.random.shuffle(permutation)
         elif case['ordering'] is None:
             permutation = np.array(range(len(case['sizes'])))

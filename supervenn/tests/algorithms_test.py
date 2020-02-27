@@ -265,6 +265,17 @@ class TestRandomizedAlgorithmQuality(unittest.TestCase):
             self.assertLessEqual((target - best_target), 0.3 * best_target + 1)
 
 
+class TestRandomizedAlgorithmReproducible(unittest.TestCase):
+
+    def test_reproducible(self):
+        arr = np.random.uniform(0, 1, size=(20, 20)) < 0.5
+        representations_set = set()
+        for _ in range(10):
+            permutation = run_randomized_greedy_algorithm(arr)
+            representations_set.add(str(permutation))
+        self.assertEqual(len(representations_set), 1)
+
+
 class TestGetOrderedChunksAndCompositionArray(unittest.TestCase):
     def test_order_chunks_size_descending(self):
         for _ in range(10):
