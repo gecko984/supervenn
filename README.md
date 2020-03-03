@@ -126,8 +126,7 @@ This typically means that the number of non-empty intersections is significantly
 hence the results are not that pretty.
 
 ### Less trivial example #3: order IDs in a vehicle routing problem solver tasks.
-This was actually my motivation in creating this package. The [team I'm currently working in](https://yandex.ru/routing/)
-provides an API that solves a variation of the Multiple Vehicles Routing Problem. The API solves tasks of the form
+This was actually my motivation in creating this package. The team I'm currently working in provides an API that solves a variation of the Multiple Vehicles Routing Problem. The API solves tasks of the form
 "Given 1000 delivery orders each with lat, lon, time window and weight, and 50 vehicles each with capacity and work
 shift, distribute the orders between the vehicles and build an optimal route for each vehicle". 
 
