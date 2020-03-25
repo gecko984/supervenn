@@ -156,12 +156,14 @@ edits in between. Looks like they might be doing something wrong and our help is
 And finally, a happy one:
 
 <img src="https://i.imgur.com/E2o2ela.png" width=800>
+
 Solved three unrelated tasks, was happy with all the three (no repeated requests, no manual edits; each order is
 distributed only once).
 
-<a href="https://i.imgur.com/vKxHOF7.jpg">Click for a rather extreme example</a> of a client whose scheme of operation
-involves sending requests to our API every 15-30 minutes to account for new orders being created in their CRM and for
+And here's a rather extreme example of a client whose scheme of operation involves sending requests to our API every 15-30 minutes to account for live updates on newly created orders and couriers' GPS positions:
 fresh data about their couriers' positions.
+
+<img src="https://i.imgur.com/vKxHOF7.jpg" width=800>
 
 ### Algorithm used to minimize the gaps in the sets
 The description of the algorithm can be found in the docstring to `supervenn._algorithms` module.
