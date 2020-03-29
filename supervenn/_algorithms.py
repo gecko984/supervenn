@@ -366,7 +366,7 @@ def get_permutations(chunks, composition_array, chunks_ordering='minimize gaps',
     :return: a dict of the form {'chunks_ordering': [3, 2, 5, 4, 1, 6, 0], 'sets_ordering': [2, 0, 1, 3]}
     """
     chunk_sizes = [len(chunk) for chunk in chunks]
-    set_sizes = composition_array.dot(np.array(chunk_sizes).reshape((-1, 1)))
+    set_sizes = composition_array.dot(np.array(chunk_sizes))
 
     chunks_case = {'sizes': chunk_sizes,
                    'param': 'chunks_ordering',
