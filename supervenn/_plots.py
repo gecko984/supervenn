@@ -329,3 +329,5 @@ def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=Tr
         plt.sca(axes[1, 1])
         side_plot([len(sets[i]) for i in permutations_['sets_ordering']], [1] * len(sets), 'v', color=side_plot_color)
         plt.ylim(ylim)
+
+    plt.sca(main_ax)
