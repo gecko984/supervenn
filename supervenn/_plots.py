@@ -255,6 +255,7 @@ def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=Tr
     :param bar_alpha: alpha for cell fills.
     :param bar_align: vertical alignment of bars, 'edge' (defaulr) or 'center'. Only matters when bar_height < 1.
     :param color_cycle: a list of colors, given as names of matplotlib named colors, or hex codes (e.g. '#1f77b4')
+    :returns chunks: a list of sets (chunks) where the ith set contains the items in the ith partition of the plot's x-axis.
     """
     # Set up axes
     if side_plots:
@@ -331,3 +332,4 @@ def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=Tr
         plt.ylim(ylim)
 
     plt.sca(main_ax)
+    return chunks
