@@ -266,10 +266,10 @@ def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=Tr
         height_ratios = [side_plot_width, fig_height - side_plot_width]
         width_ratios = [fig_width - side_plot_width, side_plot_width]
 
-        _, axes = plt.subplots(2, 2, figsize=figsize, gridspec_kw={'height_ratios': height_ratios,
-                                                                   'width_ratios': width_ratios,
-                                                                   'hspace': 0.0,
-                                                                   'wspace': 0.0})
+        _, axes = plt.subplots(2, 2, figsize=figsize, dpi=dpi, gridspec_kw={'height_ratios': height_ratios,
+                                                                            'width_ratios': width_ratios,
+                                                                            'hspace': 0.0,
+                                                                            'wspace': 0.0})
         for side_ax in axes[0, 1], axes[1, 1], axes[0, 0]:
             side_ax.set_xticks([])
             side_ax.set_yticks([])
