@@ -9,10 +9,10 @@ Python 2.7 or 3.6+ with `numpy` and`matplotlib`.
 Contrary to what the name may indicate, the diagrams produced with `supervenn` are not Venn diagrams in proper sense.
 
 ### Basic principle
-The easiest way to explain how supervenn diagrams work, is to compare some simple examples to their proper Euler-Venn
+The easiest way to explain how supervenn diagrams work, is probably to compare some simple examples to their Euler-Venn
 counterparts:
 
-<img src="https://i.imgur.com/dIvc6H1.png" width=800>
+<img src="https://i.imgur.com/UQKjlQn.png" width=800>
 
 _Euler-Venn diagrams are built using the [matplotlib-venn](https://github.com/konstantint/matplotlib-venn)  package_
 
