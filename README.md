@@ -10,11 +10,10 @@ Contrary to what the name may indicate, the diagrams produced with `supervenn` a
 
 ### Basic principle
 The easiest way to explain how supervenn diagrams work, is probably to compare some simple examples to their Euler-Venn
-counterparts:
+counterparts. Top row is Euler-Venn diagrams made with [matplotlib-venn](https://github.com/konstantint/matplotlib-venn)
+package, bottom row id supervenn diagrams.
 
 <img src="https://i.imgur.com/UQKjlQn.png" width=800>
-
-_Euler-Venn diagrams are built using the [matplotlib-venn](https://github.com/konstantint/matplotlib-venn)  package_
 
 ### Basic usage 
 The main entry point is the eponymous supervenn function, that takes a list of python `set`s as its first and only
