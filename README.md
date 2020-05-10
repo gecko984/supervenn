@@ -9,12 +9,12 @@ Python 2.7 or 3.6+ with `numpy` and`matplotlib`.
 Contrary to what the name may indicate, the diagrams produced with `supervenn` are not Venn diagrams in proper sense.
 
 ### Basic principle
-The easiest way to explain how supervenn diagrams work, is to compare some simple examples to their proper Venn
+The easiest way to explain how supervenn diagrams work, is to compare some simple examples to their proper Euler-Venn
 counterparts:
 
 <img src="https://i.imgur.com/dIvc6H1.png" width=800>
 
-_Venn diagrams are built using the [matplotlib-venn](https://github.com/konstantint/matplotlib-venn)  package_
+_Euler-Venn diagrams are built using the [matplotlib-venn](https://github.com/konstantint/matplotlib-venn)  package_
 
 ### Basic usage 
 The main entry point is the eponymous supervenn function, that takes a list of python `set`s as its first and only
@@ -49,7 +49,8 @@ intersection make part of. The grey bars represent the same numbers visually.
 ### Most important arguments
 - `set_annotations`: names to be displayed in each row instead of `Set_0`, `Set_1` etc.
 - `figsize`: the figure size in inches; calling `plt.figure(figsize=(16, 10))` and `supervenn` afterwards
- will not work, because the function makes its own figure. **TODO**: dpi
+ will **not** work, because the function makes its own figure.
+- `dpi`: figure DPI.
 - `side_plots`: `True` (default) or `False`, as shown above.
 - `chunks_ordering`: `'minimize gaps'` (default, use an quasi-greedy algorithm to to find an order of columns with fewer
 gaps in each row), `'size'` (bigger chunks go first), `'occurence'` (chunks that are in more sets go first), `'random'` 
