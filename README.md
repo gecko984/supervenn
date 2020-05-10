@@ -11,7 +11,7 @@ Contrary to what the name may indicate, the diagrams produced with `supervenn` a
 ### Basic principle
 The easiest way to explain how supervenn diagrams work, is probably to compare some simple examples to their Euler-Venn
 counterparts. Top row is Euler-Venn diagrams made with [matplotlib-venn](https://github.com/konstantint/matplotlib-venn)
-package, bottom row id supervenn diagrams.
+package, bottom row is supervenn diagrams.
 
 <img src="https://i.imgur.com/UQKjlQn.png" width=800>
 
