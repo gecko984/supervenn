@@ -249,6 +249,7 @@ def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=Tr
     :param min_width_for_annotation: for horizontal plot, don't annotate bars of widths less than this value (to avoid
     clutter)
     :param widths_minmax_ratio: desired max/min ratio of displayed chunk widths, default None (show actual widths)
+    :param rotate_col_annotations: True / False, whether to print annotations vertically
     :param row_annotations_y: a number in (0, 1), position for row annotations in the row. Default 0.5 - center of row.
     :param col_annotations_area_height: height of area for column annotations in inches, 1 by default
     :param col_annotations_ys_count: 1 (default), 2, or 3 - use to reduce clutter in column annotations area
