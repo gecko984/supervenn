@@ -262,7 +262,15 @@ class TestRandomizedAlgorithmQuality(unittest.TestCase):
             target = get_total_gaps_in_rows(arr[:, permutation])
             best_permutation = find_best_columns_permutation_bruteforce(arr)
             best_target = get_total_gaps_in_rows(arr[:, best_permutation])
-            self.assertLessEqual((target - best_target), 0.3 * best_target + 1)
+            try:
+                self.assertLessEqual((target - best_target), 0.3 * best_target + 1)
+            except AssertionError:
+                print('\n')
+                print(arr.astype(int))
+                print(f'best {best_target}')
+                print(best_permutation)
+                print(f'found {target}')
+                print(permutation)
 
 
 class TestRandomizedAlgorithmReproducible(unittest.TestCase):
