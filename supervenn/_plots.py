@@ -209,9 +209,11 @@ def get_widths_balancer(widths, minmax_ratio=0.02):
     max_width = max(widths)
     min_width = min(widths)
     if 1.0 * min_width / max_width >= minmax_ratio:
-        return widths
-    slope = max_width * (1.0 - minmax_ratio) / (max_width - min_width)
-    intercept = max_width * (max_width * minmax_ratio - min_width) / (max_width - min_width)
+        slope = 1
+        intercept = 0
+    else:
+        slope = max_width * (1.0 - minmax_ratio) / (max_width - min_width)
+        intercept = max_width * (max_width * minmax_ratio - min_width) / (max_width - min_width)
 
     def balancer(width):
         return slope * width + intercept
@@ -223,7 +225,7 @@ def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=Tr
               chunks_ordering='minimize gaps', sets_ordering=None,
               reverse_chunks_order=True, reverse_sets_order=True,
               max_bruteforce_size=DEFAULT_MAX_BRUTEFORCE_SIZE, seeds=DEFAULT_SEEDS, noise_prob=DEFAULT_NOISE_PROB,
-              side_plot_width=1.5, min_width_for_annotation=1, widths_minmax_ratio=0, side_plot_color='gray', dpi=None,
+              side_plot_width=1.5, min_width_for_annotation=1, widths_minmax_ratio=None, side_plot_color='gray', dpi=None,
               **kw):
     """
     Plot a diagram visualizing relationship of multiple sets.
