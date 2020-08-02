@@ -161,8 +161,8 @@ And finally, a happy one:
 Solved three unrelated tasks, was happy with all the three (no repeated requests, no manual edits; each order is
 distributed only once).
 
-And here's a rather extreme example of a client whose scheme of operation involves sending requests to our API every 15-30 minutes to account for live updates on newly created orders and couriers' GPS positions:
-fresh data about their couriers' positions.
+And here's a rather extreme example of a client whose scheme of operation involves sending requests to our API every
+15-30 minutes to account for live updates on newly created orders and couriers' GPS positions.
 
 <img src="https://i.imgur.com/vKxHOF7.jpg" width=800>
 
