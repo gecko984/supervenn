@@ -1,4 +1,16 @@
 # supervenn: precise and easy-to-read multiple sets visualization in Python
+
+### What is it
+**supervenn** is a matplotlib-based tool for visualization of any number of intersecting sets. It takes native Python
+`set`s as inputs.
+
+The easiest way to understand how supervenn diagrams work, is to compare some simple examples to their Euler-Venn
+counterparts. Top row is Euler-Venn diagrams made with [matplotlib-venn](https://github.com/konstantint/matplotlib-venn)
+package, bottom row is supervenn diagrams:
+
+<img src="https://i.imgur.com/dJoNhYQ.png" width=800>
+
+
 ### Installation
 `pip install supervenn`
 
@@ -8,13 +20,6 @@ Python 2.7 or 3.6+ with `numpy` and`matplotlib`.
 ### Name
 Contrary to what the name may indicate, the diagrams produced with `supervenn` are not Venn diagrams.
 The choice of name for the package was rather unfortunate but it is now too late to change it.
-
-### Basic principle
-The easiest way to explain how supervenn diagrams work, is probably to compare some simple examples to their Euler-Venn
-counterparts. Top row is Euler-Venn diagrams made with [matplotlib-venn](https://github.com/konstantint/matplotlib-venn)
-package, bottom row is supervenn diagrams.
-
-<img src="https://i.imgur.com/dJoNhYQ.png" width=800>
 
 ### Basic usage 
 The main entry point is the eponymous supervenn function, that takes a list of python `set`s as its first and only
