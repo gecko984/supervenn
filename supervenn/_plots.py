@@ -56,6 +56,7 @@ def plot_binary_array(arr, ax=None, col_widths=None, row_heights=None, min_width
     :param ax: axis to plot into (current axis by default)
     :param col_widths: widths for grid columns, must have len equal to arr.shape[1]
     :param row_heights: heights for grid rows, must have len equal to arr.shape[0]
+    :param min_width_for_annotation: don't annotate column with its size if size is less than this value (default 1)
     :param row_annotations: annotations for each row, plotted in the middle of the row
     :param row_annotations_y: a number in (0, 1), position for row annotations in the row. Default 0.5 - center of row.
     :param col_annotations: annotations for columns, plotted in the bottom, below the x axis.
@@ -151,7 +152,7 @@ def plot_binary_array(arr, ax=None, col_widths=None, row_heights=None, min_width
 
 
 def side_plot(values, widths, orient, fontsize=DEFAULT_FONTSIZE, min_width_for_annotation=1, rotate_annotations=False,
-              color='gray'):
+              color='tab:gray'):
     """
     Barplot with multiple bars of variable width right next to each other, with an option to rotate the plot 90 degrees.
     :param values: the values to be plotted.
@@ -159,7 +160,9 @@ def side_plot(values, widths, orient, fontsize=DEFAULT_FONTSIZE, min_width_for_a
     :param orient: 'h' / 'horizontal' (default) or 'v' / 'vertical'
     :param fontsize: font size for annotations
     :param min_width_for_annotation: for horizontal plot, don't annotate bars of widths less than this value (to avoid
-    clutter)
+    clutter. Default 1 - annotate all.)
+    :param rotate_annotations: True/False, whether to print annotations vertically instead of horizontally
+    :param color: color of bars, default 'tab:gray'
     """
     bar_edges = np.insert(np.cumsum(widths), 0, 0)
     annotation_positions = [0.5 * (begin + end) for begin, end in zip(bar_edges[:-1], bar_edges[1:])]
@@ -193,13 +196,13 @@ def side_plot(values, widths, orient, fontsize=DEFAULT_FONTSIZE, min_width_for_a
     plt.grid()
 
 
-def balance_widths(widths, minmax_ratio=0.02):
+def get_widths_balancer(widths, minmax_ratio=0.02):
     """
-    Given a list of numbers, apply a linear transformation to every element of the array, such that the maximum value
-    remains the same, and the minimum value is minmax_ratio times the maximum value
+    Given a list of positive numbers, find a linear function, such that when applied to the numbers, the maximum value
+    remains the same, and the minimum value is minmax_ratio times the maximum value.
     :param widths: list of numbers
     :param minmax_ratio: the desired max / min ratio in the transformed list.
-    :return: transformed list of numbers
+    :return: a linear function with one float argument that has the above property
     """
     if not 0 <= minmax_ratio <= 1:
         raise ValueError('minmax_ratio must be between 0 and 1')
@@ -209,7 +212,11 @@ def balance_widths(widths, minmax_ratio=0.02):
         return widths
     slope = max_width * (1.0 - minmax_ratio) / (max_width - min_width)
     intercept = max_width * (max_width * minmax_ratio - min_width) / (max_width - min_width)
-    return [slope * width + intercept for width in widths]
+
+    def balancer(width):
+        return slope * width + intercept
+
+    return balancer
 
 
 def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=True,
@@ -305,7 +312,13 @@ def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=Tr
     # Main plot
     chunk_sizes = [len(chunk) for chunk in chunks]
 
-    col_widths = balance_widths(chunk_sizes, widths_minmax_ratio) if widths_minmax_ratio is not None else chunk_sizes
+    if widths_minmax_ratio is not None:
+        widths_balancer = get_widths_balancer(chunk_sizes, widths_minmax_ratio)
+        col_widths = [widths_balancer(chunk_size) for chunk_size in chunk_sizes]
+        effective_min_width_for_annotation = widths_balancer(min_width_for_annotation)
+    else:
+        col_widths = chunk_sizes
+        effective_min_width_for_annotation = min_width_for_annotation
 
     plot_binary_array(
         arr=composition_array,
@@ -314,7 +327,7 @@ def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=Tr
         ax=main_ax,
         col_widths=col_widths,
         row_heights=[1] * len(sets),
-        min_width_for_annotation=min_width_for_annotation,
+        min_width_for_annotation=effective_min_width_for_annotation,
         **kw)
 
     xlim = main_ax.get_xlim()
@@ -325,7 +338,8 @@ def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=Tr
     # Side plots
     if side_plots:
         plt.sca(axes[0, 0])
-        side_plot(composition_array.sum(0), col_widths, 'h', min_width_for_annotation=min_width_for_annotation,
+        side_plot(composition_array.sum(0), col_widths, 'h',
+                  min_width_for_annotation=effective_min_width_for_annotation,
                   rotate_annotations=kw.get('rotate_col_annotations', False), color=side_plot_color)
         plt.xlim(xlim)
 
