@@ -5,15 +5,16 @@
 ### Requirements
 Python 2.7 or 3.6+ with `numpy` and`matplotlib`.
 
-### Note
-Contrary to what the name may indicate, the diagrams produced with `supervenn` are not Venn diagrams in proper sense.
+### Name
+Contrary to what the name may indicate, the diagrams produced with `supervenn` are not Venn diagrams.
+The choice of name for the package was rather unfortunate but it is now too late to change it.
 
 ### Basic principle
 The easiest way to explain how supervenn diagrams work, is probably to compare some simple examples to their Euler-Venn
 counterparts. Top row is Euler-Venn diagrams made with [matplotlib-venn](https://github.com/konstantint/matplotlib-venn)
 package, bottom row is supervenn diagrams.
 
-<img src="https://i.imgur.com/UQKjlQn.png" width=800>
+<img src="https://i.imgur.com/dJoNhYQ.png" width=800>
 
 ### Basic usage 
 The main entry point is the eponymous supervenn function, that takes a list of python `set`s as its first and only
