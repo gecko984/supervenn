@@ -34,7 +34,7 @@ their intersections (chunks) are up to proportion, but the order of elements is 
 of size 3 is `{6, 7, 8}`.
 
 A combinatorial optimization algorithms is applied that automatically chooses an order of the chunks (the columns of the
-array plotted) to minimize the number of parts, the sets are broken into. In the example above there are no gaps in the
+array plotted) to minimize the number of parts the sets are broken into. In the example above there are no gaps in the
 rows at all, but it is not always possible even for three sets.
 
 By default, additional *side plots* are also displayed:
@@ -52,7 +52,7 @@ intersection make part of. The grey bars represent the same numbers visually.
  will **not** work, because the function makes its own figure.
 - `dpi`: figure DPI.
 - `side_plots`: `True` (default) or `False`, as shown above.
-- `chunks_ordering`: `'minimize gaps'` (default, use an quasi-greedy algorithm to to find an order of columns with fewer
+- `chunks_ordering`: `'minimize gaps'` (default, use an quasi-greedy algorithm to find an order of columns with fewer
 gaps in each row), `'size'` (bigger chunks go first), `'occurence'` (chunks that are in more sets go first), `'random'` 
 ( randomly shuffle the columns).
 - `sets_ordering`: `None` (default - keep the order of sets as passed into function), `'minimize gaps'` (use same
