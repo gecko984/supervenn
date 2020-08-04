@@ -225,8 +225,8 @@ def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=Tr
               chunks_ordering='minimize gaps', sets_ordering=None,
               reverse_chunks_order=True, reverse_sets_order=True,
               max_bruteforce_size=DEFAULT_MAX_BRUTEFORCE_SIZE, seeds=DEFAULT_SEEDS, noise_prob=DEFAULT_NOISE_PROB,
-              side_plot_width=1.5, min_width_for_annotation=1, widths_minmax_ratio=None, side_plot_color='gray', dpi=None,
-              **kw):
+              side_plot_width=1.5, min_width_for_annotation=1, widths_minmax_ratio=None, side_plot_color='gray',
+              dpi=None, ax=None, **kw):
     """
     Plot a diagram visualizing relationship of multiple sets.
     :param sets: list of sets
@@ -255,6 +255,7 @@ def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=Tr
     :param side_plot_width: width of side plots in inches (default 1.5)
     :param side_plot_color: color of bars in side plots, default 'gray'
     :param dpi: figure DPI
+    :param ax: axis to plot into. If ax is specified, figsize and dpi will be ignored.
     :param min_width_for_annotation: for horizontal plot, don't annotate bars of widths less than this value (to avoid
     clutter)
     :param widths_minmax_ratio: desired max/min ratio of displayed chunk widths, default None (show actual widths)
