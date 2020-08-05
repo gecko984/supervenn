@@ -283,7 +283,7 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
               chunks_ordering='minimize gaps', sets_ordering=None,
               reverse_chunks_order=True, reverse_sets_order=True,
               max_bruteforce_size=DEFAULT_MAX_BRUTEFORCE_SIZE, seeds=DEFAULT_SEEDS, noise_prob=DEFAULT_NOISE_PROB,
-              side_plot_width=1.5, min_width_for_annotation=1, widths_minmax_ratio=None, side_plot_color='gray',
+              side_plot_width=1, min_width_for_annotation=1, widths_minmax_ratio=None, side_plot_color='gray',
               dpi=None, ax=None, **kw):
     """
     Plot a diagram visualizing relationship of multiple sets.
