@@ -326,8 +326,7 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
     :param bar_height: height of cell fill as a fraction of row height, a number in (0, 1).
     :param bar_alpha: alpha for cell fills.
     :param bar_align: vertical alignment of bars, 'edge' (default) or 'center'. Only matters when bar_height < 1.
-    :param color_cycle: a list of colors, given as names of matplotlib named colors, or hex codes (e.g. '#1f77b4').
-    By default, the usual tab pallete is used (matplotlib default colors).
+    :param color_cycle: a list of set colors, given as names of matplotlib named colors, or hex codes (e.g. '#1f77b4').
     """
 
     if figsize is not None or dpi is not None:
