@@ -1,8 +1,8 @@
 # supervenn: precise and easy-to-read multiple sets visualization in Python
 
-### What is it
+### What it is
 **supervenn** is a matplotlib-based tool for visualization of any number of intersecting sets. It takes native Python
-`set`s as inputs.
+`set`s as inputs. Note that `supervenn` does not produce actual (Euler-)Venn diagrams.
 
 The easiest way to understand how supervenn diagrams work, is to compare some simple examples to their Euler-Venn
 counterparts. Top row is Euler-Venn diagrams made with [matplotlib-venn](https://github.com/konstantint/matplotlib-venn)
@@ -10,16 +10,11 @@ package, bottom row is supervenn diagrams:
 
 <img src="https://i.imgur.com/dJoNhYQ.png" width=800>
 
-
 ### Installation
 `pip install supervenn`
 
 ### Requirements
 Python 2.7 or 3.6+ with `numpy` and`matplotlib`.
-
-### Name
-Contrary to what the name may indicate, the diagrams produced with `supervenn` are not Venn diagrams.
-The choice of name for the package was rather unfortunate but it is now too late to change it.
 
 ### Basic usage 
 The main entry point is the eponymous supervenn function, that takes a list of python `set`s as its first and only
@@ -51,25 +46,99 @@ supervenn(sets)
 Here, the numbers on the right are the set sizes (cardinalities), and numbers on the top show how many sets does this
 intersection make part of. The grey bars represent the same numbers visually.
 
-### Most important arguments
-- `set_annotations`: names to be displayed in each row instead of `Set_0`, `Set_1` etc.
-- `figsize`: the figure size in inches; calling `plt.figure(figsize=(16, 10))` and `supervenn` afterwards
- will **not** work, because the function makes its own figure.
-- `dpi`: figure DPI.
-- `side_plots`: `True` (default) or `False`, as shown above.
-- `chunks_ordering`: `'minimize gaps'` (default, use an quasi-greedy algorithm to find an order of columns with fewer
-gaps in each row), `'size'` (bigger chunks go first), `'occurence'` (chunks that are in more sets go first), `'random'` 
-( randomly shuffle the columns).
-- `sets_ordering`: `None` (default - keep the order of sets as passed into function), `'minimize gaps'` (use same
-quasi-greedy algorithm to group similar sets closer together), `'size'`(bigger sets go first), `'chunk count'` (sets
-that contain most chunks go first), `'random'`.
-- `widths_minmax_ratio`: `None` (default) or a number `0 < r <= 1`. Useful in case the chunks (intersections) are very
-different in sizes. Will map the chunk sizes according to `w -> a * w + b` so that the minimal to maximal chunk width
-ratio is no smaller than `widths_minmax_ratio`. The exact proportionality is lost in this case. Setting
-`widths_minmax_ratio=1` will result in all chunks being displayed as same size (no proportionality at all.)
-- `col_annotations_ys_count`: 1 (default), 2, or 3 - also helps to reduce clutter in column annotations area.
-- `min_width_for_annotation`: integer (default 1), another argument to reduce clutter, allows to hide annotations for
-chunks smaller than this value.
+### Features (how to)
+##### Add custom set annotations instead of 'Set_1', 'Set_2' etc
+Use the `set_annotations` argument to pass a list of annotations, which should be in the same order as the sets. It is
+the second positional argument.
+```python
+sets = [{1, 2, 3, 4}, {3, 4, 5}, {1, 6, 7, 8}]
+labels = ['alice', 'bob', 'third_party']
+supervenn(sets, labels)
+```
+
+##### Change size and dpi of the plot
+Create a new figure and plot into it:
+```python
+import matplotlib.pyplot as plt
+plt.figure(figsize=(16, 8))
+supervenn(sets)
+```
+
+The `supervenn` function has `figsize` and `dpi` arguments, but they are deprecated and will be removed in a future
+version. Please don't use them.
+
+##### Plot into an existing axis
+Use the `ax` argument:
+
+```python
+supervenn(sets, ax=my_axis)
+```
+
+##### Save the plot to an image file
+
+```python
+import matplotlib.pyplot as plt
+supervenn(sets)
+plt.savefig('myplot.png')
+```
+
+##### Use a different ordering of chunks (columns)
+Use the `chunks_ordering` argument. The following options are available:
+- `'minimize gaps'`: default, use an quasi-greedy algorithm to find an order of columns with fewer
+gaps in each row;
+- `'size'`: bigger chunks go first;
+- `'occurence'`: chunks that are in more sets go first;
+- `'random'`: randomly shuffle the columns.
+
+To reverse the order (e.g. you want smaller chunks to go first), pass `reverse_chunks_order=False` (by default
+it's `True`) 
+
+##### Reorder the sets (rows) instead of keeping the order as it was passed
+Use the `sets_ordering` argument. The following options are available:
+- `None`: default - keep the order of sets as passed into function;
+- `'minimize gaps'`: use the same algorithm to group similar sets closer together;
+-`'size'`: bigger sets go first;
+- `'chunk count'`: sets that contain most chunks go first;
+- `'random'`: randomly shuffle the rows.
+
+To reverse the order (e.g. you want smaller sets to go first), pass `reverse_sets_order=False` (by default
+it's `True`) 
+
+##### Make the plot prettier if sets and/or chunks are very different in size
+Use the `widths_minmax_ratio` argument, with a value between 0.01 and 1. Consider the following example
+```python
+sets = [set(range(200)), set(range(201)), set(range(203)), set(range(206))]
+supervenn(sets, side_plots=False)
+```
+<img src="https://i.imgur.com/i05lgNU.png" width=330>
+
+The plot does not look pretty, especially around the bottom left corner.
+
+One solution is to trade exact chunk proportionality for readability. This is done by making small chunks visually
+larger. To be exact, a linear function is applied to the chunk sizes, with slope and intercept chosen so that the
+smallest chunk size is exactly `widths_minmax_ratio` times the largest chunk size. If the ratio is already greater than
+this value, the sizes are left unchanged. Setiing `widths_minmax_ratio=1` will result in all chunks being displayed as
+same size.
+
+```python
+supervenn(sets, side_plots=False, widths_minmax_ratio=0.05)
+```
+<img src="https://i.imgur.com/cIp42uD.png" width=330>
+
+##### Avoid clutter in the X axis annotations
+- Use the `min_width_for_annotation` argument to hide annotations for chunks smaller than this value. 
+```python
+supervenn(sets, side_plots=False, widths_minmax_ratio=0.05)
+```
+<img src="https://i.imgur.com/YdCmHtZ.png" width=330>
+
+- Pass `rotate_col_annotations=True` to print chunk sizes vertically.
+
+- There's also `col_annotations_ys_count` argument, but it is deprecated and will be removed in a future version.
+
+
+##### Change side plots size and color
+Use `side_plot_width` (default 1.5, in inches) and `side_plot_color` (default `'tab:gray'`) arguments.
 
 Other arguments can be found in the docstring to the function.
 
@@ -132,38 +201,31 @@ This typically means that the number of non-empty intersections is significantly
 hence the results are not that pretty.
 
 ### Less trivial example #3: order IDs in a vehicle routing problem solver tasks.
-This was actually my motivation in creating this package. The team I'm currently working in provides an API that solves a variation of the Multiple Vehicles Routing Problem. The API solves tasks of the form
+This was actually my motivation in creating this package. The team I'm currently working in provides an API that solves
+a variation of the Multiple Vehicles Routing Problem. The API solves tasks of the form
 "Given 1000 delivery orders each with lat, lon, time window and weight, and 50 vehicles each with capacity and work
 shift, distribute the orders between the vehicles and build an optimal route for each vehicle". 
 
 A given client can send tens of such requests per day and sometimes it is useful to look at their requests and
-understand how they are related to each other in terms of what orders are included in each of the request. Are they
+understand how they are related to each other in terms of what orders are included in each of the requests. Are they
 sending the same task over and over again  - a sign that they are not satisfied with routes they get and they might need
 our help in using the API? Are they manually editing the routes (a process that results in more requests to our API, with
 only the orders from affected routes included)? Or are they solving for several independent order sets and are happy
 with each individual result?
 
-Here's an example of a client who is not that happy:
-
+We can use `supervenn` with ome custom annotations to look at sets of order IDs in each of the client's requests.
+Here's an example of an OK but nit perfect client's workday:
 <img src="https://i.imgur.com/9YfRC61.png" width=800>
 
-Rows from bottom to top are requests to our API from earlier to later, represented by their sets of order IDs. With the
-help of some custom annotations (`set_annotations` argument), the situation is immediately made clear. The client solved
-a big task at 10:54, they were not happy about the result, and tried some manual edits until 11:11. Then in the evening
-they re-sent the whole task twice over, probably with some change in parameters.
+Rows from bottom to top are requests to our API from earlier to later, represented by their sets of order IDs.
+We see that they solved a big task at 10:54, were not satisfied with the result, and applied some manual edits until
+11:11. Then in the evening they re-solved the whole task twice over, probably with some change in parameters.
 
-Another unhappy customer:
-
-<img src="https://i.imgur.com/cGgCroA.png" width=800>
-
-This guy here spend almost two hours, 17:40 to 19:30 solving the same full task over and over again, with some manual
-edits in between. Looks like they might be doing something wrong and our help is needed.
-
-And finally, a happy one:
+Here's a perfect day:
 
 <img src="https://i.imgur.com/E2o2ela.png" width=800>
 
-Solved three unrelated tasks, was happy with all the three (no repeated requests, no manual edits; each order is
+They solved three unrelated tasks and were happy with each (no repeated requests, no manual edits; each order is
 distributed only once).
 
 And here's a rather extreme example of a client whose scheme of operation involves sending requests to our API every
