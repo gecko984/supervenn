@@ -280,7 +280,7 @@ def setup_axes(side_plots, figsize=None, dpi=None, ax=None, side_plot_width=1.5)
     return axes
 
 
-def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=True,
+def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
               chunks_ordering='minimize gaps', sets_ordering=None,
               reverse_chunks_order=True, reverse_sets_order=True,
               max_bruteforce_size=DEFAULT_MAX_BRUTEFORCE_SIZE, seeds=DEFAULT_SEEDS, noise_prob=DEFAULT_NOISE_PROB,
@@ -332,7 +332,7 @@ def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=Tr
 
     if figsize is not None or dpi is not None:
         warnings.warn(
-            'Parameters figsize and dpi of supervenn() are deprecated and will be removed in future versions.\n'
+            'Parameters figsize and dpi of supervenn() are deprecated and will be removed in a future version.\n'
             'Instead of this:\n'
             '    supervenn(sets, figsize=(8, 5), dpi=90)'
             '\nPlease either do this:\n'
