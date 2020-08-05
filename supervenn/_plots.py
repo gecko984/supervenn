@@ -2,10 +2,12 @@
 """
 Routines for plotting multiple sets.
 """
+
+import warnings
+
 import numpy as np
 import matplotlib.gridspec as gridspec
 import matplotlib.pyplot as plt
-
 
 from supervenn._algorithms import (
     get_chunks_and_composition_array,
@@ -327,6 +329,19 @@ def supervenn(sets, set_annotations=None, figsize=DEFAULT_FIGSIZE, side_plots=Tr
     :param color_cycle: a list of colors, given as names of matplotlib named colors, or hex codes (e.g. '#1f77b4').
     By default, the usual tab pallete is used (matplotlib default colors).
     """
+
+    if figsize is not None or dpi is not None:
+        warnings.warn(
+            'Parameters figsize and dpi of supervenn() are deprecated and will be removed in future versions.\n'
+            'Instead of this:\n'
+            '    supervenn(sets, figsize=(8, 5), dpi=90)'
+            '\nPlease either do this:\n'
+            '    plt.figure(figsize=(8, 5), dpi=90)\n'
+            '    supervenn(sets)\n'
+            'or plot into an existing axis by passing it as the ax argument:\n'
+            '    supervenn(sets, ax=my_axis)\n'
+        )
+
     axes = setup_axes(side_plots, figsize, dpi, ax, side_plot_width)
 
     if set_annotations is None:
