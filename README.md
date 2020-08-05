@@ -47,7 +47,7 @@ Here, the numbers on the right are the set sizes (cardinalities), and numbers on
 intersection make part of. The grey bars represent the same numbers visually.
 
 ### Features (how to)
-##### Add custom set annotations instead of 'Set_1', 'Set_2' etc
+#### Add custom set annotations instead of 'Set_1', 'Set_2' etc
 Use the `set_annotations` argument to pass a list of annotations, which should be in the same order as the sets. It is
 the second positional argument.
 ```python
@@ -56,7 +56,7 @@ labels = ['alice', 'bob', 'third_party']
 supervenn(sets, labels)
 ```
 
-##### Change size and dpi of the plot
+#### Change size and dpi of the plot
 Create a new figure and plot into it:
 ```python
 import matplotlib.pyplot as plt
@@ -64,17 +64,17 @@ plt.figure(figsize=(16, 8))
 supervenn(sets)
 ```
 
-The `supervenn` function has `figsize` and `dpi` arguments, but they are deprecated and will be removed in a future
+The `supervenn` function has `figsize` and `dpi` arguments, but they are **deprecated** and will be removed in a future
 version. Please don't use them.
 
-##### Plot into an existing axis
+#### Plot into an existing axis
 Use the `ax` argument:
 
 ```python
 supervenn(sets, ax=my_axis)
 ```
 
-##### Save the plot to an image file
+#### Save the plot to an image file
 
 ```python
 import matplotlib.pyplot as plt
@@ -82,9 +82,9 @@ supervenn(sets)
 plt.savefig('myplot.png')
 ```
 
-##### Use a different ordering of chunks (columns)
+#### Use a different ordering of chunks (columns)
 Use the `chunks_ordering` argument. The following options are available:
-- `'minimize gaps'`: default, use an quasi-greedy algorithm to find an order of columns with fewer
+- `'minimize gaps'`: default, use a quasi-greedy algorithm to find an order of columns with fewer
 gaps in each row;
 - `'size'`: bigger chunks go first;
 - `'occurence'`: chunks that are in more sets go first;
@@ -93,18 +93,18 @@ gaps in each row;
 To reverse the order (e.g. you want smaller chunks to go first), pass `reverse_chunks_order=False` (by default
 it's `True`) 
 
-##### Reorder the sets (rows) instead of keeping the order as it was passed
+#### Reorder the sets (rows) instead of keeping the order as it was passed
 Use the `sets_ordering` argument. The following options are available:
 - `None`: default - keep the order of sets as passed into function;
-- `'minimize gaps'`: use the same algorithm to group similar sets closer together;
--`'size'`: bigger sets go first;
+- `'minimize gaps'`: use the same algorithm as for chunks to group similar sets closer together;
+- `'size'`: bigger sets go first;
 - `'chunk count'`: sets that contain most chunks go first;
 - `'random'`: randomly shuffle the rows.
 
 To reverse the order (e.g. you want smaller sets to go first), pass `reverse_sets_order=False` (by default
 it's `True`) 
 
-##### Make the plot prettier if sets and/or chunks are very different in size
+#### Make the plot prettier if sets and/or chunks are very different in size
 Use the `widths_minmax_ratio` argument, with a value between 0.01 and 1. Consider the following example
 ```python
 sets = [set(range(200)), set(range(201)), set(range(203)), set(range(206))]
@@ -125,7 +125,7 @@ supervenn(sets, side_plots=False, widths_minmax_ratio=0.05)
 ```
 <img src="https://i.imgur.com/cIp42uD.png" width=330>
 
-##### Avoid clutter in the X axis annotations
+#### Avoid clutter in the X axis annotations
 - Use the `min_width_for_annotation` argument to hide annotations for chunks smaller than this value. 
 ```python
 supervenn(sets, side_plots=False, widths_minmax_ratio=0.05)
@@ -134,13 +134,14 @@ supervenn(sets, side_plots=False, widths_minmax_ratio=0.05)
 
 - Pass `rotate_col_annotations=True` to print chunk sizes vertically.
 
-- There's also `col_annotations_ys_count` argument, but it is deprecated and will be removed in a future version.
+- There's also `col_annotations_ys_count` argument, but it is **deprecated** and will be removed in a future version.
 
-
-##### Change side plots size and color
+#### Change side plots size and color
 Use `side_plot_width` (default 1.5, in inches) and `side_plot_color` (default `'tab:gray'`) arguments.
 
-Other arguments can be found in the docstring to the function.
+#### Change other parameters
+Other arguments can be found in the docstring to the function. They include bars colors
+and positions and reordering algorithm parameters.
 
 ### Less trivial example #1: words of different categories
 
