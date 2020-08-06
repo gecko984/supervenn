@@ -112,7 +112,7 @@ supervenn(sets, side_plots=False)
 ```
 <img src="https://i.imgur.com/i05lgNU.png" width=330>
 
-The plot does not look pretty, especially around the bottom left corner.
+The bottom left corner is unreadable.
 
 One solution is to trade exact chunk proportionality for readability. This is done by making small chunks visually
 larger. To be exact, a linear function is applied to the chunk sizes, with slope and intercept chosen so that the
@@ -123,6 +123,9 @@ same size.
 ```python
 supervenn(sets, side_plots=False, widths_minmax_ratio=0.05)
 ```
+The image now looks clean, but chunks of size 1 to 3 look almost the same.
+
+
 <img src="https://i.imgur.com/cIp42uD.png" width=330>
 
 #### Avoid clutter in the X axis annotations
@@ -137,7 +140,7 @@ supervenn(sets, side_plots=False, widths_minmax_ratio=0.05)
 - There's also `col_annotations_ys_count` argument, but it is **deprecated** and will be removed in a future version.
 
 #### Change side plots size and color
-Use `side_plot_width` (default 1.5, in inches) and `side_plot_color` (default `'tab:gray'`) arguments.
+Use `side_plot_width` (in inches, default 1) and `side_plot_color` (default `'tab:gray'`) arguments.
 
 #### Change other parameters
 Other arguments can be found in the docstring to the function. They include bars colors
