@@ -26,16 +26,22 @@ supervenn(sets, side_plots=False)
 ```
 <img src="https://i.imgur.com/BQrrcEl.png" width=400>
 
-Each row is a set, the order from bottom to top is the same as in the `sets` list. Overlapping parts correspond to set
-intersections.
+Each row repesents a set, the order from bottom to top is the same as in the `sets` list. Overlapping parts correspond
+to set intersections.
 
-The numbers at the bottom show the sizes (cardinalities) of all intersections, aka **chunks**. The sizes of sets and
-their intersections (chunks) are up to proportion, but the order of elements is not preserved, e.g. the leftmost chunk
-of size 3 is `{6, 7, 8}`.
+The numbers at the bottom show the sizes (cardinalities) of all intersections, which we will call **chunks**.
+The sizes of sets and their intersections (chunks) are up to proportion, but the order of elements is not preserved,
+e.g. the leftmost chunk of size 3 is `{6, 7, 8}`.
 
-A combinatorial optimization algorithms is applied that automatically chooses an order of the chunks (the columns of the
-array plotted) to minimize the number of parts the sets are broken into. In the example above there are no gaps in the
-rows at all, but it is not always possible even for three sets.
+A combinatorial optimization algorithms is applied that rearranges the chunks (the columns of the
+array plotted) to minimize the number of parts the sets are broken into. In the example above each set is in one piece
+( no gaps in rows at all), but it's not always possible, even for three sets:
+
+```python
+supervenn([{1, 2}, {2, 3}, {1, 3}], side_plots=False)
+```
+
+<img src="https://i.imgur.com/2QV0zou.png" width="400">
 
 By default, additional *side plots* are also displayed:
 
