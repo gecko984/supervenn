@@ -48,7 +48,7 @@ intersection make part of. The grey bars represent the same numbers visually.
 
 ### Features (how to)
 #### Add custom set annotations instead of 'Set_1', 'Set_2' etc
-Use the `set_annotations` argument to pass a list of annotations, which should be in the same order as the sets. It is
+Use the `set_annotations` argument to pass a list of annotations. It should be in the same order as the sets. It is
 the second positional argument.
 ```python
 sets = [{1, 2, 3, 4}, {3, 4, 5}, {1, 6, 7, 8}]
@@ -93,7 +93,7 @@ gaps in each row;
 To reverse the order (e.g. you want smaller chunks to go first), pass `reverse_chunks_order=False` (by default
 it's `True`) 
 
-#### Reorder the sets (rows) instead of keeping the order as it was passed
+#### Reorder the sets (rows) instead of keeping the order as passed into function
 Use the `sets_ordering` argument. The following options are available:
 - `None`: default - keep the order of sets as passed into function;
 - `'minimize gaps'`: use the same algorithm as for chunks to group similar sets closer together;
@@ -306,8 +306,12 @@ Excel tables, and `supervenn` function returns a dict with these codes as keys a
 - Web-based app for non-pythonistas.
 
 
-### Author
-This package is created and maintained by Fedor Indukaev. This is my first attempt at making a full Python package,
-so code and structure of the package might be not up to best practices sometimes.  Any bug reports, questions, comments,
-recommendations, feature requests, pull requests, code reviews etc are most welcome. My username on Gmail and Telegram
-is the same as on Github.
+### Credits
+This package is created and maintained by [Fedor Indukaev](https://www.linkedin.com/in/fedor-indukaev-4a52961b/). 
+My username on Gmail and Telegram is the same as on Github.
+
+### How you can help
+If you like the package, you can click the star it at the top of the page. If you are a Python developer, you can help
+by reviewing the code in any way that is convenient to you. If you found a bug or have a feature request, you can submit
+them in in the [Issues section](https://github.com/gecko984/supervenn/issues).
+ 
