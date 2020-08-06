@@ -311,7 +311,7 @@ Excel tables, and `supervenn` function returns a dict with these codes as keys a
 
 
 ### Credits
-This package is created and maintained by [Fedor Indukaev](https://www.linkedin.com/in/fedor-indukaev-4a52961b/). 
+This package was created and is maintained by [Fedor Indukaev](https://www.linkedin.com/in/fedor-indukaev-4a52961b/). 
 My username on Gmail and Telegram is the same as on Github.
 
 ### How you can help
