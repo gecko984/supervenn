@@ -217,12 +217,12 @@ def find_best_columns_permutation_bruteforce(arr, row_weights=None):
         raise ValueError('Bruteforce ordering method accepts max {} columns, got {} instead. It would take too long.'
                          .format(BRUTEFORCE_SIZE_HARD_LIMIT, arr.shape[1]))
     best_permutation = None
-    best_gaps_count = HUGE_NUMBER
+    best_total_gaps = HUGE_NUMBER
     for permutation in permutations(range(arr.shape[1])):
-        gaps_count = get_total_gaps_in_rows(arr[:, permutation], row_weights=row_weights)
-        if gaps_count < best_gaps_count:
+        total_gaps = get_total_gaps_in_rows(arr[:, permutation], row_weights=row_weights)
+        if total_gaps < best_total_gaps:
             best_permutation = permutation
-            best_gaps_count = gaps_count
+            best_total_gaps = total_gaps
     return list(best_permutation)
 
 
@@ -368,21 +368,25 @@ def get_permutations(chunks, composition_array, chunks_ordering='minimize gaps',
     chunk_sizes = [len(chunk) for chunk in chunks]
     set_sizes = composition_array.dot(np.array(chunk_sizes))
 
-    chunks_case = {'sizes': chunk_sizes,
-                   'param': 'chunks_ordering',
-                   'array': composition_array,
-                   'row_weights': None,
-                   'ordering': chunks_ordering,
-                   'allowed_orderings': ['size', 'occurence', 'random', 'minimize gaps'],
-                   'reverse': reverse_chunks_order}
+    chunks_case = {
+        'sizes': chunk_sizes,
+        'param': 'chunks_ordering',
+        'array': composition_array,
+        'row_weights': None,
+        'ordering': chunks_ordering,
+        'allowed_orderings': ['size', 'occurence', 'random', 'minimize gaps'],
+        'reverse': reverse_chunks_order
+    }
 
-    sets_case = {'sizes': set_sizes,
-                 'param': 'sets_ordering',
-                 'array': composition_array.T,
-                 'row_weights': chunk_sizes,
-                 'ordering': sets_ordering,
-                 'allowed_orderings': ['size', 'chunk count', 'random', 'minimize gaps', None],
-                 'reverse': reverse_sets_order}
+    sets_case = {
+        'sizes': set_sizes,
+        'param': 'sets_ordering',
+        'array': composition_array.T,
+        'row_weights': chunk_sizes,
+        'ordering': sets_ordering,
+        'allowed_orderings': ['size', 'chunk count', 'random', 'minimize gaps', None],
+        'reverse': reverse_sets_order
+    }
 
     permutations_ = {}
 

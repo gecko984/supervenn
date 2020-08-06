@@ -102,7 +102,9 @@ it's `True`)
 #### Reorder the sets (rows) instead of keeping the order as passed into function
 Use the `sets_ordering` argument. The following options are available:
 - `None`: default - keep the order of sets as passed into function;
-- `'minimize gaps'`: use the same algorithm as for chunks to group similar sets closer together;
+- `'minimize gaps'`: use the same algorithm as for chunks to group similar sets closer together. The difference in the
+algorithm is that now gaps are minimized in columns instead of rows, and they are weighted by the column widths
+(i.e. chunk sizes), as we want to minimize total gap width;
 - `'size'`: bigger sets go first;
 - `'chunk count'`: sets that contain most chunks go first;
 - `'random'`: randomly shuffle the rows.
@@ -151,6 +153,11 @@ Use `side_plot_width` (in inches, default 1) and `side_plot_color` (default `'ta
 #### Change other parameters
 Other arguments can be found in the docstring to the function. They include bars colors
 and positions and reordering algorithm parameters.
+
+### Algorithm used to minimize gaps
+If there are are no more than 8 chunks, the optimal permutation is found with exhaustive search (you can increase this
+limit up to 12 using the `max_bruteforce_size` argument). For greater chunk counts, a randomized quasi-greedy algorithm
+is applied. The description of the algorithm can be found in the docstring to `supervenn._algorithms` module.
 
 ### Less trivial examples: 
 
@@ -244,12 +251,6 @@ And here's a rather extreme example of a client whose scheme of operation involv
 15-30 minutes to account for live updates on newly created orders and couriers' GPS positions.
 
 <img src="https://i.imgur.com/vKxHOF7.jpg" width=800>
-
-### Algorithm used to minimize the gaps in the sets
-If there are less than 9 chunks, the optimal permutation is found with exhaustive search (you can change this limit
-using the `max_bruteforce_size` argument. For greater chunk counts, a randomized quasi-greedy algorithm is applied.
-The description of the algorithm can be found in the docstring to `supervenn._algorithms` module.
-
 
 ### Comparison to similar tools
 
