@@ -84,7 +84,7 @@ plt.savefig('myplot.png')
 
 #### Use a different ordering of chunks (columns)
 Use the `chunks_ordering` argument. The following options are available:
-- `'minimize gaps'`: default, use a quasi-greedy algorithm to find an order of columns with fewer
+- `'minimize gaps'`: default, use an optimization algorithm to find an order of columns with fewer
 gaps in each row;
 - `'size'`: bigger chunks go first;
 - `'occurence'`: chunks that are in more sets go first;
@@ -146,7 +146,9 @@ Use `side_plot_width` (in inches, default 1) and `side_plot_color` (default `'ta
 Other arguments can be found in the docstring to the function. They include bars colors
 and positions and reordering algorithm parameters.
 
-### Less trivial example #1: words of different categories
+### Less trivial examples: 
+
+#### Words of different categories
 
 ```python
 letters = {'a', 'r', 'c', 'i', 'z'}
@@ -165,7 +167,7 @@ supervenn(sets, labels, figsize=(10, 6), sets_ordering='minimize gaps')
 And this is how the figure would look without the smart column reordering algorithm:
 <img src="https://i.imgur.com/6ZUbtUH.png" width=550>
 
-### Less trivial example #2: banana genome compared to 5 other species
+#### Banana genome compared to 5 other species
 [Data courtesy of Jake R Conway, Alexander Lex, Nils Gehlenborg - creators of UpSet](https://github.com/hms-dbmi/UpSetR-paper/blob/master/bananaPlot.R)
 
 Image from [D’Hont, A., Denoeud, F., Aury, J. et al. The banana (Musa acuminata) genome and the evolution of
@@ -204,7 +206,7 @@ This typically means that the number of non-empty intersections is significantly
 (which is `2^n_sets - 1`). This is not the case in the present example, as 62 of the 63 intersections are non-empty, 
 hence the results are not that pretty.
 
-### Less trivial example #3: order IDs in a vehicle routing problem solver tasks.
+#### Order IDs in requests to a multiple vehicle routing problem solver
 This was actually my motivation in creating this package. The team I'm currently working in provides an API that solves
 a variation of the Multiple Vehicles Routing Problem. The API solves tasks of the form
 "Given 1000 delivery orders each with lat, lon, time window and weight, and 50 vehicles each with capacity and work
@@ -238,6 +240,8 @@ And here's a rather extreme example of a client whose scheme of operation involv
 <img src="https://i.imgur.com/vKxHOF7.jpg" width=800>
 
 ### Algorithm used to minimize the gaps in the sets
+If there are less than 9 chunks, the optimal permutation is found with exhaustive search (you can change this limit
+using the `max_bruteforce_size` argument. For greater chunk counts, a randomized quasi-greedy algorithm is applied.
 The description of the algorithm can be found in the docstring to `supervenn._algorithms` module.
 
 
