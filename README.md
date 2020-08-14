@@ -188,7 +188,7 @@ monocotyledonous plants](https://www.nature.com/articles/nature11241)
 
 Figure from original article (note that it is by no means proportional!):
 
-<img src="https://i.imgur.com/iQlcLVG.jpg" width=700>
+<img src="https://i.imgur.com/iQlcLVG.jpg" width=650>
 
 Figure made with [UpSetR](https://caleydo.org/tools/upset/)
 
