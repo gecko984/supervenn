@@ -151,7 +151,7 @@ def plot_binary_array(arr, ax=None, col_widths=None, row_heights=None, min_width
     plt.ylim(min_y, sum(row_heights))
     plt.xticks(grid_xs, [])
     plt.yticks(grid_ys, [])
-    plt.grid()
+    plt.grid(True)
 
 
 def side_plot(values, widths, orient, fontsize=DEFAULT_FONTSIZE, min_width_for_annotation=1, rotate_annotations=False,
@@ -196,7 +196,7 @@ def side_plot(values, widths, orient, fontsize=DEFAULT_FONTSIZE, min_width_for_a
     ticks(bar_edges, [])
     noticks([])
     lim(0, max(values))
-    plt.grid()
+    plt.grid(True)
 
 
 def get_widths_balancer(widths, minmax_ratio=0.02):
