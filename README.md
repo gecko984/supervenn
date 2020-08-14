@@ -300,7 +300,6 @@ This approach is quite similar to supervenn. I'll let the reader decide which on
 
 _Thanks to Dr. Bilal Alsallakh for referring me to this work_
 
-
 #### [Linear Diagram Generator](https://www.cs.kent.ac.uk/people/staff/pjr/linear/index.html?abstractDescription=programming_languages+1%0D%0Aletters+programming_languages+2%0D%0Aprogramming_languages+animals+green_things+1%0D%0Ageographic_places+1%0D%0Aletters+3%0D%0Ahuman_names+3%0D%0Agreen_things+1%0D%0Aprogramming_languages+geographic_places+1%0D%0Aanimals+2%0D%0Aanimals+geographic_places+2%0D%0Aanimals+human_names+1%0D%0Aprogramming_languages+human_names+1%0D%0A&width=700&height=250&guides=lines)
 This tool has a similar concept, but only available as a Javascript web app with minimal functionality, and you have to
 compute all the intersection sizes yourself. Apparently there is also an columns rearrangement algorithm in place, but
@@ -308,14 +307,6 @@ the target function (number of gaps within sets) is higher than in the diagram m
 <img src="https://i.imgur.com/tZN8QAb.png" width=600>
 
 _Thanks to [u/aboutscientific](https://www.reddit.com/user/aboutscientific/) for the link._
-
-### Plans for future releases
-- Tuning of the randomized algorithm for more optimal results (experiments are underway).
-- Implement some way to inspect individual intersections (probably label them with alphabetic codes like columns in
-Excel tables, and `supervenn` function returns a dict with these codes as keys and intersection sets as values).
-- Tests for the `_plots` module.
-- Web-based app for non-pythonistas.
-
 
 ### Credits
 This package was created and is maintained by [Fedor Indukaev](https://www.linkedin.com/in/fedor-indukaev-4a52961b/). 
