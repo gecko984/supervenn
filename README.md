@@ -147,12 +147,25 @@ supervenn(sets, side_plots=False, widths_minmax_ratio=0.05)
 
 - There's also `col_annotations_ys_count` argument, but it is **deprecated** and will be removed in a future version.
 
+#### Change bars appearance in the main plot
+Use arguments `bar_height` (default `1`), `bar_alpha` (default `0.6`), `bar_align` (default `edge`)', `color_cycle` (
+default is current style's default palette). You can also use styles, for example:
+```python
+import matplotlib.pyplot as plt
+with plt.style.context('bmh'):
+    supervenn([{1,2,3}, {3,4}])
+```
+<img src="https://i.imgur.com/yEUChI4.png" width="285">
+
+
 #### Change side plots size and color
 Use `side_plot_width` (in inches, default 1) and `side_plot_color` (default `'tab:gray'`) arguments.
 
+#### Change axes labels from `SETS`, `ITEMS` to something else
+Just use `plt.xlabel` and `plt.ylabel` as usual.
+
 #### Change other parameters
-Other arguments can be found in the docstring to the function. They include bars colors
-and positions and reordering algorithm parameters.
+Other arguments can be found in the docstring to the function. 
 
 ### Algorithm used to minimize gaps
 If there are are no more than 8 chunks, the optimal permutation is found with exhaustive search (you can increase this
