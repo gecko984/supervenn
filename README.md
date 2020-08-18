@@ -58,9 +58,10 @@ Use the `set_annotations` argument to pass a list of annotations. It should be i
 the second positional argument.
 ```python
 sets = [{1, 2, 3, 4}, {3, 4, 5}, {1, 6, 7, 8}]
-labels = ['alice', 'bob', 'third_party']
+labels = ['alice', 'bob', 'third party']
 supervenn(sets, labels)
 ```
+<img src="https://i.imgur.com/YlPKs7u.png" width=290>
 
 #### Change size and dpi of the plot
 Create a new figure and plot into it:
