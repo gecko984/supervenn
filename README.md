@@ -187,7 +187,8 @@ green_things = {'python', 'grass'}
 sets = [letters, programming_languages, animals, geographic_places, names, green_things]
 labels = ['letters', 'programming languages', 'animals', 'geographic places',
           'human names', 'green things']
-supervenn(sets, labels, figsize=(10, 6), sets_ordering='minimize gaps')
+plt.figure(figsize=(10, 6))
+supervenn(sets, labels , sets_ordering='minimize gaps')
 ```
 <img src="https://i.imgur.com/dF8dGu5.png" width=550>
 
@@ -211,7 +212,8 @@ Figure made with [UpSetR](https://caleydo.org/tools/upset/)
 Figure made with supervenn (using the `widths_minmax_ratio` argument)
 
 ```python
-supervenn(sets_list, species_names, figsize=(20, 10), widths_minmax_ratio=0.1,
+plt.figure(figsize=(20, 10))
+supervenn(sets_list, species_names, widths_minmax_ratio=0.1,
           sets_ordering='minimize gaps', rotate_col_annotations=True, col_annotations_area_height=1.2)
 ```
 <img src="https://i.imgur.com/1FGvOLu.png" width=850>
@@ -220,7 +222,8 @@ For comparison, here's the same data visualized to scale (no `widths_minmax_rati
 `min_width_for_annotation` is used instead to avoid column annotations overlap):
 
 ```python
-supervenn(sets_list, species_names, figsize=(20, 10), rotate_col_annotations=True,
+plt.figure(figsize=(20, 10))
+supervenn(sets_list, species_names, rotate_col_annotations=True,
           col_annotations_area_height=1.2, sets_ordering='minimize gaps',
           min_width_for_annotation=180)
 
