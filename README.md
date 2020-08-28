@@ -307,7 +307,7 @@ This approach is quite similar to supervenn. I'll let the reader decide which on
 
 ##### RainBio:
 
-<img src="https://i.imgur.com/jwQAltx.png" width=500>
+<img src="https://i.imgur.com/jwQAltx.png" width=400>
 
 
 ##### supervenn:
