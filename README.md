@@ -175,7 +175,7 @@ is applied. The description of the algorithm can be found in the docstring to `s
 
 ### Less trivial examples: 
 
-#### Words of different categories
+#### Words with many meanings
 
 ```python
 letters = {'a', 'r', 'c', 'i', 'z'}
@@ -190,10 +190,10 @@ labels = ['letters', 'programming languages', 'animals', 'geographic places',
 plt.figure(figsize=(10, 6))
 supervenn(sets, labels , sets_ordering='minimize gaps')
 ```
-<img src="https://i.imgur.com/dF8dGu5.png" width=550>
+<img src="https://i.imgur.com/hinM4I8.png" width=400>
 
 And this is how the figure would look without the smart column reordering algorithm:
-<img src="https://i.imgur.com/6ZUbtUH.png" width=550>
+<img src="https://i.imgur.com/sWFah6k.png" width=400>
 
 #### Banana genome compared to 5 other species
 [Data courtesy of Jake R Conway, Alexander Lex, Nils Gehlenborg - creators of UpSet](https://github.com/hms-dbmi/UpSetR-paper/blob/master/bananaPlot.R)
@@ -312,7 +312,7 @@ This approach is quite similar to supervenn. I'll let the reader decide which on
 
 ##### supervenn:
 
-<img src="https://i.imgur.com/dF8dGu5.png" width=500>
+<img src="https://i.imgur.com/sWFah6k.png" width=500>
 
 
 _Thanks to Dr. Bilal Alsallakh for referring me to this work_
