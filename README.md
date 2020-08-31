@@ -140,7 +140,7 @@ The image now looks clean, but chunks of size 1 to 3 look almost the same.
 #### Avoid clutter in the X axis annotations
 - Use the `min_width_for_annotation` argument to hide annotations for chunks smaller than this value. 
 ```python
-supervenn(sets, side_plots=False, widths_minmax_ratio=0.05)
+supervenn(sets, side_plots=False, min_width_for_annotation=100)
 ```
 <img src="https://i.imgur.com/YdCmHtZ.png" width=330>
 
