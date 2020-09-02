@@ -265,7 +265,7 @@ def get_widths_balancer(widths, minmax_ratio=0.02):
 
 
 # TODO matplotlib version requirement for nested gridspec
-def setup_axes(side_plots, figsize=None, dpi=None, ax=None, side_plot_width=1.5):
+def setup_axes(side_plot, top_plot, figsize=None, dpi=None, ax=None, side_plot_width=1.5, top_plot_width=1.5):
     """
     Set up axes for plot. If side_plots = False, a dict with one key 'main' and axis as value is returned.
     If side_plots = True, dict with keys 'main', 'top_side_plot', 'right_side_plot', 'unused' is returned, with
@@ -291,7 +291,7 @@ def setup_axes(side_plots, figsize=None, dpi=None, ax=None, side_plot_width=1.5)
     supervenn_ax.set_yticks([])
 
     # if no side plots, there is only one axis
-    if not side_plots:
+    if not side_plot and not top_plot:
         axes = {'main': supervenn_ax}
 
     # if side plots are used, break encasing axis into four smaller axis using matplotlib magic and store them in a dict
@@ -299,18 +299,38 @@ def setup_axes(side_plots, figsize=None, dpi=None, ax=None, side_plot_width=1.5)
         bbox = supervenn_ax.get_window_extent().transformed(supervenn_ax.get_figure().dpi_scale_trans.inverted())
         plot_width, plot_height = bbox.width, bbox.height
         width_ratios = [plot_width - side_plot_width, side_plot_width]
-        height_ratios = [side_plot_width, plot_height - side_plot_width]
-        gs = gridspec.GridSpecFromSubplotSpec(2, 2, supervenn_ax.get_subplotspec(),
-                                              height_ratios=height_ratios, width_ratios=width_ratios,
-                                              hspace=0, wspace=0)
-
+        height_ratios = [top_plot_width, plot_height - top_plot_width]
         fig = supervenn_ax.get_figure()
-        axes = {
-            'top_side_plot': fig.add_subplot(gs[0, 0]),
-            'main': fig.add_subplot(gs[1, 0]),
-            'unused': fig.add_subplot(gs[0, 1]),
-            'right_side_plot': fig.add_subplot(gs[1, 1])
-        }
+        if side_plot and top_plot:
+            gs = gridspec.GridSpecFromSubplotSpec(2, 2, supervenn_ax.get_subplotspec(),
+                                                  height_ratios=height_ratios, width_ratios=width_ratios,
+                                                  hspace=0, wspace=0)
+            axes = {
+                'top_side_plot': fig.add_subplot(gs[0, 0]),
+                'main': fig.add_subplot(gs[1, 0]),
+                'unused': fig.add_subplot(gs[0, 1]),
+                'right_side_plot': fig.add_subplot(gs[1, 1])
+            }
+
+        elif not top_plot:
+            gs = gridspec.GridSpecFromSubplotSpec(1, 2, supervenn_ax.get_subplotspec(),
+                                                  width_ratios=width_ratios,
+                                                  hspace=0, wspace=0)
+            axes = {
+                'main': fig.add_subplot(gs[0, 0]),
+                'right_side_plot': fig.add_subplot(gs[0, 1])
+            }
+
+        else:
+            gs = gridspec.GridSpecFromSubplotSpec(2, 1, supervenn_ax.get_subplotspec(),
+                                                  height_ratios=height_ratios,
+                                                  hspace=0, wspace=0)
+            axes = {
+                'top_side_plot': fig.add_subplot(gs[0, 0]),
+                'main': fig.add_subplot(gs[1, 0]),
+            }
+
+
 
         # Remove tick from every smaller axis
         for ax in axes.values():
@@ -319,19 +339,21 @@ def setup_axes(side_plots, figsize=None, dpi=None, ax=None, side_plot_width=1.5)
     return axes
 
 
-def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
+def supervenn(sets, set_annotations=None, figsize=None, side_plot=True, top_plot=True,
               chunks_ordering='minimize gaps', sets_ordering=None,
               reverse_chunks_order=True, reverse_sets_order=True,
               max_bruteforce_size=DEFAULT_MAX_BRUTEFORCE_SIZE, seeds=DEFAULT_SEEDS, noise_prob=DEFAULT_NOISE_PROB,
-              side_plot_width=1, min_width_for_annotation=1, widths_minmax_ratio=None, side_plot_color='gray',
+              side_plot_width=1, top_plot_width=1, min_width_for_annotation=1, widths_minmax_ratio=None, side_plot_color='gray',
+              show_set_lines=True,
               dpi=None, ax=None, **kw):
     """
     Plot a diagram visualizing relationship of multiple sets.
     :param sets: list of sets
     :param set_annotations: list of annotations for the sets
     :param figsize: figure size
-    :param side_plots: True / False: add small barplots on top and on the right. On top, for each chunk it is shown,
-    how many sets does this chunk lie inslde. On the right, set sizes are shown.
+    :param side_plot: True / False: add a small barplot on the right. Set sizes are shown as lengths.
+    :param top_plot: True / False: add small barplots on top. For each chunk it is shown,
+    how many sets does this chunk lie inside. 
     :param chunks_ordering: method of ordering the chunks (columns of the grid)
         - 'minimize gaps' (default): use a smart algorithm to find an order of columns giving fewer gaps in each row,
             making the plot as readable as possible.
@@ -350,8 +372,10 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
     :param max_bruteforce_size: maximal number of items for which bruteforce method is applied to find permutation
     :param seeds: number of different random seeds for the randomized greedy algorithm to find permutation
     :param noise_prob: probability of given element being equal to 1 in the noise array for randomized greedy algorithm
-    :param side_plot_width: width of side plots in inches (default 1.5)
+    :param side_plot_width: width of side plot in inches (default 1.5)
+    :param top_plot_width: width of top plots in inches (default 1.5)
     :param side_plot_color: color of bars in side plots, default 'gray'
+    :param show_set_lines: Mark the sets with vertical lines
     :param dpi: figure DPI
     :param ax: axis to plot into. If ax is specified, figsize and dpi will be ignored.
     :param min_width_for_annotation: for horizontal plot, don't annotate bars of widths less than this value (to avoid
@@ -383,7 +407,7 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
             '    supervenn(sets, ax=my_axis)\n'
         )
 
-    axes = setup_axes(side_plots, figsize, dpi, ax, side_plot_width)
+    axes = setup_axes(side_plot, top_plot, figsize, dpi, ax, side_plot_width, top_plot_width)
 
     if set_annotations is None:
         set_annotations = ['Set_{}'.format(i) for i in range(len(sets))]
@@ -435,13 +459,13 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
     plt.ylabel('SETS', fontsize=kw.get('fontsize', DEFAULT_FONTSIZE))
 
     # Side plots
-    if side_plots:
+    if top_plot:
         plt.sca(axes['top_side_plot'])
         side_plot(composition_array.sum(0), col_widths, 'h',
                   min_width_for_annotation=effective_min_width_for_annotation,
                   rotate_annotations=kw.get('rotate_col_annotations', False), color=side_plot_color)
         plt.xlim(xlim)
-
+    if side_plot:
         plt.sca(axes['right_side_plot'])
         side_plot([len(sets[i]) for i in permutations_['sets_ordering']], [1] * len(sets), 'v', color=side_plot_color)
         plt.ylim(ylim)
