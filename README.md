@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4012442.svg)](https://doi.org/10.5281/zenodo.4012442)
+
 # supervenn: precise and easy-to-read multiple sets visualization in Python
 
 ### What it is
