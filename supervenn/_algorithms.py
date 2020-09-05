@@ -389,7 +389,7 @@ def get_permutations(chunks, composition_array, chunks_ordering='minimize gaps',
     }
 
     if chunks_ordering == 'occurence':
-        warnings.warn('Please use chunks_ordering="occurence" (with double "r") instead of "occurence" (spelling fixed'
+        warnings.warn('Please use chunks_ordering="occurrence" (with double "r") instead of "occurence" (spelling fixed'
                       'in 0.3.0). The incorrect variant is still supported, but will be removed in a future version')
 
     sets_case = {
