@@ -368,7 +368,7 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
     :param color_cycle: a list of set colors, given as names of matplotlib named colors, or hex codes (e.g. '#1f77b4')
 
     :return: SupervennPlot instance with attributes `axes`, `figure`, `chunks`
-        and method `chunk_by_set_indices(set_indices)`.
+        and method `chunk_by_set_indices(set_indices)`. See docstring to returned object.
     """
 
     if figsize is not None or dpi is not None:
