@@ -365,7 +365,10 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
     :param bar_height: height of cell fill as a fraction of row height, a number in (0, 1).
     :param bar_alpha: alpha for cell fills.
     :param bar_align: vertical alignment of bars, 'edge' (default) or 'center'. Only matters when bar_height < 1.
-    :param color_cycle: a list of set colors, given as names of matplotlib named colors, or hex codes (e.g. '#1f77b4').
+    :param color_cycle: a list of set colors, given as names of matplotlib named colors, or hex codes (e.g. '#1f77b4')
+
+    :return: SupervennPlot instance with attributes `axes`, `figure`, `chunks`
+        and method `chunk_by_set_indices(set_indices)`.
     """
 
     if figsize is not None or dpi is not None:
@@ -444,4 +447,4 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
         plt.ylim(ylim)
 
     plt.sca(axes['main'])
-    return SupervennPlot(axes, plt.gcf(), break_into_chunks(sets))
+    return SupervennPlot(axes, plt.gcf(), break_into_chunks(sets))  # todo: break_into_chunks is called twice, fix
