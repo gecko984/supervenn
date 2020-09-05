@@ -36,7 +36,7 @@ class SupervennPlot(object):
 
     Methods
     -------
-    chunk_by_set_indices(set_indices)
+    get_chunk(set_indices)
         get a chunk by the indices of its defining sets without them to a frozenset first
    """
 
@@ -45,7 +45,7 @@ class SupervennPlot(object):
         self.figure = figure
         self.chunks = chunks_dict
 
-    def chunk_by_set_indices(self, set_indices):
+    def get_chunk(self, set_indices):
         """
         Get the contents of a chunk defined by the sets indicated by sets_indices. Indices refer to the original sets
         order as it was passed to supervenn() function (any reordering of sets due to use of sets_ordering params is
@@ -368,7 +368,7 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
     :param color_cycle: a list of set colors, given as names of matplotlib named colors, or hex codes (e.g. '#1f77b4')
 
     :return: SupervennPlot instance with attributes `axes`, `figure`, `chunks`
-        and method `chunk_by_set_indices(set_indices)`. See docstring to returned object.
+        and method `get_chunk(set_indices)`. See docstring to returned object.
     """
 
     if figsize is not None or dpi is not None:

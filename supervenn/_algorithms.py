@@ -191,7 +191,7 @@ def break_into_chunks(sets):
     for item in all_items:
         occurrence_pattern = frozenset({i for i, set_ in enumerate(sets) if item in set_})
         chunks_dict[occurrence_pattern].add(item)
-    return chunks_dict
+    return dict(chunks_dict)
 
 
 def get_chunks_and_composition_array(sets):

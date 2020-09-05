@@ -115,6 +115,7 @@ algorithm is that now gaps are minimized in columns instead of rows, and they ar
 To reverse the order (e.g. you want smaller sets to go first), pass `reverse_sets_order=False` (by default
 it's `True`) 
 
+
 #### Make the plot prettier if sets and/or chunks are very different in size
 Use the `widths_minmax_ratio` argument, with a value between 0.01 and 1. Consider the following example
 ```python
@@ -138,6 +139,15 @@ The image now looks clean, but chunks of size 1 to 3 look almost the same.
 
 
 <img src="https://i.imgur.com/cIp42uD.png" width=330>
+
+#### Inspect the chunks' contents
+`supervenn(sets, ...)` returns a `SupervennPlot` object, which has a `chunks` attribute.
+It is a `dict` with `frozenset`s of set indices the as keys, and chunks as values. For example, 
+`my_supervenn_object.chunks[frozenset([0, 2])]` is the chunk with all the items that are in `sets[0]` and
+`sets[2]`, but not in any of the other sets.
+
+There is also a `get_chunk(set_indices)` method that is slightly more convenient, because you
+can pass a list or any other iterable of indices, not necessarily a `frozenset`.
 
 #### Avoid clutter in the X axis annotations
 - Use the `min_width_for_annotation` argument to hide annotations for chunks smaller than this value. 
