@@ -83,8 +83,8 @@ Use the `ax` argument:
 supervenn(sets, ax=my_axis)
 ```
 
-#### Access the figure and and axes objects of the plot
-Use `.figure` and `axes`  attributes of the object returned by supervenn(). The `axes` attribute is
+#### Access the figure and axes objects of the plot
+Use `.figure` and `axes`  attributes of the object returned by `supervenn()`. The `axes` attribute is
 organized as a dict with descriptive strings for keys: `main`, `top_side_plot`, `right_side_plot`, `unused`. 
 If `side_plots=False`, the dict has only one key `main`.
 
@@ -101,7 +101,7 @@ Use the `chunks_ordering` argument. The following options are available:
 - `'minimize gaps'`: default, use an optimization algorithm to find an order of columns with fewer
 gaps in each row;
 - `'size'`: bigger chunks go first;
-- `'occurence'`: chunks that are in more sets go first;
+- `'occurrence'`: chunks that are in more sets go first;
 - `'random'`: randomly shuffle the columns.
 
 To reverse the order (e.g. you want smaller chunks to go first), pass `reverse_chunks_order=False` (by default
@@ -122,12 +122,12 @@ it's `True`)
 
 #### Inspect the chunks' contents
 `supervenn(sets, ...)` returns a `SupervennPlot` object, which has a `chunks` attribute.
-It is a `dict` with `frozenset`s of set indices the as keys, and chunks as values. For example, 
+It is a `dict` with `frozenset`s of set indices as keys, and chunks as values. For example, 
 `my_supervenn_object.chunks[frozenset([0, 2])]` is the chunk with all the items that are in `sets[0]` and
 `sets[2]`, but not in any of the other sets.
 
 There is also a `get_chunk(set_indices)` method that is slightly more convenient, because you
-can pass a list or any other iterable of indices, not necessarily a `frozenset`, for example:
+can pass a `list` or any other iterable of indices instead of a `frozenset`. For example:
 `my_supervenn_object.get_chunk([0, 2])`. 
 
 If you have a good idea of a more convenient method of chunks lookup, let me know and I'll
