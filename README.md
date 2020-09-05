@@ -19,8 +19,8 @@ package, bottom row is supervenn diagrams:
 Python 2.7 or 3.6+ with `numpy` and`matplotlib`.
 
 ### Basic usage 
-The main entry point is the eponymous supervenn function, that takes a list of python `set`s as its first and only
-required argument:
+The main entry point is the eponymous `supervenn` function. It takes a list of python `set`s as its first and only
+required argument and returns a `SupervennPlot` object.
 ```python
 from supervenn import supervenn
 sets = [{1, 2, 3, 4}, {3, 4, 5}, {1, 6, 7, 8}]
@@ -83,6 +83,11 @@ Use the `ax` argument:
 supervenn(sets, ax=my_axis)
 ```
 
+#### Access the figure and and axes objects of the plot
+Use `.figure` and `axes`  attributes of the object returned by supervenn(). The `axes` attribute is
+organized as a dict with descriptive strings for keys: `main`, `top_side_plot`, `right_side_plot`, `unused`. 
+If `side_plots=False`, the dict has only one key `main`.
+
 #### Save the plot to an image file
 
 ```python
@@ -115,6 +120,18 @@ algorithm is that now gaps are minimized in columns instead of rows, and they ar
 To reverse the order (e.g. you want smaller sets to go first), pass `reverse_sets_order=False` (by default
 it's `True`) 
 
+#### Inspect the chunks' contents
+`supervenn(sets, ...)` returns a `SupervennPlot` object, which has a `chunks` attribute.
+It is a `dict` with `frozenset`s of set indices the as keys, and chunks as values. For example, 
+`my_supervenn_object.chunks[frozenset([0, 2])]` is the chunk with all the items that are in `sets[0]` and
+`sets[2]`, but not in any of the other sets.
+
+There is also a `get_chunk(set_indices)` method that is slightly more convenient, because you
+can pass a list or any other iterable of indices, not necessarily a `frozenset`, for example:
+`my_supervenn_object.get_chunk([0, 2])`. 
+
+If you have a good idea of a more convenient method of chunks lookup, let me know and I'll
+implement it as well.
 
 #### Make the plot prettier if sets and/or chunks are very different in size
 Use the `widths_minmax_ratio` argument, with a value between 0.01 and 1. Consider the following example
@@ -124,7 +141,7 @@ supervenn(sets, side_plots=False)
 ```
 <img src="https://i.imgur.com/i05lgNU.png" width=330>
 
-The bottom left corner is unreadable.
+Annotations in the bottom left corner are unreadable.
 
 One solution is to trade exact chunk proportionality for readability. This is done by making small chunks visually
 larger. To be exact, a linear function is applied to the chunk sizes, with slope and intercept chosen so that the
@@ -140,14 +157,6 @@ The image now looks clean, but chunks of size 1 to 3 look almost the same.
 
 <img src="https://i.imgur.com/cIp42uD.png" width=330>
 
-#### Inspect the chunks' contents
-`supervenn(sets, ...)` returns a `SupervennPlot` object, which has a `chunks` attribute.
-It is a `dict` with `frozenset`s of set indices the as keys, and chunks as values. For example, 
-`my_supervenn_object.chunks[frozenset([0, 2])]` is the chunk with all the items that are in `sets[0]` and
-`sets[2]`, but not in any of the other sets.
-
-There is also a `get_chunk(set_indices)` method that is slightly more convenient, because you
-can pass a list or any other iterable of indices, not necessarily a `frozenset`.
 
 #### Avoid clutter in the X axis annotations
 - Use the `min_width_for_annotation` argument to hide annotations for chunks smaller than this value. 
