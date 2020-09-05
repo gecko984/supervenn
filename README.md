@@ -26,7 +26,7 @@ from supervenn import supervenn
 sets = [{1, 2, 3, 4}, {3, 4, 5}, {1, 6, 7, 8}]
 supervenn(sets, side_plots=False)
 ```
-<img src="https://i.imgur.com/BQrrcEl.png" width=400>
+<img src="https://i.imgur.com/aAOP6dq.png" width=330>
 
 Each row repesents a set, the order from bottom to top is the same as in the `sets` list. Overlapping parts correspond
 to set intersections.
@@ -43,14 +43,14 @@ array plotted) to minimize the number of parts the sets are broken into. In the 
 supervenn([{1, 2}, {2, 3}, {1, 3}], side_plots=False)
 ```
 
-<img src="https://i.imgur.com/2QV0zou.png" width="400">
+<img src="https://i.imgur.com/8aTSg2A.png" width="330">
 
 By default, additional *side plots* are also displayed:
 
 ```python
 supervenn(sets)
 ```
-<img src="https://i.imgur.com/na3YAn0.png" width=400>
+<img src="https://i.imgur.com/9IhLBcK.png" width=330>
 Here, the numbers on the right are the set sizes (cardinalities), and numbers on the top show how many sets does this
 intersection make part of. The grey bars represent the same numbers visually.
 
@@ -63,7 +63,7 @@ sets = [{1, 2, 3, 4}, {3, 4, 5}, {1, 6, 7, 8}]
 labels = ['alice', 'bob', 'third party']
 supervenn(sets, labels)
 ```
-<img src="https://i.imgur.com/YlPKs7u.png" width=290>
+<img src="https://i.imgur.com/YlPKs7u.png" width=330>
 
 #### Change size and dpi of the plot
 Create a new figure and plot into it:
@@ -177,7 +177,7 @@ import matplotlib.pyplot as plt
 with plt.style.context('bmh'):
     supervenn([{1,2,3}, {3,4}])
 ```
-<img src="https://i.imgur.com/yEUChI4.png" width="285">
+<img src="https://i.imgur.com/yEUChI4.png" width="330">
 
 
 #### Change side plots size and color
