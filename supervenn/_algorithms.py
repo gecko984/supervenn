@@ -123,6 +123,7 @@
 from collections import defaultdict
 import datetime
 from itertools import permutations
+import warnings
 
 import numpy as np
 
@@ -158,9 +159,9 @@ def get_total_gaps_in_rows(arr, row_weights=None):
     return rowwise_gaps_counts.dot(row_weights)
 
 
-def get_chunks_and_composition_array(sets):
+def break_into_chunks(sets):
     """
-    Let us have a collection {S_1, ..., S_n} of finite sets and U the union of all these sets.
+    Let us have a collection {S_1, ..., S_n} of finite sets and U be the union of all these sets.
     For a given subset C = {i_1, ..., i_k} of indices {1, ..., n}, define the 'chunk', corresponding to C, as the set
     of elements of U, that belong to S_i_1, ..., S_i_k, but not to any of the other sets.
     For example, for a collection of two sets {S_1, S_2}, there can be max three chunks: S_1 - S_2, S_2 - S_1, S1 & S_2.
@@ -169,14 +170,11 @@ def get_chunks_and_composition_array(sets):
     In general, the number of possible non-empty chunks for a collection of n sets is equal to min(|U|, 2^n - 1).
     Any chunk either lies completely inside any or completely outside any of the sets S_1, ... S_n.
 
-    This function takes a list of sets as its only argument and returns two objects:
-    - list of all chunks (each chunk is a set of items)
-    - a numpy.array A of zeros and ones with len(sets) rows and len(chunks) columns,
-    where A[i, j] == 1 <=> sets[i] includes chunks[j].
+    This function takes a list of sets as its only argument and returns a dict with frozensets of indices as keys and
+    chunks as values.
     :param sets: list of sets
-    :return: chunks - list of sets, arr - numpy.array
+    :return: chunks_dict - dict with frozensets as keys and sets as values.
     """
-
     if not sets:
         raise ValueError('Sets list is empty.')
 
@@ -185,20 +183,32 @@ def get_chunks_and_composition_array(sets):
     if not all_items:
         raise ValueError('All sets are empty')
 
-    # Each chunk is characterized by its occurence pattern, which is a unique subset of indices of our sets.
+    # Each chunk is characterized by its occurrence pattern, which is a unique subset of indices of our sets.
     # E.g. chunk with signature {1, 2, 5} is exactly the set of items such that they belong to sets 1, 2, 5, and
     # don't belong to any of the other sets.
     # Build a dict with signatures as keys (as frozensets), and lists of items as values,
-    occurences = defaultdict(set)
+    chunks_dict = defaultdict(set)
     for item in all_items:
-        occurence_pattern = frozenset({i for i, set_ in enumerate(sets) if item in set_})
-        occurences[occurence_pattern].add(item)
+        occurrence_pattern = frozenset({i for i, set_ in enumerate(sets) if item in set_})
+        chunks_dict[occurrence_pattern].add(item)
+    return chunks_dict
 
-    chunks_count = len(occurences)
+
+def get_chunks_and_composition_array(sets):
+    """
+    Take
+    - list of all chunks (each chunk is a set of items)
+    - a numpy.array A of zeros and ones with len(sets) rows and len(chunks) columns,
+    where A[i, j] == 1 <=> sets[i] includes chunks[j].
+    :param sets: list of sets
+    :return: chunks - list of sets, arr - numpy.array, chunks_dict - dict w
+    """
+    chunks_dict = break_into_chunks(sets)
+    chunks_count = len(chunks_dict)
     chunks = []
     arr = np.zeros((len(sets), chunks_count), dtype=int)
 
-    for idx, (sets_indices, items) in enumerate(occurences.items()):
+    for idx, (sets_indices, items) in enumerate(chunks_dict.items()):
         chunks.append(items)
         arr[list(sets_indices), idx] = 1
 
@@ -374,9 +384,13 @@ def get_permutations(chunks, composition_array, chunks_ordering='minimize gaps',
         'array': composition_array,
         'row_weights': None,
         'ordering': chunks_ordering,
-        'allowed_orderings': ['size', 'occurence', 'random', 'minimize gaps'],
+        'allowed_orderings': ['size', 'occurrence', 'random', 'minimize gaps'] + ['occurence'],  # todo remove with typo
         'reverse': reverse_chunks_order
     }
+
+    if chunks_ordering == 'occurence':
+        warnings.warn('Please use chunks_ordering="occurence" (with double "r") instead of "occurence" (spelling fixed'
+                      'in 0.3.0). The incorrect variant is still supported, but will be removed in a future version')
 
     sets_case = {
         'sizes': set_sizes,
@@ -397,7 +411,7 @@ def get_permutations(chunks, composition_array, chunks_ordering='minimize gaps',
 
         if case['ordering'] == 'size':
             permutation = np.argsort(case['sizes'])
-        elif case['ordering'] in ['occurence', 'chunk count']:
+        elif case['ordering'] in ['occurrence', 'chunk count'] + ['occurence']:
             permutation = np.argsort(case['array'].sum(0))
         elif case['ordering'] == 'random':
             permutation = np.array(range(len(case['sizes'])))
