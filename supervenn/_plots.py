@@ -32,7 +32,7 @@ class SupervennPlot(object):
         figure containing the plot.
     chunks: dict
         a dictionary allowing to get the contents of chunks. It has frozensets of key indices as keys and chunks
-    as values.
+        as values.
 
     Methods
     -------
