@@ -10,6 +10,7 @@ import matplotlib.gridspec as gridspec
 import matplotlib.pyplot as plt
 
 from supervenn._algorithms import (
+    break_into_chunks,
     get_chunks_and_composition_array,
     get_permutations,
     DEFAULT_MAX_BRUTEFORCE_SIZE,
@@ -18,6 +19,45 @@ from supervenn._algorithms import (
 
 
 DEFAULT_FONTSIZE = 12
+
+
+class SupervennPlot(object):
+    """
+    Attributes
+    ----------
+    axes: `dict
+        a dict containing all the plot's axes under descriptive keys: 'main', 'top_side_plot', 'right_side_plot',
+        'unused' (the small empty square in the top right corner)
+    figure: matplotlib.figure.Figure
+        figure containing the plot.
+    chunks: dict
+        a dictionary allowing to get the contents of chunks. It has frozensets of key indices as keys and chunks
+        as values.
+
+    Methods
+    -------
+    get_chunk(set_indices)
+        get a chunk by the indices of its defining sets without them to a frozenset first
+   """
+
+    def __init__(self, axes, figure, chunks_dict):
+        self.axes = axes
+        self.figure = figure
+        self.chunks = chunks_dict
+
+    def get_chunk(self, set_indices):
+        """
+        Get the contents of a chunk defined by the sets indicated by sets_indices. Indices refer to the original sets
+        order as it was passed to supervenn() function (any reordering of sets due to use of sets_ordering params is
+        ignored).
+        For example .get_chunk_by_set_indices([1,5]) will return the chunk containing all the items that are in
+        sets[1] and sets[5], but not in any of the other sets.
+        supervenn() function, the
+        :param set_indices: iterable of integers, referring to positions in sets list, as passed into supervenn().
+        :return: chunk with items, that are in each of the sets with indices from set_indices, but not in any of the
+        other sets.
+        """
+        return self.chunks[frozenset(set_indices)]
 
 
 def get_alternated_ys(ys_count, low, high):
@@ -325,7 +365,10 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
     :param bar_height: height of cell fill as a fraction of row height, a number in (0, 1).
     :param bar_alpha: alpha for cell fills.
     :param bar_align: vertical alignment of bars, 'edge' (default) or 'center'. Only matters when bar_height < 1.
-    :param color_cycle: a list of set colors, given as names of matplotlib named colors, or hex codes (e.g. '#1f77b4').
+    :param color_cycle: a list of set colors, given as names of matplotlib named colors, or hex codes (e.g. '#1f77b4')
+
+    :return: SupervennPlot instance with attributes `axes`, `figure`, `chunks`
+        and method `get_chunk(set_indices)`. See docstring to returned object.
     """
 
     if figsize is not None or dpi is not None:
@@ -404,3 +447,4 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
         plt.ylim(ylim)
 
     plt.sca(axes['main'])
+    return SupervennPlot(axes, plt.gcf(), break_into_chunks(sets))  # todo: break_into_chunks is called twice, fix

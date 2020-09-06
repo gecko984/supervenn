@@ -295,7 +295,7 @@ class TestGetOrderedChunksAndCompositionArray(unittest.TestCase):
     def test_order_chunks_occurence_descending(self):
         for _ in range(10):
             sets = make_random_sets()
-            _, composition_matrix = _get_ordered_chunks_and_composition_array(sets, chunks_ordering='occurence')
+            _, composition_matrix = _get_ordered_chunks_and_composition_array(sets, chunks_ordering='occurrence')
             occurences = composition_matrix.sum(0)
             occurences_descending = is_ascending(occurences[::-1])
             self.assertTrue(occurences_descending)
@@ -303,7 +303,7 @@ class TestGetOrderedChunksAndCompositionArray(unittest.TestCase):
     def test_order_chunks_occurence_ascending(self):
         for _ in range(10):
             sets = make_random_sets()
-            _, composition_matrix = _get_ordered_chunks_and_composition_array(sets, chunks_ordering='occurence',
+            _, composition_matrix = _get_ordered_chunks_and_composition_array(sets, chunks_ordering='occurrence',
                                                                               reverse_chunks_order=False)
             occurences = composition_matrix.sum(0)
             occurences_ascending = is_ascending(occurences)

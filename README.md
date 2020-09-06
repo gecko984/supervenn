@@ -19,14 +19,14 @@ package, bottom row is supervenn diagrams:
 Python 2.7 or 3.6+ with `numpy` and`matplotlib`.
 
 ### Basic usage 
-The main entry point is the eponymous supervenn function, that takes a list of python `set`s as its first and only
-required argument:
+The main entry point is the eponymous `supervenn` function. It takes a list of python `set`s as its first and only
+required argument and returns a `SupervennPlot` object.
 ```python
 from supervenn import supervenn
 sets = [{1, 2, 3, 4}, {3, 4, 5}, {1, 6, 7, 8}]
 supervenn(sets, side_plots=False)
 ```
-<img src="https://i.imgur.com/BQrrcEl.png" width=400>
+<img src="https://i.imgur.com/aAOP6dq.png" width=330>
 
 Each row repesents a set, the order from bottom to top is the same as in the `sets` list. Overlapping parts correspond
 to set intersections.
@@ -43,14 +43,14 @@ array plotted) to minimize the number of parts the sets are broken into. In the 
 supervenn([{1, 2}, {2, 3}, {1, 3}], side_plots=False)
 ```
 
-<img src="https://i.imgur.com/2QV0zou.png" width="400">
+<img src="https://i.imgur.com/8aTSg2A.png" width="330">
 
 By default, additional *side plots* are also displayed:
 
 ```python
 supervenn(sets)
 ```
-<img src="https://i.imgur.com/na3YAn0.png" width=400>
+<img src="https://i.imgur.com/9IhLBcK.png" width=330>
 Here, the numbers on the right are the set sizes (cardinalities), and numbers on the top show how many sets does this
 intersection make part of. The grey bars represent the same numbers visually.
 
@@ -63,7 +63,7 @@ sets = [{1, 2, 3, 4}, {3, 4, 5}, {1, 6, 7, 8}]
 labels = ['alice', 'bob', 'third party']
 supervenn(sets, labels)
 ```
-<img src="https://i.imgur.com/YlPKs7u.png" width=290>
+<img src="https://i.imgur.com/YlPKs7u.png" width=330>
 
 #### Change size and dpi of the plot
 Create a new figure and plot into it:
@@ -83,6 +83,11 @@ Use the `ax` argument:
 supervenn(sets, ax=my_axis)
 ```
 
+#### Access the figure and axes objects of the plot
+Use `.figure` and `axes`  attributes of the object returned by `supervenn()`. The `axes` attribute is
+organized as a dict with descriptive strings for keys: `main`, `top_side_plot`, `right_side_plot`, `unused`. 
+If `side_plots=False`, the dict has only one key `main`.
+
 #### Save the plot to an image file
 
 ```python
@@ -96,7 +101,7 @@ Use the `chunks_ordering` argument. The following options are available:
 - `'minimize gaps'`: default, use an optimization algorithm to find an order of columns with fewer
 gaps in each row;
 - `'size'`: bigger chunks go first;
-- `'occurence'`: chunks that are in more sets go first;
+- `'occurrence'`: chunks that are in more sets go first;
 - `'random'`: randomly shuffle the columns.
 
 To reverse the order (e.g. you want smaller chunks to go first), pass `reverse_chunks_order=False` (by default
@@ -115,6 +120,19 @@ algorithm is that now gaps are minimized in columns instead of rows, and they ar
 To reverse the order (e.g. you want smaller sets to go first), pass `reverse_sets_order=False` (by default
 it's `True`) 
 
+#### Inspect the chunks' contents
+`supervenn(sets, ...)` returns a `SupervennPlot` object, which has a `chunks` attribute.
+It is a `dict` with `frozenset`s of set indices as keys, and chunks as values. For example, 
+`my_supervenn_object.chunks[frozenset([0, 2])]` is the chunk with all the items that are in `sets[0]` and
+`sets[2]`, but not in any of the other sets.
+
+There is also a `get_chunk(set_indices)` method that is slightly more convenient, because you
+can pass a `list` or any other iterable of indices instead of a `frozenset`. For example:
+`my_supervenn_object.get_chunk([0, 2])`. 
+
+If you have a good idea of a more convenient method of chunks lookup, let me know and I'll
+implement it as well.
+
 #### Make the plot prettier if sets and/or chunks are very different in size
 Use the `widths_minmax_ratio` argument, with a value between 0.01 and 1. Consider the following example
 ```python
@@ -123,7 +141,7 @@ supervenn(sets, side_plots=False)
 ```
 <img src="https://i.imgur.com/i05lgNU.png" width=330>
 
-The bottom left corner is unreadable.
+Annotations in the bottom left corner are unreadable.
 
 One solution is to trade exact chunk proportionality for readability. This is done by making small chunks visually
 larger. To be exact, a linear function is applied to the chunk sizes, with slope and intercept chosen so that the
@@ -138,6 +156,7 @@ The image now looks clean, but chunks of size 1 to 3 look almost the same.
 
 
 <img src="https://i.imgur.com/cIp42uD.png" width=330>
+
 
 #### Avoid clutter in the X axis annotations
 - Use the `min_width_for_annotation` argument to hide annotations for chunks smaller than this value. 
@@ -158,7 +177,7 @@ import matplotlib.pyplot as plt
 with plt.style.context('bmh'):
     supervenn([{1,2,3}, {3,4}])
 ```
-<img src="https://i.imgur.com/yEUChI4.png" width="285">
+<img src="https://i.imgur.com/yEUChI4.png" width="330">
 
 
 #### Change side plots size and color
