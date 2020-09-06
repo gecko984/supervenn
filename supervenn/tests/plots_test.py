@@ -62,6 +62,7 @@ class TestSupervenn(unittest.TestCase):
             if ax_name == 'unused':
                 continue
             self.assertTrue(rectangle_present(ax, expected_rectangle_bounds))
+        plt.close()
 
 
 if __name__ == '__main__':
