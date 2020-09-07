@@ -290,7 +290,7 @@ def setup_axes(side_plot, top_plot, figsize=None, dpi=None, ax=None, side_plot_w
     supervenn_ax.set_xticks([])
     supervenn_ax.set_yticks([])
 
-    # if no side plots, there is only one axis
+    # if no side/top plots, there is only one axis
     if not side_plot and not top_plot:
         axes = {'main': supervenn_ax}
 
@@ -301,37 +301,35 @@ def setup_axes(side_plot, top_plot, figsize=None, dpi=None, ax=None, side_plot_w
         width_ratios = [plot_width - side_plot_width, side_plot_width]
         height_ratios = [top_plot_width, plot_height - top_plot_width]
         fig = supervenn_ax.get_figure()
+        subplotspec = supervenn_ax.get_subplotspec()
+        spacing = dict(hspace=0, wspace=0)
         if side_plot and top_plot:
-            gs = gridspec.GridSpecFromSubplotSpec(2, 2, supervenn_ax.get_subplotspec(),
-                                                  height_ratios=height_ratios, width_ratios=width_ratios,
-                                                  hspace=0, wspace=0)
+            gs = gridspec.GridSpecFromSubplotSpec(2, 2, subplotspec,
+                                                  height_ratios=height_ratios,
+                                                  width_ratios=width_ratios,
+                                                  **spacing)
             axes = {
                 'top_side_plot': fig.add_subplot(gs[0, 0]),
                 'main': fig.add_subplot(gs[1, 0]),
                 'unused': fig.add_subplot(gs[0, 1]),
                 'right_side_plot': fig.add_subplot(gs[1, 1])
             }
-
         elif not top_plot:
-            gs = gridspec.GridSpecFromSubplotSpec(1, 2, supervenn_ax.get_subplotspec(),
+            gs = gridspec.GridSpecFromSubplotSpec(1, 2, subplotspec,
                                                   width_ratios=width_ratios,
-                                                  hspace=0, wspace=0)
+                                                  **spacing)
             axes = {
                 'main': fig.add_subplot(gs[0, 0]),
                 'right_side_plot': fig.add_subplot(gs[0, 1])
             }
-
         else:
-            gs = gridspec.GridSpecFromSubplotSpec(2, 1, supervenn_ax.get_subplotspec(),
+            gs = gridspec.GridSpecFromSubplotSpec(2, 1, subplotspec,
                                                   height_ratios=height_ratios,
-                                                  hspace=0, wspace=0)
+                                                  **spacing)
             axes = {
                 'top_side_plot': fig.add_subplot(gs[0, 0]),
                 'main': fig.add_subplot(gs[1, 0]),
             }
-
-
-
         # Remove tick from every smaller axis
         for ax in axes.values():
             ax.set_xticks([])
