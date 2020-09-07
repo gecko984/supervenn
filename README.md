@@ -355,7 +355,8 @@ This package was created and is maintained by [Fedor Indukaev](https://www.linke
 My username on Gmail and Telegram is the same as on Github.
 
 ### How you can help
-If you like the package, you can click the star at the top of the page. If you are a Python developer, you can help
-by reviewing the code in any way that is convenient to you. If you found a bug or have a feature request, you can submit
-them in in the [Issues section](https://github.com/gecko984/supervenn/issues).
+- If you like supervenn, you can click the star at the top of the page and tell other people about this tool
+- If you are a Python developer, you can help by reviewing the code in any way that is convenient to you.
+- If you found a bug or have a feature request, you can submit them via the 
+[Issues section](https://github.com/gecko984/supervenn/issues).
  
