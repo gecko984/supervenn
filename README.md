@@ -354,8 +354,11 @@ _Thanks to [u/aboutscientific](https://www.reddit.com/user/aboutscientific/) for
 This package was created and is maintained by [Fedor Indukaev](https://www.linkedin.com/in/fedor-indukaev-4a52961b/). 
 My username on Gmail and Telegram is the same as on Github.
 
-### How you can help
+### How can I help?
 - If you like supervenn, you can click the star at the top of the page and tell other people about this tool
+- If you have an idea or even an implementation of a algorithm for matrix columns rearrangement, I'll be happy to try
+it, as my current algorithm is quite primitive. (The problem in question is almost  the travelling salesman problem in
+Hamming metric).
 - If you are a Python developer, you can help by reviewing the code in any way that is convenient to you.
 - If you found a bug or have a feature request, you can submit them via the 
 [Issues section](https://github.com/gecko984/supervenn/issues).
