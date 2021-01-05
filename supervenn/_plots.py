@@ -358,6 +358,7 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
     clutter)
     :param widths_minmax_ratio: desired max/min ratio of displayed chunk widths, default None (show actual widths)
     :param rotate_col_annotations: True / False, whether to print annotations vertically
+    :param fontsize: font size for all text elements
     :param row_annotations_y: a number in (0, 1), position for row annotations in the row. Default 0.5 - center of row.
     :param col_annotations_area_height: height of area for column annotations in inches, 1 by default
     :param col_annotations_ys_count: 1 (default), 2, or 3 - use to reduce clutter in column annotations area
@@ -436,14 +437,17 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
 
     # Side plots
     if side_plots:
+        fontsize = kw.get('fontsize', DEFAULT_FONTSIZE)
+
         plt.sca(axes['top_side_plot'])
         side_plot(composition_array.sum(0), col_widths, 'h',
                   min_width_for_annotation=effective_min_width_for_annotation,
-                  rotate_annotations=kw.get('rotate_col_annotations', False), color=side_plot_color)
+                  rotate_annotations=kw.get('rotate_col_annotations', False), color=side_plot_color, fontsize=fontsize)
         plt.xlim(xlim)
 
         plt.sca(axes['right_side_plot'])
-        side_plot([len(sets[i]) for i in permutations_['sets_ordering']], [1] * len(sets), 'v', color=side_plot_color)
+        side_plot([len(sets[i]) for i in permutations_['sets_ordering']], [1] * len(sets), 'v', color=side_plot_color,
+                  fontsize=fontsize)
         plt.ylim(ylim)
 
     plt.sca(axes['main'])
