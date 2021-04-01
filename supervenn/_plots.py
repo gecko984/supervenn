@@ -21,7 +21,6 @@ from supervenn._algorithms import (
 DEFAULT_FONTSIZE = 12
 
 
-
 class SupervennPlot(object):
     """
     Attributes
