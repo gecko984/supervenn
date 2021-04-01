@@ -21,6 +21,7 @@ from supervenn._algorithms import (
 DEFAULT_FONTSIZE = 12
 
 
+
 class SupervennPlot(object):
     """
     Attributes
@@ -432,12 +433,12 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
 
     xlim = axes['main'].get_xlim()
     ylim = axes['main'].get_ylim()
-    plt.xlabel('ITEMS', fontsize=kw.get('fontsize', DEFAULT_FONTSIZE))
-    plt.ylabel('SETS', fontsize=kw.get('fontsize', DEFAULT_FONTSIZE))
+    fontsize = kw.get('fontsize', DEFAULT_FONTSIZE)
+    plt.xlabel('ITEMS', fontsize=fontsize)
+    plt.ylabel('SETS', fontsize=fontsize)
 
     # Side plots
     if side_plots:
-        fontsize = kw.get('fontsize', DEFAULT_FONTSIZE)
 
         plt.sca(axes['top_side_plot'])
         side_plot(composition_array.sum(0), col_widths, 'h',
