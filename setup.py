@@ -17,7 +17,7 @@ setuptools.setup(
     name='supervenn',
     license='MIT',
     description='supervenn is a tool for visualization of relations of many sets using matplotlib',
-    version='0.3.2',
+    version='0.3.3',
     long_description='See https://github.com/gecko984/supervenn/blob/master/README.md',
     url='https://github.com/gecko984/supervenn',
     packages=setuptools.find_packages(),

@@ -91,7 +91,7 @@ def plot_binary_array(arr, ax=None, col_widths=None, row_heights=None, min_width
                       col_annotations=None, col_annotations_area_height=0.75, col_annotations_ys_count=1,
                       rotate_col_annotations=False,
                       color_by='row', bar_height=1, bar_alpha=0.6, bar_align='edge', color_cycle=None,
-                      fontsize=DEFAULT_FONTSIZE):
+                      alternating_background=True, fontsize=DEFAULT_FONTSIZE):
     """
     Visualize a binary array as a grid with variable sized columns and rows, where cells with 1 are filled using bars
     and cells with 0 are blank.
@@ -111,6 +111,7 @@ def plot_binary_array(arr, ax=None, col_widths=None, row_heights=None, min_width
     :param bar_alpha: alpha for cell fills.
     :param bar_align: vertical alignment of bars, 'edge' (defaulr) or 'center'. Only matters when bar_height < 1.
     :param color_cycle: a list of colors, given as names of matplotlib named colors, or hex codes (e.g. '#1f77b4')
+    :param alternating_background: True (default) / False - give avery second row a slight grey tint
     :param fontsize: font size for annotations (default {}).
     """.format(DEFAULT_FONTSIZE)
     if row_heights is None:
@@ -153,7 +154,7 @@ def plot_binary_array(arr, ax=None, col_widths=None, row_heights=None, min_width
         bar_y = grid_y + 0.5 * row_height if bar_align == 'center' else grid_y
 
         # alternating background
-        if row_index % 2:
+        if alternating_background and row_index % 2:
             plt.barh(y=bar_y, left=0, width=sum(col_widths), height=bar_height * row_height, align=bar_align,
                      color='grey', alpha=0.15)
 
@@ -367,6 +368,7 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
     :param bar_alpha: alpha for cell fills.
     :param bar_align: vertical alignment of bars, 'edge' (default) or 'center'. Only matters when bar_height < 1.
     :param color_cycle: a list of set colors, given as names of matplotlib named colors, or hex codes (e.g. '#1f77b4')
+    :param alternating_background: True (default) / False - give avery second row a slight grey tint
 
     :return: SupervennPlot instance with attributes `axes`, `figure`, `chunks`
         and method `get_chunk(set_indices)`. See docstring to returned object.
