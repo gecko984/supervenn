@@ -170,7 +170,7 @@ def plot_binary_array(arr, ax=None, col_widths=None, row_heights=None, min_width
     if row_annotations is not None:
         for row_index, (grid_y, row_height, annotation) in enumerate(zip(grid_ys, row_heights, row_annotations)):
             annot_y = grid_y + row_annotations_y * row_height
-            plt.annotate(xy=(0.5 * sum(col_widths), annot_y), text=str(annotation),
+            plt.annotate(str(annotation), xy=(0.5 * sum(col_widths), annot_y),
                          ha='center', va='center', fontsize=fontsize)
 
     # COL ANNOTATIONS
@@ -185,7 +185,7 @@ def plot_binary_array(arr, ax=None, col_widths=None, row_heights=None, min_width
         for col_index, (grid_x, col_width, annotation) in enumerate(zip(grid_xs, col_widths, col_annotations)):
             annot_y = annot_ys[col_index % len(annot_ys)]
             if col_width >= min_width_for_annotation:
-                plt.annotate(xy=(grid_x + col_width * 0.5, annot_y), text=str(annotation),
+                plt.annotate(str(annotation), xy=(grid_x + col_width * 0.5, annot_y),
                              ha='center', va=vas[col_index % len(vas)], fontsize=fontsize,
                              rotation=90 * rotate_col_annotations)
 
@@ -216,13 +216,11 @@ def side_plot(values, widths, orient, fontsize=DEFAULT_FONTSIZE, min_width_for_a
         horizontal = True
         plt.bar(x=bar_edges[:-1], height=values, width=widths, align='edge', alpha=0.5, color=color)
         ticks = plt.xticks
-        noticks = plt.yticks
         lim = plt.ylim
     elif orient in ['v', 'vertical']:
         horizontal = False
         plt.barh(y=bar_edges[:-1], width=values, height=widths, align='edge', alpha=0.5, color=color)
         ticks = plt.yticks
-        noticks = plt.xticks
         lim = plt.xlim
     else:
         raise ValueError('Unknown orient: {} (should be "h" or "v")'.format(orient))
@@ -233,11 +231,10 @@ def side_plot(values, widths, orient, fontsize=DEFAULT_FONTSIZE, min_width_for_a
         x, y = 0.5 * max_value, annotation_position
         if horizontal:
             x, y = y, x
-        plt.annotate(xy=(x, y), text=value, ha='center', va='center',
+        plt.annotate(value, xy=(x, y), ha='center', va='center',
                      rotation=rotate_annotations * 90, fontsize=fontsize)
 
     ticks(bar_edges, [])
-    noticks([])
     lim(0, max(values))
     plt.grid(True)
 
@@ -298,13 +295,9 @@ def setup_axes(side_plots, figsize=None, dpi=None, ax=None, side_plot_width=1.5)
     else:
         supervenn_ax = ax
 
-    # Remove ticks from encasing axis
-    remove_ticks(supervenn_ax)
-
     # if no side plots, there is only one axis
     if not side_plots:
         axes = {'main': supervenn_ax}
-
 
     # if side plots are used, break encasing axis into four smaller axis using matplotlib magic and store them in a dict
     else:
@@ -341,9 +334,11 @@ def setup_axes(side_plots, figsize=None, dpi=None, ax=None, side_plot_width=1.5)
                 'right_side_plot': fig.add_subplot(gs[0, 1])
             }
 
-        # Remove tick from every axis
-        for ax in axes.values():
-            remove_ticks(ax)
+    # Remove tick from every axis, and set ticks length to 0 (we'll add ticks to the side plots manually later)
+    for ax in axes.values():
+        remove_ticks(ax)
+        ax.tick_params(which='major', length=0)
+    remove_ticks(supervenn_ax)  # if side plots are used, supervenn_ax isn't included in axes dict
 
     return axes
 
@@ -467,6 +462,7 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
     plt.ylabel('SETS', fontsize=fontsize)
 
     # Side plots
+
     if 'top_side_plot' in axes:
         plt.sca(axes['top_side_plot'])
         side_plot(composition_array.sum(0), col_widths, 'h',
