@@ -58,6 +58,8 @@ supervenn(sets)
 Here, the numbers on the right are the set sizes (cardinalities), and numbers on the top show how many sets does this
 intersection make part of. The grey bars represent the same numbers visually.
 
+If you need only one of the two side plots, use `side_plots='top'` or `side_plots='right'`
+
 ### Features (how to)
 #### Add custom set annotations instead of 'Set_1', 'Set_2' etc
 Use the `set_annotations` argument to pass a list of annotations. It should be in the same order as the sets. It is
