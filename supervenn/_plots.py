@@ -3,6 +3,7 @@
 Routines for plotting multiple sets.
 """
 
+from functools import partial
 import warnings
 
 import numpy as np
@@ -265,19 +266,28 @@ def get_widths_balancer(widths, minmax_ratio=0.02):
     return balancer
 
 
-# TODO matplotlib version requirement for nested gridspec
+def remove_ticks(ax):
+    ax.set_xticks([])
+    ax.set_yticks([])
+
+
 def setup_axes(side_plots, figsize=None, dpi=None, ax=None, side_plot_width=1.5):
     """
-    Set up axes for plot. If side_plots = False, a dict with one key 'main' and axis as value is returned.
-    If side_plots = True, dict with keys 'main', 'top_side_plot', 'right_side_plot', 'unused' is returned, with
-    corresponding axes as values.
-    :param side_plots: True / False
+    Set up axes for plot and return them in a dictionary. The dictionary may include the following keys:
+    - 'main': always present
+    - 'top_side_plot': present if side_plots = True, 'both' or 'top'
+    - 'right_side_plot': present if side_plots = True, 'both' or 'right'
+    - 'unused': present if side_plots = 'True' or 'both' (unused area in the top right corner)
+    :param side_plots: True / False / 'top' / 'right'
     :param figsize: deprecated, will be removed in future versions
     :param dpi: deprecated, will be removed in future versions
     :param ax: optional encasing axis to plot into, default None - plot into current axis.
     :param side_plot_width: side plots width in inches, default 1.5
     :return: dict with string as keys and axes as values, as described above.
     """
+
+    if side_plots not in (True, False, 'top', 'right'):
+        raise ValueError('Incorrect value for side_plots: {}'.format(side_plots))
 
     # Define and optionally create the encasing axis for plot according to arguments
     if ax is None:
@@ -287,13 +297,13 @@ def setup_axes(side_plots, figsize=None, dpi=None, ax=None, side_plot_width=1.5)
     else:
         supervenn_ax = ax
 
-    # Remove ticks on in encasing axes
-    supervenn_ax.set_xticks([])
-    supervenn_ax.set_yticks([])
+    # Remove ticks from encasing axis
+    remove_ticks(supervenn_ax)
 
     # if no side plots, there is only one axis
     if not side_plots:
         axes = {'main': supervenn_ax}
+
 
     # if side plots are used, break encasing axis into four smaller axis using matplotlib magic and store them in a dict
     else:
@@ -301,22 +311,39 @@ def setup_axes(side_plots, figsize=None, dpi=None, ax=None, side_plot_width=1.5)
         plot_width, plot_height = bbox.width, bbox.height
         width_ratios = [plot_width - side_plot_width, side_plot_width]
         height_ratios = [side_plot_width, plot_height - side_plot_width]
-        gs = gridspec.GridSpecFromSubplotSpec(2, 2, supervenn_ax.get_subplotspec(),
-                                              height_ratios=height_ratios, width_ratios=width_ratios,
-                                              hspace=0, wspace=0)
-
         fig = supervenn_ax.get_figure()
-        axes = {
-            'top_side_plot': fig.add_subplot(gs[0, 0]),
-            'main': fig.add_subplot(gs[1, 0]),
-            'unused': fig.add_subplot(gs[0, 1]),
-            'right_side_plot': fig.add_subplot(gs[1, 1])
-        }
+        get_gridspec = partial(gridspec.GridSpecFromSubplotSpec, subplot_spec=supervenn_ax.get_subplotspec(),
+                               hspace=0, wspace=0)
 
-        # Remove tick from every smaller axis
+        if side_plots == True:
+
+            gs = get_gridspec(2, 2, height_ratios=height_ratios, width_ratios=width_ratios)
+
+            axes = {
+                'main': fig.add_subplot(gs[1, 0]),
+                'top_side_plot': fig.add_subplot(gs[0, 0]),
+                'unused': fig.add_subplot(gs[0, 1]),
+                'right_side_plot': fig.add_subplot(gs[1, 1])
+            }
+
+        elif side_plots == 'top':
+            gs = get_gridspec(2, 1, height_ratios=height_ratios)
+            axes = {
+                'main': fig.add_subplot(gs[1, 0]),
+                'top_side_plot': fig.add_subplot(gs[0, 0])
+            }
+
+        elif side_plots == 'right':
+            gs = get_gridspec(1, 2, width_ratios=width_ratios)
+            axes = {
+                'main': fig.add_subplot(gs[0, 0]),
+                'right_side_plot': fig.add_subplot(gs[0, 1])
+            }
+
+        # Remove tick from every axis
         for ax in axes.values():
-            ax.set_xticks([])
-            ax.set_yticks([])
+            remove_ticks(ax)
+
     return axes
 
 
@@ -439,14 +466,14 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
     plt.ylabel('SETS', fontsize=fontsize)
 
     # Side plots
-    if side_plots:
-
+    if 'top_side_plot' in axes:
         plt.sca(axes['top_side_plot'])
         side_plot(composition_array.sum(0), col_widths, 'h',
                   min_width_for_annotation=effective_min_width_for_annotation,
                   rotate_annotations=kw.get('rotate_col_annotations', False), color=side_plot_color, fontsize=fontsize)
         plt.xlim(xlim)
 
+    if 'right_side_plot' in axes:
         plt.sca(axes['right_side_plot'])
         side_plot([len(sets[i]) for i in permutations_['sets_ordering']], [1] * len(sets), 'v', color=side_plot_color,
                   fontsize=fontsize)
