@@ -348,7 +348,7 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
               reverse_chunks_order=True, reverse_sets_order=True,
               max_bruteforce_size=DEFAULT_MAX_BRUTEFORCE_SIZE, seeds=DEFAULT_SEEDS, noise_prob=DEFAULT_NOISE_PROB,
               side_plot_width=1, min_width_for_annotation=1, widths_minmax_ratio=None, side_plot_color='gray',
-              dpi=None, ax=None, **kw):
+              dpi=None, ax=None, use_col_names=False, **kw):
     """
     Plot a diagram visualizing relationship of multiple sets.
     :param sets: list of sets
@@ -448,7 +448,7 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
     plot_binary_array(
         arr=composition_array,
         row_annotations=set_annotations,
-        col_annotations=chunk_sizes,
+        col_annotations=[", ".join(c) for c in chunks] if use_col_names else chunk_sizes,
         ax=axes['main'],
         col_widths=col_widths,
         row_heights=[1] * len(sets),
