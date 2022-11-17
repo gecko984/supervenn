@@ -378,6 +378,7 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
     :param side_plot_color: color of bars in side plots, default 'gray'
     :param dpi: figure DPI
     :param ax: axis to plot into. If ax is specified, figsize and dpi will be ignored.
+    :param use_col_names: Use column names instead of chunk size
     :param min_width_for_annotation: for horizontal plot, don't annotate bars of widths less than this value (to avoid
     clutter)
     :param widths_minmax_ratio: desired max/min ratio of displayed chunk widths, default None (show actual widths)
