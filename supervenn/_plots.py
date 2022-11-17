@@ -183,11 +183,21 @@ def plot_binary_array(arr, ax=None, col_widths=None, row_heights=None, min_width
         annot_ys, vas = get_alternated_ys(col_annotations_ys_count, min_y, 0)
 
         for col_index, (grid_x, col_width, annotation) in enumerate(zip(grid_xs, col_widths, col_annotations)):
-            annot_y = annot_ys[col_index % len(annot_ys)]
             if col_width >= min_width_for_annotation:
+                if isinstance(annotation, str):
+                    annot_y = min_y*0.85
+                    ha= 'left'
+                    va = 'bottom'
+                    rotation = 90
+                else:
+                    annot_y = annot_ys[col_index % len(annot_ys)]
+                    ha= 'center'
+                    va = vas[col_index % len(vas)]
+                    rotation = 90 * rotate_col_annotations
+
                 plt.annotate(str(annotation), xy=(grid_x + col_width * 0.5, annot_y),
-                             ha='center', va=vas[col_index % len(vas)], fontsize=fontsize,
-                             rotation=90 * rotate_col_annotations)
+                             ha=ha, va=va, fontsize=fontsize,
+                             rotation=rotation)
 
     plt.xlim(0, sum(col_widths))
     plt.ylim(min_y, sum(row_heights))
@@ -378,7 +388,7 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
     :param side_plot_color: color of bars in side plots, default 'gray'
     :param dpi: figure DPI
     :param ax: axis to plot into. If ax is specified, figsize and dpi will be ignored.
-    :param use_col_names: Use column names instead of chunk size
+    :param use_col_names: Use column names instead of chunk size. Columns annotation will be vertical.
     :param min_width_for_annotation: for horizontal plot, don't annotate bars of widths less than this value (to avoid
     clutter)
     :param widths_minmax_ratio: desired max/min ratio of displayed chunk widths, default None (show actual widths)
@@ -449,7 +459,7 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
     plot_binary_array(
         arr=composition_array,
         row_annotations=set_annotations,
-        col_annotations=[", ".join(c) for c in chunks] if use_col_names else chunk_sizes,
+        col_annotations= ["\n".join(c) for c in chunks] if use_col_names else chunk_sizes,
         ax=axes['main'],
         col_widths=col_widths,
         row_heights=[1] * len(sets),
