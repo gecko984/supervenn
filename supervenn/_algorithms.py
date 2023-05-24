@@ -123,6 +123,7 @@
 from collections import defaultdict
 import datetime
 from itertools import permutations
+from supervenn._tsp import solve_tsp
 import warnings
 
 import numpy as np
@@ -419,11 +420,29 @@ def get_permutations(chunks, composition_array, chunks_ordering='minimize gaps',
         elif case['ordering'] is None:
             permutation = np.array(range(len(case['sizes'])))
         elif case['ordering'] == 'minimize gaps':
-            if len(case['sizes']) <= min(max_bruteforce_size, BRUTEFORCE_SIZE_HARD_LIMIT):
-                permutation = find_best_columns_permutation_bruteforce(case['array'], row_weights=case['row_weights'])
-            else:
-                permutation = run_randomized_greedy_algorithm(case['array'], seeds=seeds, noise_prob=noise_prob,
-                                                              row_weights=case['row_weights'])
+            # if len(case['sizes']) <= min(max_bruteforce_size, BRUTEFORCE_SIZE_HARD_LIMIT):
+            #     permutation = find_best_columns_permutation_bruteforce(case['array'], row_weights=case['row_weights'])
+            # else:
+            #     permutation = run_randomized_greedy_algorithm(case['array'], seeds=seeds, noise_prob=noise_prob,
+            #                                                   row_weights=case['row_weights'])
+            permutation = solve_tsp(case['array'])
+
+            def calc_len(arr, path: list):
+                arr = np.array(arr.T, dtype=np.int32)
+                n = arr.shape[0]
+                graph = np.zeros((n, n), dtype=np.int32)
+                for i in range(n):
+                    for j in range(n):
+                        graph[i, j] = np.sum(np.bitwise_xor(arr[i], arr[j]))
+                assert(len(path) == n)
+                result = graph[path[0], path[n-1]]
+                for i in range(n-1):
+                    result += graph[path[i], path[i+1]]
+                return result
+
+            # print(case['array'].shape[1])
+            # print(calc_len(case['array'], permutation))
+            # print(get_total_gaps_in_rows(case['array'][:, permutation], row_weights=case['row_weights']))
         else:
             raise ValueError(case['ordering'])
 
