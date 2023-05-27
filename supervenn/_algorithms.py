@@ -123,7 +123,7 @@
 from collections import defaultdict
 import datetime
 from itertools import permutations
-from supervenn._tsp import solve_tsp
+from supervenn._tsp import solve_tsp_recursive
 import warnings
 
 import numpy as np
@@ -425,7 +425,7 @@ def get_permutations(chunks, composition_array, chunks_ordering='minimize gaps',
             # else:
             #     permutation = run_randomized_greedy_algorithm(case['array'], seeds=seeds, noise_prob=noise_prob,
             #                                                   row_weights=case['row_weights'])
-            permutation = solve_tsp(case['array'])
+            permutation = solve_tsp_recursive(case['array'])
 
             def calc_len(arr, path: list):
                 arr = np.array(arr.T, dtype=np.int32)

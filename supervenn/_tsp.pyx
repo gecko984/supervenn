@@ -1,10 +1,67 @@
+from itertools import combinations
 import numpy as np
 cimport cython
 
 DIST_MAX = 10**9
 
 
-def solve_tsp(arr, row_weights=None):
+def solve_tsp_recursive(arr, row_weights=None):
+    n = arr.shape[1]
+    arr = arr.astype(bool)
+    full_path = []
+    idx_lists = []
+    used = np.zeros(n, dtype=bool)
+
+    # удалим строки, не влияющие на число разрывов
+    sums = np.sum(arr, axis=1, dtype=np.int32)
+    for i in reversed(range(len(sums))):
+        if sums[i] in (0, 1, n):
+            arr = np.delete(arr, i, axis=0)
+    if n <= 2 or arr.shape[0] == 0:
+        return np.arange(n, dtype=np.int32)
+    
+    # пропустим пустые столбцы
+    for i in range(n):
+        if not used[i] and not np.any(arr[:, i]):
+            used[i] = True
+            full_path.append(i)
+
+    # выделим множества столбцов, не пересекающиеся по строкам
+    while not np.all(used):
+        i = np.argmin(used)
+        idx_lists.append([i])
+        used[i] = True
+        union = np.copy(arr[:, i])
+        while True:
+            j = i + 1
+            found = False
+            while j < n:
+                if not used[j] and np.any(union & arr[:, j]):
+                    idx_lists[-1].append(j)
+                    used[j] = True
+                    union |= arr[:, j]
+                    found = True
+                j += 1
+            if not found:
+                break
+        idx_lists[-1] = np.array(idx_lists[-1], dtype=np.int32)
+
+    if len(idx_lists) == 1:
+        idx_list = idx_lists[0]
+        if len(idx_list) <= 19 and arr.shape[0] <= 64:
+            path = solve_tsp_precise(arr[:, idx_list], row_weights)
+        else:
+            # TODO better approximate solution
+            path = solve_tsp_multichrist(arr[:, idx_list], row_weights)
+        full_path.extend(idx_list[path])
+    else:
+        for idx_list in idx_lists:
+            path = solve_tsp_recursive(arr[:, idx_list], row_weights)
+            full_path.extend(idx_list[path])
+    return full_path
+
+
+def solve_tsp_multichrist(arr, row_weights=None):
     n = arr.shape[1]
     if n <= 2:
         return [0, 1]
@@ -26,6 +83,92 @@ def solve_tsp(arr, row_weights=None):
             best_total_gaps = total_gaps
             best_path = path[:]
     return best_path
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def solve_tsp_precise(arr, row_weights=None):
+    ''' Precise solution that uses dynamic programming approach '''
+    cdef int m, n, i, j, k, v, bitset1, bitset2, v1, v2, s_last, v_last, gaps_delta, is_weighted = 0
+    m, n = arr.shape
+    assert m <= 64, 'This algorithm doesn`t support more than 64 sets'
+    assert n <= 24, 'Algorithm would occupy more than 2GB of RAM'
+
+    columns = np.zeros(n, dtype=np.uint64)
+    cdef unsigned long long[:] columns_view = columns
+    for i in range(n):
+        columns[i] = np.sum((1 << np.arange(m)) * arr[:, i], dtype=np.uint64)
+
+    sets_involved = np.zeros(1 << n, dtype=np.uint64)
+    cdef unsigned long long[:] sets_involved_view = sets_involved
+    for i in range(1, 1 << n):
+        j = i & -i
+        k = j.bit_length()-1
+        sets_involved_view[i] = sets_involved_view[i ^ j] | columns_view[k]
+
+    dp = np.full((n, 1 << n), DIST_MAX, dtype=np.int32)
+    cdef int[:, :] dp_view = dp
+    for v in range(n):
+        dp_view[v, 1 << v] = 0
+
+    prev = np.full((n, 1 << n), -1, dtype=np.int8)
+    cdef signed char[:, :] prev_view = prev
+
+    if row_weights is not None:
+        assert len(row_weights) == m
+        row_weights = np.array(row_weights, dtype=np.int32)
+        is_weighted = True
+
+    for k in range(2, n+1):
+        for comb_tuple in combinations(range(n), k):
+            bitset1 = 0
+            for x in comb_tuple:
+                bitset1 ^= 1 << x
+            for v1 in range(n):
+                if not (bitset1 & (1 << v1)):
+                    continue
+                bitset2 = bitset1 ^ (1 << v1)
+                for v2 in range(n):
+                    if not (bitset2 & (1 << v2)):
+                        continue
+
+                    if is_weighted:
+                        gaps_delta = bitcnt_weighted(columns_view[v1] & sets_involved_view[bitset2] & ~columns_view[v2], row_weights)
+                    else:
+                        gaps_delta = bitcnt(columns_view[v1] & sets_involved_view[bitset2] & ~columns_view[v2])
+                    if dp_view[v1, bitset1] > dp_view[v2, bitset2] + gaps_delta:
+                        dp_view[v1, bitset1] = dp_view[v2, bitset2] + gaps_delta
+                        prev_view[v1, bitset1] = v2
+    s_last = (1 << n) - 1
+    v_last = np.argmin(dp[:, s_last])
+    path_best = []
+    while v_last != -1:
+        path_best.append(v_last)
+        s_last ^= 1 << v_last
+        v_last = prev[v_last, s_last ^ (1 << v_last)]
+    return path_best
+
+
+cdef int bitcnt(unsigned long long x):
+    cdef unsigned long long b
+    cdef int c = 0
+    while x:
+        b = x & (~x+1)
+        x ^= b
+        c += 1
+    return c
+
+
+cdef int bitcnt_weighted(unsigned long long x, int[:] row_weights):
+    cdef unsigned long long j = 1, i = 0
+    cdef int c = 0
+    while x:
+        if x & j:
+            x ^= j
+            c += row_weights[i]
+        i += 1
+        j <<= 1
+    return c
 
 
 @cython.boundscheck(False)
