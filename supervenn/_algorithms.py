@@ -425,23 +425,7 @@ def get_permutations(chunks, composition_array, chunks_ordering='minimize gaps',
             # else:
             #     permutation = run_randomized_greedy_algorithm(case['array'], seeds=seeds, noise_prob=noise_prob,
             #                                                   row_weights=case['row_weights'])
-            permutation = solve_tsp_recursive(case['array'])
-
-            def calc_len(arr, path: list):
-                arr = np.array(arr.T, dtype=np.int32)
-                n = arr.shape[0]
-                graph = np.zeros((n, n), dtype=np.int32)
-                for i in range(n):
-                    for j in range(n):
-                        graph[i, j] = np.sum(np.bitwise_xor(arr[i], arr[j]))
-                assert(len(path) == n)
-                result = graph[path[0], path[n-1]]
-                for i in range(n-1):
-                    result += graph[path[i], path[i+1]]
-                return result
-
-            # print(case['array'].shape[1])
-            # print(calc_len(case['array'], permutation))
+            permutation = solve_tsp_recursive(case['array'], row_weights=case['row_weights'])
             # print(get_total_gaps_in_rows(case['array'][:, permutation], row_weights=case['row_weights']))
         else:
             raise ValueError(case['ordering'])
