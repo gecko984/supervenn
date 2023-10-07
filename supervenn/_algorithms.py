@@ -420,13 +420,7 @@ def get_permutations(chunks, composition_array, chunks_ordering='minimize gaps',
         elif case['ordering'] is None:
             permutation = np.array(range(len(case['sizes'])))
         elif case['ordering'] == 'minimize gaps':
-            # if len(case['sizes']) <= min(max_bruteforce_size, BRUTEFORCE_SIZE_HARD_LIMIT):
-            #     permutation = find_best_columns_permutation_bruteforce(case['array'], row_weights=case['row_weights'])
-            # else:
-            #     permutation = run_randomized_greedy_algorithm(case['array'], seeds=seeds, noise_prob=noise_prob,
-            #                                                   row_weights=case['row_weights'])
             permutation = solve_tsp_recursive(case['array'], row_weights=case['row_weights'])
-            # print(get_total_gaps_in_rows(case['array'][:, permutation], row_weights=case['row_weights']))
         else:
             raise ValueError(case['ordering'])
 

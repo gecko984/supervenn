@@ -12,7 +12,7 @@ def solve_tsp_recursive(arr, row_weights=None):
     idx_lists = []
     used = np.zeros(n, dtype=bool)
 
-    # удалим строки, не влияющие на число разрывов
+    # delete lines that don't affect the number of cuts
     sums = np.sum(arr, axis=1, dtype=np.int32)
     for i in reversed(range(len(sums))):
         if sums[i] in (0, 1, n):
@@ -20,13 +20,13 @@ def solve_tsp_recursive(arr, row_weights=None):
     if n <= 2 or arr.shape[0] == 0:
         return np.arange(n, dtype=np.int32)
     
-    # пропустим пустые столбцы
+    # skip empty columns
     for i in range(n):
         if not used[i] and not np.any(arr[:, i]):
             used[i] = True
             full_path.append(i)
 
-    # выделим множества столбцов, не пересекающиеся по строкам
+    # select sets of columns that do not intersect in rows
     while not np.all(used):
         i = np.argmin(used)
         idx_lists.append([i])
@@ -51,7 +51,6 @@ def solve_tsp_recursive(arr, row_weights=None):
         if len(idx_list) <= 19:
             path = solve_tsp_precise(arr[:, idx_list], row_weights)
         else:
-            # TODO better approximate solution
             path = solve_tsp_multichrist(arr[:, idx_list], row_weights)
         full_path.extend(idx_list[path])
     else:
@@ -228,7 +227,7 @@ class Christofides:
             for j in range(n):
                 if not in_mst_view[j] and key_view[j] < key_min:
                     key_min, v = key_view[j], j
-            in_mst_view[v] = 1 # True
+            in_mst_view[v] = 1
             for u in range(n):
                 if graph_view[v, u] and in_mst_view[u] == 0 and graph_view[v, u] < key_view[u]:
                     parent_view[u] = v
