@@ -451,7 +451,6 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
         col_annotations=chunk_sizes,
         ax=axes['main'],
         col_widths=col_widths,
-        row_heights=[1] * len(sets),
         min_width_for_annotation=effective_min_width_for_annotation,
         **kw)
 
