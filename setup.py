@@ -1,20 +1,24 @@
 # -*- coding: utf-8 -*-
 
+# TO REBUILD .c extension:
+# pip install cython==0.29.34
 # rm supervenn/_tsp.c
+
 # python setup.py sdist
 # python2 setup.py sdist
 # twine upload dist/*
 
 
 import setuptools
-from Cython.Build import cythonize
+
 
 with open('README.md') as f:
     README = f.read()
 
 try:
+    from Cython.Build import cythonize
     modules = cythonize(['supervenn/_tsp.pyx'])
-except ValueError:
+except (ModuleNotFoundError, ValueError):
     modules = [setuptools.Extension('supervenn._tsp', ['supervenn/_tsp.c'])]
 
 setuptools.setup(
@@ -27,7 +31,7 @@ setuptools.setup(
     long_description='See https://github.com/gecko984/supervenn/blob/master/README.md',
     url='https://github.com/gecko984/supervenn',
     packages=setuptools.find_packages(),
-    install_requires=['numpy', 'matplotlib>=2.2.5', 'cython'],
+    install_requires=['numpy', 'matplotlib>=2.2.5'],
     ext_modules=modules,
     classifiers = [
         'Development Status :: 3 - Alpha',
