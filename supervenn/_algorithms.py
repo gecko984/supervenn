@@ -123,6 +123,7 @@
 from collections import defaultdict
 import datetime
 from itertools import permutations
+from supervenn._tsp import solve_tsp_recursive
 import warnings
 
 import numpy as np
@@ -419,11 +420,7 @@ def get_permutations(chunks, composition_array, chunks_ordering='minimize gaps',
         elif case['ordering'] is None:
             permutation = np.array(range(len(case['sizes'])))
         elif case['ordering'] == 'minimize gaps':
-            if len(case['sizes']) <= min(max_bruteforce_size, BRUTEFORCE_SIZE_HARD_LIMIT):
-                permutation = find_best_columns_permutation_bruteforce(case['array'], row_weights=case['row_weights'])
-            else:
-                permutation = run_randomized_greedy_algorithm(case['array'], seeds=seeds, noise_prob=noise_prob,
-                                                              row_weights=case['row_weights'])
+            permutation = solve_tsp_recursive(case['array'], row_weights=case['row_weights'])
         else:
             raise ValueError(case['ordering'])
 

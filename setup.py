@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 
-# python setup.py sdist bdist_wheel
-# python2 setup.py sdist bdist_wheel
+# TO REBUILD .c extension:
+# pip install cython==0.29.34
+# rm supervenn/_tsp.c
+
+# python setup.py sdist
+# python2 setup.py sdist
 # twine upload dist/*
 
 
@@ -10,6 +14,12 @@ import setuptools
 
 with open('README.md') as f:
     README = f.read()
+
+try:
+    from Cython.Build import cythonize
+    modules = cythonize(['supervenn/_tsp.pyx'])
+except (ModuleNotFoundError, ValueError):
+    modules = [setuptools.Extension('supervenn._tsp', ['supervenn/_tsp.c'])]
 
 setuptools.setup(
     author='Fedor Indukaev',
@@ -22,6 +32,7 @@ setuptools.setup(
     url='https://github.com/gecko984/supervenn',
     packages=setuptools.find_packages(),
     install_requires=['numpy', 'matplotlib>=2.2.5'],
+    ext_modules=modules,
     classifiers = [
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: MIT License',
