@@ -343,7 +343,7 @@ def setup_axes(side_plots, figsize=None, dpi=None, ax=None, side_plot_width=1.5)
     return axes
 
 
-def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
+def supervenn(sets, set_annotations=None, col_annotations='cardina`', figsize=None, side_plots=True,
               chunks_ordering='minimize gaps', sets_ordering=None,
               reverse_chunks_order=True, reverse_sets_order=True,
               max_bruteforce_size=DEFAULT_MAX_BRUTEFORCE_SIZE, seeds=DEFAULT_SEEDS, noise_prob=DEFAULT_NOISE_PROB,
@@ -353,6 +353,10 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
     Plot a diagram visualizing relationship of multiple sets.
     :param sets: list of sets
     :param set_annotations: list of annotations for the sets
+    :param col_annotations: how to count the items in each column 
+        - 'cardinal' (default): integer value with the number of items.
+        - 'proportion': value in [0,1] proportional to the number of items
+        - 'percentage': same as proportion, but given as a percentage
     :param figsize: figure size
     :param side_plots: True / False: add small barplots on top and on the right. On top, for each chunk it is shown,
     how many sets does this chunk lie inslde. On the right, set sizes are shown.
@@ -445,10 +449,19 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
         col_widths = chunk_sizes
         effective_min_width_for_annotation = min_width_for_annotation
 
+    # How to count items
+    if col_annotations == 'cardinal':
+        col_annotations_labels = chunk_sizes
+    elif col_annotations == 'proportion':
+        col_annotations_labels = ['{:.3g}'.format(el / sum(chunk_sizes)) for el in chunk_sizes]
+    elif col_annotations == 'percentage':
+        col_annotations_labels = ['{:.3g}'.format(el/ sum(chunk_sizes)*100)+"%"  for el in chunk_sizes]
+
+
     plot_binary_array(
         arr=composition_array,
         row_annotations=set_annotations,
-        col_annotations=chunk_sizes,
+        col_annotations=col_annotations_labels,
         ax=axes['main'],
         col_widths=col_widths,
         min_width_for_annotation=effective_min_width_for_annotation,
