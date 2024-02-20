@@ -343,7 +343,7 @@ def setup_axes(side_plots, figsize=None, dpi=None, ax=None, side_plot_width=1.5)
     return axes
 
 
-def supervenn(sets, set_annotations=None, col_annotations='cardina`', figsize=None, side_plots=True,
+def supervenn(sets, set_annotations=None, col_annotations='cardinal', figsize=None, side_plots=True,
               chunks_ordering='minimize gaps', sets_ordering=None,
               reverse_chunks_order=True, reverse_sets_order=True,
               max_bruteforce_size=DEFAULT_MAX_BRUTEFORCE_SIZE, seeds=DEFAULT_SEEDS, noise_prob=DEFAULT_NOISE_PROB,
