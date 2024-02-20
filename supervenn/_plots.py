@@ -343,7 +343,7 @@ def setup_axes(side_plots, figsize=None, dpi=None, ax=None, side_plot_width=1.5)
     return axes
 
 
-def supervenn(sets, set_annotations=None, col_annotations='cardinal', figsize=None, side_plots=True,
+def supervenn(sets, total, set_annotations=None, col_annotations='cardinal', figsize=None, side_plots=True,
               chunks_ordering='minimize gaps', sets_ordering=None,
               reverse_chunks_order=True, reverse_sets_order=True,
               max_bruteforce_size=DEFAULT_MAX_BRUTEFORCE_SIZE, seeds=DEFAULT_SEEDS, noise_prob=DEFAULT_NOISE_PROB,
@@ -450,13 +450,12 @@ def supervenn(sets, set_annotations=None, col_annotations='cardinal', figsize=No
         effective_min_width_for_annotation = min_width_for_annotation
 
     # How to count items
-    if col_annotations == 'cardinal':
-        col_annotations_labels = chunk_sizes
-    elif col_annotations == 'proportion':
-        col_annotations_labels = ['{:.3g}'.format(el / sum(chunk_sizes)) for el in chunk_sizes]
+    if col_annotations == 'proportion':
+        col_annotations_labels = ['{:.3g}'.format(el / total) for el in chunk_sizes]
     elif col_annotations == 'percentage':
-        col_annotations_labels = ['{:.3g}'.format(el/ sum(chunk_sizes)*100)+"%"  for el in chunk_sizes]
-
+        col_annotations_labels = ['{:.3g}'.format(el/ total * 100)+"%"  for el in chunk_sizes]
+    else:
+        raise ValueError("Incorrect col_annotations parameter for this experiment.")
 
     plot_binary_array(
         arr=composition_array,
