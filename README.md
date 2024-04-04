@@ -7,8 +7,10 @@
 # supervenn: precise and easy-to-read multiple sets visualization in Python
 
 ### What it is
-**supervenn** is a matplotlib-based tool for visualization of any number of intersecting sets. It takes native Python
-`set`s as inputs. Note that `supervenn` does not produce actual (Euler-)Venn diagrams.
+**supervenn** is a matplotlib-based tool for visualization of any number of intersecting sets. It supports Python
+`set`s as inputs natively, but there is a [simple workaround](#use-intersection-sizes-as-inputs-instead-of-sets) to use just intersection sizes.
+
+Note that despite its name, `supervenn` does not produce actual (Euler-)Venn diagrams.
 
 The easiest way to understand how supervenn diagrams work, is to compare some simple examples to their Euler-Venn
 counterparts. Top row is Euler-Venn diagrams made with [matplotlib-venn](https://github.com/konstantint/matplotlib-venn)
@@ -62,9 +64,9 @@ If you need only one of the two side plots, use `side_plots='top'` or `side_plot
 
 ### Features (how to)
 
-#### Plot the chart if you don't have the sets themselves, but rather the intersection sizes (new in 0.5.0)
-Use the utility function `make_sets_from_chunk_sizes` to produce synthetic sets of integers from your intersection sizes. 
-These sets will have the right intersection sizes. Then pass these sets to `supervenn()`: 
+#### Use intersection sizes as inputs instead of sets
+(New in 0.5.0). Use the utility function `make_sets_from_chunk_sizes` to produce synthetic sets of integers from your intersection sizes.
+Then pass these sets to `supervenn()`: 
 
 ```python
 from supervenn import supervenn, make_sets_from_chunk_sizes
