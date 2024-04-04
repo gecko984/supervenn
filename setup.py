@@ -21,7 +21,7 @@ setuptools.setup(
     long_description='See https://github.com/gecko984/supervenn/blob/master/README.md',
     url='https://github.com/gecko984/supervenn',
     packages=setuptools.find_packages(),
-    install_requires=['numpy', 'matplotlib>=2.2.5'],
+    install_requires=['numpy', 'matplotlib>=2.2.5', 'pandas'],
     classifiers=[
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: MIT License',

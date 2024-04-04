@@ -20,7 +20,7 @@ package, bottom row is supervenn diagrams:
 `pip install supervenn`
 
 ### Requirements
-Python 2.7 or 3.6+ with `numpy` and`matplotlib`.
+Python 2.7 or 3.6+ with `numpy`, `matplotlib` and `pandas`.
 
 ### Basic usage 
 The main entry point is the eponymous `supervenn` function. It takes a list of python `set`s as its first and only
