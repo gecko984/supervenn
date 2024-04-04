@@ -62,9 +62,9 @@ If you need only one of the two side plots, use `side_plots='top'` or `side_plot
 
 ### Features (how to)
 
-#### Plot the chart if you don't have the sets themselves, but rather the intersection sizes
-Use the utility function `make_sets_from_chunk_sizes` to produce synthetic sets of integers from your intersection sizes,
-and then pass these sets to `supervenn()`. 
+#### Plot the chart if you don't have the sets themselves, but rather the intersection sizes (new in 0.5.0)
+Use the utility function `make_sets_from_chunk_sizes` to produce synthetic sets of integers from your intersection sizes. 
+These sets will have the right intersection sizes. Then pass these sets to `supervenn()`: 
 
 ```python
 from supervenn import supervenn, make_sets_from_chunk_sizes
