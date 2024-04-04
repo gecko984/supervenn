@@ -64,7 +64,12 @@ def make_sets_from_chunk_sizes(sizes_df):
         flags = row.iloc[:-1]
         count = row.iloc[-1]
         items = range(idx, idx + count)
-        for col_name, bool_value in flags.iteritems():
+
+        try:
+            row_iterator = flags.iteritems()  # deprecated since pandas 1.5
+        except AttributeError:
+            row_iterator = flags.items()
+        for col_name, bool_value in row_iterator:
             if bool_value:
                 sets[col_name].update(items)
         idx += count
