@@ -61,7 +61,39 @@ intersection make part of. The grey bars represent the same numbers visually.
 If you need only one of the two side plots, use `side_plots='top'` or `side_plots='right'`
 
 ### Features (how to)
-#### Add custom set annotations instead of 'Set_1', 'Set_2' etc
+
+#### Plot the chart if you don't have the sets themselves, but rather the intersection sizes
+Use the utility function `make_sets_from_chunk_sizes` to produce synthetic sets of integers from your intersection sizes,
+and then pass these sets to supervenn(). 
+
+```python
+from supervenn import supervenn, make_sets_from_chunk_sizes
+sets, labels = make_sets_from_chunk_sizes(sizes_df)  # see below for the structure of sizes_df
+supervenn(sets, labels)
+```
+
+Intersection sizes `sizes_df` should be a `pandas.DataFrame` with the following structure:
+
+- For N sets, it must have N boolean (or 0/1) columns and the last column must be integer, so N+1 columns in total.
+- Each row represents a unique intersection (chunk) of the sets. The boolean value in column 'set_x' indicate whether
+this chunk lies within set_x. The integer value represents the size of the chunk.
+
+For example, consider the following dataframe
+
+```
+   set_1  set_2  set_3  size
+0  False   True   True     1
+1   True  False  False     3
+2   True  False   True     2
+3   True   True  False     1
+```
+
+It represents a configuration of three sets such that
+- [row 0] there is one element that lies in set_2 and set_3 but not in set_1
+- [row 1] there are three elements that lie in set_1 only and not in set_2 or set_3
+- etc two more rows.
+
+#### Add custom set annotations instead of 'set_1', 'set_2' etc
 Use the `set_annotations` argument to pass a list of annotations. It should be in the same order as the sets. It is
 the second positional argument.
 ```python

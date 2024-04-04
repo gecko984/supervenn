@@ -412,7 +412,7 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
     axes = setup_axes(side_plots, figsize, dpi, ax, side_plot_width)
 
     if set_annotations is None:
-        set_annotations = ['Set_{}'.format(i) for i in range(len(sets))]
+        set_annotations = ['set_{}'.format(i) for i in range(len(sets))]
 
     chunks, composition_array = get_chunks_and_composition_array(sets)
 
