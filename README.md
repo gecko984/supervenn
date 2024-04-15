@@ -186,7 +186,7 @@ Annotations in the bottom left corner are unreadable.
 One solution is to trade exact chunk proportionality for readability. This is done by making small chunks visually
 larger. To be exact, a linear function is applied to the chunk sizes, with slope and intercept chosen so that the
 smallest chunk size is exactly `widths_minmax_ratio` times the largest chunk size. If the ratio is already greater than
-this value, the sizes are left unchanged. Setiing `widths_minmax_ratio=1` will result in all chunks being displayed as
+this value, the sizes are left unchanged. Setting `widths_minmax_ratio=1` will result in all chunks being displayed as
 same size.
 
 ```python
@@ -388,7 +388,7 @@ _Thanks to [u/aboutscientific](https://www.reddit.com/user/aboutscientific/) for
 
 ### Credits
 This package was created and is maintained by [Fedor Indukaev](https://www.linkedin.com/in/fedor-indukaev-4a52961b/). 
-My username on Gmail and Telegram is the same as on Github.
+You can contact me on Gmail and Telegram by the same username as on github.
 
 ### How can I help?
 - If you like supervenn, you can click the star at the top of the page and tell other people about this tool
