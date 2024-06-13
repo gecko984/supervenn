@@ -345,7 +345,7 @@ def setup_axes(side_plots, figsize=None, dpi=None, ax=None, side_plot_width=1.5)
 
 def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
               chunks_ordering='minimize gaps', sets_ordering=None,
-              reverse_chunks_order=True, reverse_sets_order=True,
+              reverse_chunks_order=True, reverse_sets_order=True, chunks_min_set_overlap=1,
               max_bruteforce_size=DEFAULT_MAX_BRUTEFORCE_SIZE, seeds=DEFAULT_SEEDS, noise_prob=DEFAULT_NOISE_PROB,
               side_plot_width=1, min_width_for_annotation=1, widths_minmax_ratio=None, side_plot_color='gray',
               dpi=None, ax=None, **kw):
@@ -370,6 +370,8 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
         - 'random': randomly shuffle
     :param reverse_chunks_order: True (default) / False when chunks_ordering is "size" or "occurence",
         chunks with bigger corresponding property go first if reverse_chunks_order=True, smaller go first if False.
+    :param chunks_min_set_overlap: (default 1) Keep only the chunks present in at least chunks_min_set_overlap sets.
+        e.g. chunks_min_set_overlap=2 removes exclusive chunks
     :param reverse_sets_order: True / False, works the same way as reverse_chunks_order
     :param max_bruteforce_size: maximal number of items for which bruteforce method is applied to find permutation
     :param seeds: number of different random seeds for the randomized greedy algorithm to find permutation
@@ -415,6 +417,12 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
         set_annotations = ['set_{}'.format(i) for i in range(len(sets))]
 
     chunks, composition_array = get_chunks_and_composition_array(sets)
+
+    # Remove chunks present in less than "chunks_min_set_overlap" set(s)
+    if chunks_min_set_overlap > 1:
+        good_chunks = composition_array.sum(0) >= chunks_min_set_overlap
+        chunks = [c for c, g in zip(chunks, good_chunks) if g]
+        composition_array = composition_array[:, good_chunks]
 
     # Find permutations of rows and columns
     permutations_ = get_permutations(
