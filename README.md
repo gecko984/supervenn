@@ -34,7 +34,7 @@ supervenn(sets, side_plots=False)
 ```
 <img src="https://i.imgur.com/aAOP6dq.png" width=330>
 
-Each row repesents a set, the order from bottom to top is the same as in the `sets` list. Overlapping parts correspond
+Each row represents a set, the order from bottom to top is the same as in the `sets` list. Overlapping parts correspond
 to set intersections.
 
 The numbers at the bottom show the sizes (cardinalities) of all intersections, which we will call **chunks**.
@@ -310,8 +310,8 @@ our help in using the API? Are they manually editing the routes (a process that 
 only the orders from affected routes included)? Or are they solving for several independent order sets and are happy
 with each individual result?
 
-We can use `supervenn` with ome custom annotations to look at sets of order IDs in each of the client's requests.
-Here's an example of an OK but nit perfect client's workday:
+We can use `supervenn` with some custom annotations to look at sets of order IDs in each of the client's requests.
+Here's an example of an OK but not perfect client's workday:
 <img src="https://i.imgur.com/9YfRC61.png" width=800>
 
 Rows from bottom to top are requests to our API from earlier to later, represented by their sets of order IDs.
@@ -393,7 +393,7 @@ You can contact me on Gmail and Telegram by the same username as on github.
 ### How can I help?
 - If you like supervenn, you can click the star at the top of the page and tell other people about this tool
 - If you have an idea or even an implementation of a algorithm for matrix columns rearrangement, I'll be happy to try
-it, as my current algorithm is quite primitive. (The problem in question is almost  the travelling salesman problem in
+it, as my current algorithm is quite primitive. (The problem in question is almost  the traveling salesman problem in
 Hamming metric).
 - If you are a Python developer, you can help by reviewing the code in any way that is convenient to you.
 - If you found a bug or have a feature request, you can submit them via the 
