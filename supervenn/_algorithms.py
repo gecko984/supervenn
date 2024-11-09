@@ -126,6 +126,7 @@ from itertools import permutations
 import warnings
 
 import numpy as np
+import pandas as pd
 
 HUGE_NUMBER = 1e10 # can fail for weighted! FIXME
 DEFAULT_MAX_BRUTEFORCE_SIZE = 8
