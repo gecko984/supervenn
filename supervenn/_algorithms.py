@@ -135,7 +135,7 @@ DEFAULT_NOISE_PROB = 0.0075
 DEFAULT_MAX_NOISE = 1.1
 
 
-def get_total_gaps_in_rows(arr, row_weights=None):
+def get_total_gaps_in_rows_old(arr, row_weights=None):
     """
     In a numpy.array arr, count how many gaps of zeros are there between contigous runs of non-zero values in each row.
     The counts in each row are multiplied by weights given by row_weights array and summed. By default, all row weights
@@ -157,6 +157,28 @@ def get_total_gaps_in_rows(arr, row_weights=None):
     rowwise_gaps_counts = np.maximum(rowwise_runs_counts - 1, 0)
 
     return rowwise_gaps_counts.dot(row_weights)
+
+
+def get_total_gaps_in_rows(arr, row_weights=None, scale_func=np.sqrt):
+
+    if row_weights is None:
+        row_weights = np.ones(len(arr))
+
+    zeros_column = np.zeros((len(arr), 1), dtype=int)
+    diff = np.diff(np.concatenate((zeros_column, arr, zeros_column), axis=1), axis=1)
+    run_starts_rows, run_starts_cols = np.where(diff == 1)
+    run_ends_cols = np.where(diff == -1)[1]  # [0] is the same as run_start_rows
+    run_lengths = run_ends_cols - run_starts_cols
+    runs_df = pd.DataFrame({'row': run_starts_rows, 'run_length': run_lengths})
+
+    def agg_func(vals):
+        return scale_func(vals).sum()
+
+    df = runs_df.groupby('row').agg({'run_length': ['count', agg_func]})
+
+    rowwise_penalties = df[('run_length', 'agg_func')] * df[('run_length', 'count')].gt(1)
+
+    return (rowwise_penalties * row_weights).sum()
 
 
 def break_into_chunks(sets):
