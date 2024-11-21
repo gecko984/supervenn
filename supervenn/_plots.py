@@ -348,6 +348,7 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
               reverse_chunks_order=True, reverse_sets_order=True,
               max_bruteforce_size=DEFAULT_MAX_BRUTEFORCE_SIZE, seeds=DEFAULT_SEEDS, noise_prob=DEFAULT_NOISE_PROB,
               side_plot_width=1, min_width_for_annotation=1, widths_minmax_ratio=None, side_plot_color='gray',
+              top_plot='chunk_counts', x_annotations='chunk_sizes',
               dpi=None, ax=None, **kw):
     """
     Plot a diagram visualizing relationship of multiple sets.
@@ -392,6 +393,8 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
     :param bar_align: vertical alignment of bars, 'edge' (default) or 'center'. Only matters when bar_height < 1.
     :param color_cycle: a list of set colors, given as names of matplotlib named colors, or hex codes (e.g. '#1f77b4')
     :param alternating_background: True (default) / False - give avery second row a slight grey tint
+    :param top_plot: 'chunk_counts' (default) / 'chunk_sizes'
+    :param x_annotations: 'chunk_sizes' (default) / 'chunk_counts'
 
     :return: SupervennPlot instance with attributes `axes`, `figure`, `chunks`
         and method `get_chunk(set_indices)`. See docstring to returned object.
@@ -445,10 +448,26 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
         col_widths = chunk_sizes
         effective_min_width_for_annotation = min_width_for_annotation
 
+    chunk_counts = composition_array.sum(0)
+
+    if x_annotations == 'chunk_sizes':
+        col_annotations = chunk_sizes
+    elif x_annotations == 'chunk_counts':
+        col_annotations = chunk_counts
+    else:
+        col_annotations = chunk_sizes
+
+    if top_plot == 'chunk_sizes':
+        top_plot_data = chunk_sizes
+    elif top_plot == 'chunk_counts':
+        top_plot_data = chunk_counts
+    else:
+        top_plot_data = chunk_counts
+
     plot_binary_array(
         arr=composition_array,
         row_annotations=set_annotations,
-        col_annotations=chunk_sizes,
+        col_annotations=col_annotations,
         ax=axes['main'],
         col_widths=col_widths,
         min_width_for_annotation=effective_min_width_for_annotation,
@@ -464,7 +483,7 @@ def supervenn(sets, set_annotations=None, figsize=None, side_plots=True,
 
     if 'top_side_plot' in axes:
         plt.sca(axes['top_side_plot'])
-        side_plot(composition_array.sum(0), col_widths, 'h',
+        side_plot(top_plot_data, col_widths, 'h',
                   min_width_for_annotation=effective_min_width_for_annotation,
                   rotate_annotations=kw.get('rotate_col_annotations', False), color=side_plot_color, fontsize=fontsize)
         plt.xlim(xlim)
